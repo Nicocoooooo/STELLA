@@ -1,0 +1,83 @@
+.mouse_scroll {
+    display: block;
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 16px;
+    height: 70px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .m_scroll_arrows {
+    display: block;
+    transform: rotate(45deg);
+    border-right: 2px solid #9557fa;
+    border-bottom: 2px solid #9557fa;
+    margin: 0;
+    width: 8px;
+    height: 8px;
+  }
+  
+  .unu, .doi, .trei {
+    animation: mouse-scroll 1s infinite;
+  }
+  
+  .unu {
+    animation-delay: .1s;
+    animation-direction: alternate;
+    margin-top: 6px;
+  }
+  
+  .doi {
+    animation-delay: .2s;
+    animation-direction: alternate;
+    margin-top: 4px;
+  }
+  
+  .trei {
+    animation-delay: .3s;
+    animation-direction: alternate;
+    margin-top: 4px;
+  }
+  
+  .mouse {
+    height: 28px;
+    width: 16px;
+    border-radius: 10px;
+    transform: none;
+    border: 2px solid #9557fa;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 4px;
+  }
+  
+  .wheel {
+    height: 3px;
+    width: 3px;
+    display: block;
+    margin: 4px auto;
+    position: relative;
+    border: 1px solid #9557fa;
+    border-radius: 4px;
+    animation: mouse-wheel 0.6s linear infinite;
+  }
+  
+  @keyframes mouse-wheel {
+    0% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+  }
+  
+  @keyframes mouse-scroll {
+    0%   { opacity: 0; }
+    50%  { opacity: .5; }
+    100% { opacity: 1; }
+  }
