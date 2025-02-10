@@ -2,7 +2,17 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../assets/images/Logo.png';
 import NeomBg from '../assets/images/Neom.png';
+import Filtre from '../assets/images/LandingpageFiltre.png';
 import '../styles/MouseScroll.css';
+import CarouselSection from '../components/CarouselSection';
+import CreateTripSection from '../components/CreateTripSection';
+import FeaturesSection from '../components/FeaturesSection';
+import TestimonialsSection from '../components/TestimonialsSection';
+import QuizSection from '../components/QuizSection';
+
+import PartnersSection from '../components/PartnersSection';
+import SocialSection from '../components/SocialSection';
+
 
 function Home() {
   return (
@@ -16,7 +26,7 @@ function Home() {
         <div className="flex gap-6 items-center">
           <Link 
             to="/signup" 
-            className="text-white hover:text-[#ffe1c4] transition-colors"
+            className="text-black hover:text-[#ffe1c4] transition-colors"
           >
             S'inscrire
           </Link>
@@ -76,6 +86,55 @@ function Home() {
           </div>
         </div>
       </div>
+      <section className="py-24 bg-white">
+        <div className="container mx-auto px-20">
+          {/* En-tête de section avec étoile décorative */}
+          <div className="flex items-center justify-center gap-4 mb-16">
+            <span className="text-[#fa9b3d] text-2xl">✧</span>
+            <h2 className="text-4xl font-bold text-center">
+              Planifiez votre voyage en quelques clics
+            </h2>
+            <span className="text-[#fa9b3d] text-2xl">✧</span>
+          </div>
+
+          {/* Contenu principal */}
+          <div className="grid grid-cols-2 gap-16 items-center">
+            {/* Colonne de gauche - Texte */}
+            <div className="space-y-8 text-left">
+              <h3 className="text-4xl font-bold text-[#9557fa] text-left">
+                Personnalisation intuitive
+              </h3>
+              <ul className="space-y-2 text-lg text-gray-700 text-left list-none">
+                <li className="text-left">Choisissez votre saison idéale</li>
+                <li className="text-left">Sélectionnez votre destination rêvée</li>
+                <li className="text-left">Définissez votre style de voyage</li>
+                <li className="text-left">Adaptez à votre budget</li>
+              </ul>
+            </div>
+
+            {/* Colonne de droite - Image */}
+            <div className="relative">
+              <div className="relative overflow-hidden rounded-2xl">
+                <img 
+                  src={Filtre}
+                  alt="Avion au coucher du soleil" 
+                  className="w-full h-[300px] object-cover"
+                />
+              </div>
+              {/* Étoiles décoratives */}
+              <span className="absolute -top-8 right-8 text-[#fa9b3d] text-2xl">✧</span>
+              <span className="absolute -bottom-8 left-8 text-[#fa9b3d] text-2xl">✧</span>
+            </div>
+          </div>
+        </div>
+      </section>
+      <CarouselSection />
+      <CreateTripSection />
+      <FeaturesSection />
+      <TestimonialsSection />
+      <QuizSection />
+      <PartnersSection />
+      <SocialSection />
     </div>
   );
 }
