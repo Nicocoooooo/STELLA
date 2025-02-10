@@ -1,5 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+// Import des images
+import Logo from '../assets/images/Logo.png';  // ou logo.svg si vous préférez le format vectoriel
+import NeomBg from '../assets/images/Neom.png';
 
 function Home() {
   return (
@@ -8,7 +11,7 @@ function Home() {
       <nav className="fixed w-full p-4 flex justify-between items-center z-50">
         {/* Logo */}
         <Link to="/" className="text-purple-600 text-2xl font-bold">
-          Stella
+          <img src={Logo} alt="Stella" className="h-8" />
         </Link>
         
         {/* Navigation links */}
@@ -30,7 +33,7 @@ function Home() {
         {/* Background Image */}
         <div className="absolute inset-0">
           <img 
-            src="/api/placeholder/1920/1080" 
+            src={NeomBg}
             alt="Mountain landscape" 
             className="w-full h-full object-cover"
           />
