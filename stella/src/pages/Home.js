@@ -17,31 +17,30 @@ import SocialSection from '../components/SocialSection';
 function Home() {
   return (
     <div className="min-h-screen font-['Outfit']">
-      {/* Navigation */}
-      <nav className="fixed w-full px-8 py-4 flex justify-between items-center z-50">
+      {/* Navigation - Responsive */}
+      <nav className="fixed w-full px-4 sm:px-8 py-4 flex justify-between items-center z-50">
         <Link to="/" className="flex items-center">
-          <img src={Logo} alt="Stella" className="h-12" />
+          <img src={Logo} alt="Stella" className="h-8 sm:h-12" />
         </Link>
         
-        <div className="flex gap-6 items-center">
+        <div className="flex gap-3 sm:gap-6 items-center">
           <Link 
             to="/signup" 
-            className="text-black hover:text-[#ffe1c4] transition-colors"
+            className="text-black hover:text-[#ffe1c4] transition-colors text-sm sm:text-base"
           >
             S'inscrire
           </Link>
           <Link 
             to="/start" 
-            className="bg-[#fa9b3d] text-white px-6 py-2.5 rounded-[50px] hover:bg-[#fa9b3d]/90 transition-all"
+            className="bg-[#fa9b3d] text-white px-4 sm:px-6 py-2 sm:py-2.5 rounded-[50px] hover:bg-[#fa9b3d]/90 transition-all text-sm sm:text-base"
           >
             Commencer
           </Link>
         </div>
       </nav>
 
-      {/* Hero Section */}
+      {/* Hero Section - Responsive */}
       <div className="relative min-h-screen">
-        {/* Background Image */}
         <div className="absolute inset-0">
           <img 
             src={NeomBg}
@@ -51,21 +50,20 @@ function Home() {
           <div className="absolute inset-0 bg-black/20"></div>
         </div>
 
-        {/* Hero Content */}
         <div className="relative z-10 h-screen flex flex-col justify-center">
-          <div className="container mx-auto px-20">
+          <div className="container mx-auto px-4 sm:px-8 md:px-16 lg:px-20">
             <div className="flex flex-col text-left max-w-[700px]">
-              <h1 className="font-bold text-white text-[64px] leading-tight tracking-wide">
+              <h1 className="font-bold text-white text-3xl sm:text-4xl md:text-5xl lg:text-[64px] leading-tight tracking-wide">
                 Planifiez votre voyage idéal en quelques clics
               </h1>
-              <h2 className="text-3xl text-white/90 mt-4 mb-12">
+              <h2 className="text-xl sm:text-2xl md:text-3xl text-white/90 mt-4 mb-8 sm:mb-12">
                 L'organisateur de voyage intelligent
               </h2>
-              <div className="flex items-center gap-6">
-                <button className="bg-[#fa9b3d] text-white px-8 py-4 rounded-[50px] hover:bg-[#fa9b3d]/90 transition-all text-lg">
+              <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
+                <button className="w-full sm:w-auto bg-[#fa9b3d] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-[50px] hover:bg-[#fa9b3d]/90 transition-all text-base sm:text-lg">
                   Commencer l'aventure
                 </button>
-                <button className="flex items-center gap-3 text-lg hover:bg-white/10 px-8 py-4 rounded-[50px] transition-all">
+                <button className="w-full sm:w-auto flex items-center justify-center gap-3 text-base sm:text-lg hover:bg-white/10 px-6 sm:px-8 py-3 sm:py-4 rounded-[50px] transition-all">
                   <span className="text-[#9557fa] text-xl">▶</span>
                   <span className="text-white">Lancer la vidéo</span>
                 </button>
@@ -73,38 +71,29 @@ function Home() {
             </div>
           </div>
 
-          {/* Mouse Scroll Indicator */}
-          <div className="mouse_scroll">
-            <div className="mouse">
-              <div className="wheel"></div>
-            </div>
-            <div>
-              <span className="m_scroll_arrows unu"></span>
-              <span className="m_scroll_arrows doi"></span>
-              <span className="m_scroll_arrows trei"></span>
-            </div>
+          <div className="mouse_scroll hidden md:block">
+            {/* Mouse scroll content */}
           </div>
         </div>
       </div>
-      <section className="py-24 bg-white">
-        <div className="container mx-auto px-20">
-          {/* En-tête de section avec étoile décorative */}
-          <div className="flex items-center justify-center gap-4 mb-16">
+
+      {/* Section Personnalisation - Responsive */}
+      <section className="py-12 sm:py-16 md:py-24 bg-white">
+        <div className="container mx-auto px-4 sm:px-8 md:px-16 lg:px-20">
+          <div className="flex flex-col items-center justify-center gap-4 mb-8 sm:mb-16">
             <span className="text-[#fa9b3d] text-2xl">✧</span>
-            <h2 className="text-4xl font-bold text-center">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center px-4">
               Planifiez votre voyage en quelques clics
             </h2>
             <span className="text-[#fa9b3d] text-2xl">✧</span>
           </div>
 
-          {/* Contenu principal */}
-          <div className="grid grid-cols-2 gap-16 items-center">
-            {/* Colonne de gauche - Texte */}
-            <div className="space-y-8 text-left">
-              <h3 className="text-4xl font-bold text-[#9557fa] text-left">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-center">
+            <div className="space-y-6 sm:space-y-8 text-left">
+              <h3 className="text-3xl sm:text-4xl font-bold text-[#9557fa] text-left">
                 Personnalisation intuitive
               </h3>
-              <ul className="space-y-2 text-lg text-gray-700 text-left list-none">
+              <ul className="space-y-2 text-base sm:text-lg text-gray-700 text-left list-none">
                 <li className="text-left">Choisissez votre saison idéale</li>
                 <li className="text-left">Sélectionnez votre destination rêvée</li>
                 <li className="text-left">Définissez votre style de voyage</li>
@@ -112,22 +101,22 @@ function Home() {
               </ul>
             </div>
 
-            {/* Colonne de droite - Image */}
-            <div className="relative">
+            <div className="relative mt-8 md:mt-0">
               <div className="relative overflow-hidden rounded-2xl">
                 <img 
                   src={Filtre}
                   alt="Avion au coucher du soleil" 
-                  className="w-full h-[300px] object-cover"
+                  className="w-full h-full sm:h-[400px] md:h-[500px] object-contain"
                 />
               </div>
-              {/* Étoiles décoratives */}
-              <span className="absolute -top-8 right-8 text-[#fa9b3d] text-2xl">✧</span>
-              <span className="absolute -bottom-8 left-8 text-[#fa9b3d] text-2xl">✧</span>
+              <span className="absolute -top-8 right-8 text-[#fa9b3d] text-2xl hidden sm:block">✧</span>
+              <span className="absolute -bottom-8 left-8 text-[#fa9b3d] text-2xl hidden sm:block">✧</span>
             </div>
           </div>
         </div>
       </section>
+
+      {/* Autres sections */}
       <CarouselSection />
       <CreateTripSection />
       <FeaturesSection />

@@ -29,41 +29,41 @@ const testimonials = [
 
 const TestimonialsSection = () => {
   return (
-    <section className="py-24 bg-white">
-      <div className="container mx-auto px-4">
+    <section className="py-12 sm:py-16 md:py-24 bg-white">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Titre principal */}
-        <h2 className="text-4xl font-bold text-center mb-16">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 sm:mb-12 md:mb-16">
           Déjà 1 million voyageurs nous font confiance
         </h2>
 
         {/* Cartes de témoignages */}
-        <div className="grid grid-cols-3 gap-8 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-12 sm:mb-16">
           {testimonials.map((testimonial, index) => (
-            <div key={index} className="bg-white rounded-[40px] shadow-lg p-8 flex flex-col">
+            <div key={index} className="bg-white rounded-[20px] sm:rounded-[30px] md:rounded-[40px] shadow-lg p-6 sm:p-8 flex flex-col">
               {/* Avatar et nom */}
-              <div className="flex items-center gap-4 mb-4">
+              <div className="flex items-center gap-3 sm:gap-4 mb-4">
                 <img 
                   src={testimonial.avatar} 
                   alt={testimonial.name}
-                  className="w-16 h-16 rounded-full object-cover"
+                  className="w-12 h-12 sm:w-16 sm:h-16 rounded-full object-cover"
                 />
                 <div>
-                  <h3 className="text-[#9557fa] font-bold text-lg">{testimonial.name}</h3>
+                  <h3 className="text-[#9557fa] font-bold text-base sm:text-lg">{testimonial.name}</h3>
                   <div className="flex gap-1">
                     {[...Array(testimonial.rating)].map((_, i) => (
-                      <span key={i} className="text-[#fa9b3d]">★</span>
+                      <span key={i} className="text-[#fa9b3d] text-sm sm:text-base">★</span>
                     ))}
                   </div>
                 </div>
               </div>
 
               {/* Commentaire */}
-              <p className="text-gray-700 mb-4 flex-grow">
+              <p className="text-gray-700 text-sm sm:text-base mb-4 flex-grow">
                 "{testimonial.comment}"
               </p>
 
               {/* Détails du voyage */}
-              <p className="text-sm text-[#9557fa] mt-auto">
+              <p className="text-xs sm:text-sm text-[#9557fa] mt-auto">
                 {testimonial.trip}
               </p>
             </div>
@@ -72,28 +72,30 @@ const TestimonialsSection = () => {
 
         {/* Section statistiques */}
         <div>
-          <h3 className="text-3xl text-[#fa9b3d] font-bold mb-8 text-center">
+          <h3 className="text-2xl sm:text-3xl text-[#fa9b3d] font-bold mb-6 sm:mb-8 text-center">
             Stella c'est :
           </h3>
           
-          <div className="bg-[#9557fa] rounded-lg py-6 px-8 flex justify-between items-center text-white">
-            <div className="text-center">
-              <span className="text-4xl font-bold">95%</span>
-              <p>de voyages réussis</p>
-            </div>
-            <div className="text-center">
-              <div>
-                <span className="text-4xl font-bold">10</span>
-                <span className="text-2xl"> heures</span>
+          <div className="bg-[#9557fa] rounded-lg py-4 sm:py-6 px-4 sm:px-8">
+            <div className="flex flex-col sm:flex-row justify-between items-center gap-6 sm:gap-0 text-white">
+              <div className="text-center">
+                <span className="text-3xl sm:text-4xl font-bold">95%</span>
+                <p className="text-sm sm:text-base">de voyages réussis</p>
               </div>
-              <p>de planification</p>
-            </div>
-            <div className="text-center">
-              <div>
-                <span className="text-4xl font-bold">32</span>
-                <span className="text-2xl"> pays</span>
+              <div className="text-center">
+                <div>
+                  <span className="text-3xl sm:text-4xl font-bold">10</span>
+                  <span className="text-xl sm:text-2xl"> heures</span>
+                </div>
+                <p className="text-sm sm:text-base">de planification</p>
               </div>
-              <p>Leader dans</p>
+              <div className="text-center">
+                <div>
+                  <span className="text-3xl sm:text-4xl font-bold">32</span>
+                  <span className="text-xl sm:text-2xl"> pays</span>
+                </div>
+                <p className="text-sm sm:text-base">Leader dans</p>
+              </div>
             </div>
           </div>
         </div>
