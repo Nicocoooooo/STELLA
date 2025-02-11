@@ -3,7 +3,7 @@ import DestinationCard from './DestinationCard';
 
 const DestinationGrid = ({ destinations }) => {
   return (
-    <div className="grid grid-cols-3 gap-6">
+    <div className="grid grid-cols-3 gap-8">
       <DestinationCard isCreateCard={true} />
       {destinations.map((destination) => (
         <DestinationCard

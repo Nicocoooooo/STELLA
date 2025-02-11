@@ -24,10 +24,16 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      <Header />
-      <FilterBar />
-      <DestinationGrid destinations={destinations} />
+    <div className="min-h-screen bg-white">
+      {/* Large container with bg-color */}
+      <div className="w-full px-24 py-12">
+        {/* Content container with max-width */}
+        <div className="max-w-[1800px] mx-auto">
+          <Header />
+          <FilterBar />
+          <DestinationGrid destinations={destinations} />
+        </div>
+      </div>
     </div>
   );
 };
