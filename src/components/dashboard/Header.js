@@ -1,47 +1,49 @@
 import React from 'react';
-import { StarIcon, CalendarIcon, HeartIcon } from '@heroicons/react/24/outline';
+import { Calendar, Heart, Star } from 'lucide-react';
 import ProfileMenu from './ProfileMenu';
 
 const Header = ({ userName = '[Prénom]' }) => {
   return (
-    <div className="w-full">
+    <div className="w-full px-6 py-4">
       {/* Logo et profil */}
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-primary text-2xl font-bold">Stella</h1>
+        <h1 className="text-primary text-3xl font-outfit font-bold">Stella</h1>
         <ProfileMenu />
       </div>
 
       {/* Message de bienvenue et stats */}
       <div className="mb-8">
-        <h2 className="text-accent text-xl mb-6">Bonjour {userName}</h2>
+        <h2 className="text-accent text-xl font-outfit mb-8">
+          Bonjour {userName}
+        </h2>
         
         {/* Statistiques */}
-        <div className="flex gap-4">
+        <div className="flex gap-16">
           {/* Voyages réalisés */}
-          <div className="flex-1 bg-white rounded-xl p-4 shadow-sm">
-            <div className="flex items-center gap-2">
-              <CalendarIcon className="w-6 h-6 text-primary" />
-              <span className="text-2xl font-bold">5</span>
+          <div className="flex flex-col items-center">
+            <div className="flex items-center gap-2 mb-1">
+              <Calendar className="w-6 h-6 text-primary" />
+              <span className="text-2xl font-outfit font-bold">5</span>
             </div>
-            <p className="text-sm text-gray-600">Voyage réalisés</p>
+            <p className="text-sm text-gray-600 font-outfit">Voyages réalisés</p>
           </div>
 
           {/* Voyages sauvegardés */}
-          <div className="flex-1 bg-white rounded-xl p-4 shadow-sm">
-            <div className="flex items-center gap-2">
-              <HeartIcon className="w-6 h-6 text-primary" />
-              <span className="text-2xl font-bold">10</span>
+          <div className="flex flex-col items-center">
+            <div className="flex items-center gap-2 mb-1">
+              <Heart className="w-6 h-6 text-primary" />
+              <span className="text-2xl font-outfit font-bold">10</span>
             </div>
-            <p className="text-sm text-gray-600">Voyage sauvegardés</p>
+            <p className="text-sm text-gray-600 font-outfit">Voyages sauvegardés</p>
           </div>
 
           {/* Points Stella */}
-          <div className="flex-1 bg-white rounded-xl p-4 shadow-sm">
-            <div className="flex items-center gap-2">
-              <StarIcon className="w-6 h-6 text-accent" />
-              <span className="text-2xl font-bold">2500</span>
+          <div className="flex flex-col items-center">
+            <div className="flex items-center gap-2 mb-1">
+              <Star className="w-6 h-6 text-accent" />
+              <span className="text-2xl font-outfit font-bold">2500</span>
             </div>
-            <p className="text-sm text-gray-600">Points Stella</p>
+            <p className="text-sm text-gray-600 font-outfit">Points Stella</p>
           </div>
         </div>
       </div>
