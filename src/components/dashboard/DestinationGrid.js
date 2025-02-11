@@ -1,5 +1,6 @@
 import React from 'react';
 import DestinationCard from './DestinationCard';
+import { Search } from 'lucide-react';
 
 const DestinationGrid = () => {
   const destinations = [
@@ -15,7 +16,7 @@ const DestinationGrid = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="grid grid-cols-3 gap-8 w-full mb-8">
+      <div className="grid grid-cols-3 gap-8 w-full mb-12">
         <DestinationCard isCreateCard={true} />
         {destinations.map((destination) => (
           <DestinationCard
@@ -26,7 +27,7 @@ const DestinationGrid = () => {
         ))}
       </div>
       
-      <button className="px-8 py-3 rounded-full bg-gradient-to-r from-primary to-accent text-white font-outfit text-lg shadow-md hover:shadow-lg transition-shadow">
+      <button className="px-10 py-4 rounded-full bg-gradient-to-r from-primary to-accent text-white font-outfit text-lg transition-all duration-300 hover:shadow-lg hover:scale-105">
         Voir plus
       </button>
     </div>
