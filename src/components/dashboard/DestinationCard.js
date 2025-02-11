@@ -1,12 +1,12 @@
 import React from 'react';
-import { HeartIcon } from 'lucide-react';
+import { Heart, Plus } from 'lucide-react';
 
 const DestinationCard = ({ image, name, isSaved = false, isCreateCard = false }) => {
   if (isCreateCard) {
     return (
-      <div className="relative rounded-3xl border-2 border-dashed border-primary/50 h-[300px] flex flex-col items-center justify-center cursor-pointer transition hover:border-primary p-6">
-        <div className="w-16 h-16 rounded-full border-2 border-primary flex items-center justify-center mb-4">
-          <div className="text-primary text-4xl">+</div>
+      <div className="relative rounded-3xl border-2 border-dashed border-primary/30 h-[280px] flex flex-col items-center justify-center cursor-pointer transition hover:border-primary group">
+        <div className="w-16 h-16 rounded-full border-2 border-primary flex items-center justify-center mb-4 group-hover:bg-primary/5">
+          <Plus className="w-8 h-8 text-primary" />
         </div>
         <p className="text-primary text-lg text-center font-outfit">
           Plannifiez votre prochain<br />voyage
@@ -16,12 +16,12 @@ const DestinationCard = ({ image, name, isSaved = false, isCreateCard = false })
   }
 
   return (
-    <div className="relative rounded-3xl overflow-hidden h-[300px] group shadow-lg">
+    <div className="relative rounded-3xl overflow-hidden h-[280px] group shadow-lg">
       {/* Image de fond */}
       <img 
         src={require(`../../assets/images/destinations/${image}`)}
         alt={name}
-        className="w-full h-full object-cover"
+        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
       />
 
       {/* Overlay gradient */}
@@ -29,11 +29,11 @@ const DestinationCard = ({ image, name, isSaved = false, isCreateCard = false })
 
       {/* Bouton like */}
       <button className="absolute top-4 right-4 p-2.5 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/30 transition">
-        <HeartIcon className={`w-6 h-6 ${isSaved ? 'text-red-500 fill-red-500' : 'text-white'}`} />
+        <Heart className={`w-6 h-6 ${isSaved ? 'fill-current text-red-500' : 'text-white'}`} />
       </button>
 
       {/* Nom de la destination */}
-      <h3 className="absolute bottom-6 left-6 text-white text-2xl font-semibold font-outfit">{name}</h3>
+      <h3 className="absolute bottom-6 left-6 text-white text-3xl font-semibold font-outfit">{name}</h3>
     </div>
   );
 };
