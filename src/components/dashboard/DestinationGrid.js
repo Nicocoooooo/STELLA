@@ -1,6 +1,5 @@
 import React from 'react';
 import DestinationCard from './DestinationCard';
-import { Search } from 'lucide-react';
 
 const DestinationGrid = () => {
   const destinations = [
