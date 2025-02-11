@@ -7,7 +7,7 @@ const Header = ({ userName = '[Prénom]' }) => {
     <div className="w-full px-6 py-4">
       {/* Logo et profil */}
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-primary text-3xl font-outfit font-bold">Stella</h1>
+        <img src={require('../../assets/images/Logo.png')} alt="Stella" className="h-8" />
         <ProfileMenu />
       </div>
 
