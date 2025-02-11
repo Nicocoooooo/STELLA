@@ -3,6 +3,7 @@ import { supabase } from '../config/supabase';
 import Header from '../components/dashboard/Header';
 import FilterBar from '../components/dashboard/FilterBar';
 import DestinationGrid from '../components/dashboard/DestinationGrid';
+import Footer from '../components/dashboard/Footer';
 
 const Dashboard = () => {
   const [destinations, setDestinations] = useState([]);
@@ -24,14 +25,21 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Large container with bg-color */}
-      <div className="w-full px-24 py-12">
+    <div className="min-h-screen bg-white flex flex-col">
+      {/* Main content */}
+      <div className="flex-grow w-full px-24 py-12">
         {/* Content container with max-width */}
         <div className="max-w-[1800px] mx-auto">
           <Header />
           <FilterBar />
           <DestinationGrid destinations={destinations} />
+        </div>
+      </div>
+
+      {/* Footer with the same width constraints */}
+      <div className="w-full px-24">
+        <div className="max-w-[1800px] mx-auto">
+          <Footer />
         </div>
       </div>
     </div>
