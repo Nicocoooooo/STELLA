@@ -1,0 +1,101 @@
+@font-face {
+    font-family: 'Outfit';
+    src: url('../assets/fonts/Outfit-Regular.ttf') format('truetype');
+    font-weight: normal;
+  }
+  
+  @font-face {
+    font-family: 'Outfit';
+    src: url('../assets/fonts/Outfit-Medium.ttf') format('truetype');
+    font-weight: 500;
+  }
+  
+  @font-face {
+    font-family: 'Outfit';
+    src: url('../assets/fonts/Outfit-Bold.ttf') format('truetype');
+    font-weight: bold;
+  }
+  
+  .signup2-container {
+    font-family: 'Outfit', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url('../assets/images/mountain_background.png');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  }
+  
+  .logo {
+    position: absolute;
+    top: 20px;
+    left: 30px;
+    width: 100px;
+  }
+  
+  .form-container {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    width: 90%;
+  }
+  
+  .form-title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #9557fa;
+    margin-bottom: 20px;
+  }
+  
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  label {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 5px;
+  }
+  
+  input, select {
+    padding: 10px;
+    border: 2px solid #e9d9ff;
+    border-radius: 8px;
+    background: #e9d9ff;
+    font-size: 14px;
+  }
+  
+  .checkbox-container {
+    display: flex;
+    align-items: flex-start;
+    margin-top: 15px;
+  }
+  
+  .signup-button {
+    width: 100%;
+    background: linear-gradient(to right, #9557fa, #fa9b3d);
+    color: white;
+    font-weight: bold;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: opacity 0.3s;
+  }
+  
+  .signup-button:hover {
+    opacity: 0.9;
+  }
