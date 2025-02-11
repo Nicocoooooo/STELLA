@@ -13,7 +13,7 @@ const Header = ({ userName = '[Prénom]' }) => {
     <div className="w-full">
       {/* Logo et profil */}
       <div className="flex justify-between items-center mb-12">
-        <img src={require('../../assets/images/Logo.png')} alt="Stella" className="h-14" />
+        <img src={require('../../assets/images/Logo.png')} alt="Stella" className="h-16" />
         <ProfileMenu />
       </div>
 
@@ -24,12 +24,12 @@ const Header = ({ userName = '[Prénom]' }) => {
         </h2>
         
         {/* Statistiques */}
-        <div className="flex justify-between max-w-4xl">
+        <div className="flex justify-between px-12">
           {stats.map((stat, index) => (
-            <div key={index} className="flex flex-col items-center bg-white/50 rounded-2xl px-8 py-6 shadow-sm">
+            <div key={index} className="flex flex-col items-center">
               {stat.icon}
-              <span className="text-4xl font-outfit font-bold mt-2">{stat.value}</span>
-              <span className="text-lg text-gray-600 font-outfit mt-1">{stat.label}</span>
+              <span className="text-5xl font-outfit font-bold mt-4">{stat.value}</span>
+              <span className="text-base text-gray-600 font-outfit mt-1">{stat.label}</span>
             </div>
           ))}
         </div>

@@ -2,11 +2,11 @@ import React from 'react';
 import { Search } from 'lucide-react';
 
 const FilterBar = () => {
-  const selectClassName = "rounded-full bg-white px-8 py-4 text-lg shadow-lg hover:shadow-xl transition-shadow font-outfit min-w-[180px]";
+  const baseSelectClass = "rounded-full bg-white/80 px-8 py-4 text-lg shadow hover:shadow-md transition-shadow font-outfit min-w-[180px] border border-transparent";
   
   return (
     <div className="flex gap-4 mb-12">
-      <select className={selectClassName}>
+      <select className={baseSelectClass}>
         <option>Saison</option>
         <option>Printemps</option>
         <option>Été</option>
@@ -14,7 +14,7 @@ const FilterBar = () => {
         <option>Hiver</option>
       </select>
 
-      <select className={selectClassName}>
+      <select className={baseSelectClass}>
         <option>Où?</option>
         <option>Europe</option>
         <option>Asie</option>
@@ -24,14 +24,14 @@ const FilterBar = () => {
         <option>Océanie</option>
       </select>
 
-      <select className={selectClassName}>
+      <select className={baseSelectClass}>
         <option>Budget</option>
         <option>Économique</option>
         <option>Intermédiaire</option>
         <option>Luxe</option>
       </select>
 
-      <select className={selectClassName}>
+      <select className={`${baseSelectClass} border-primary/20`}>
         <option>Style de Voyage</option>
         <option>Détente</option>
         <option>Aventure</option>
@@ -39,11 +39,11 @@ const FilterBar = () => {
         <option>Sport</option>
       </select>
 
-      <select className={selectClassName}>
+      <select className={baseSelectClass}>
         <option>Date et Voyageur</option>
       </select>
 
-      <button className="rounded-full bg-gradient-to-r from-primary to-accent text-white px-8 py-4 flex items-center gap-3 shadow-lg hover:shadow-xl transition-all text-lg font-outfit">
+      <button className="rounded-full bg-gradient-to-r from-primary/90 to-accent text-white px-10 py-4 flex items-center gap-3 shadow hover:shadow-md transition-all text-lg font-outfit">
         <Search className="w-6 h-6" />
         Filtrer
       </button>
