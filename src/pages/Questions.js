@@ -4,6 +4,8 @@ import Logo from '../assets/images/Logo.png';
 import VolcanoImage from '../assets/images/Volcano.png';
 import DateTravelSelector from '../components/DateTravelSelector';
 import "react-datepicker/dist/react-datepicker.css";
+import { useNavigate } from 'react-router-dom';
+
 
 // Liste des destinations
 const destinations = [
@@ -31,6 +33,7 @@ const destinations = [
   ];
   
   function Questions() {
+    const navigate = useNavigate();
     const [travelInfo, setTravelInfo] = useState({
       dates: {
         startDate: new Date(),
@@ -175,8 +178,11 @@ const destinations = [
             <div className="absolute bottom-8 left-8 right-8">
               <div className="flex justify-between items-center mb-2">
                 <span className="text-gray-600 text-sm">3 minutes</span>
-                <button className="bg-gradient-to-r from-[#9557fa] to-[#fa9b3d] text-white px-6 py-2 rounded-full text-sm">
-                  Suivant
+                <button 
+                  onClick={() => navigate('/quiz/budget')}
+                  className="bg-gradient-to-r from-[#9557fa] to-[#fa9b3d] text-white px-6 py-2 rounded-full text-sm"
+                >
+                Suivant
                 </button>
               </div>
   
