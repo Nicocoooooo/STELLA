@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaEnvelope, FaLock } from 'react-icons/fa';
 import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5';
+import supabase from '../supabaseClient';
 import Logo from '../assets/images/Logo.png';
 import BackgroundImage from '../assets/images/golden_gate.png';
+import bcrypt from 'bcryptjs';
 
 function SignUp() {
   const navigate = useNavigate();
@@ -11,22 +13,88 @@ function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
   const [checked, setChecked] = useState(false);
 
+  useEffect(() => {
+    const userId = localStorage.getItem("userId");
+    if (userId) {
+      console.log("Utilisateur connecté, ID:", userId);
+    } else {
+      console.log("Aucun utilisateur connecté.");
+    }
+  }, []);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (checked) {
-      navigate('/signup2');
+    const { email, password } = formData;
+    
+    console.log("🔍 Vérification de l'email dans la base de données...");
+    
+    // Vérification si l'email existe déjà
+    const { data: existingUser, error: fetchError } = await supabase
+      .from('users')
+      .select('id')
+      .eq('email', email)
+      .single();
+    
+    if (fetchError && fetchError.code !== 'PGRST116') {
+      console.error("❌ Erreur lors de la vérification de l'utilisateur:", fetchError);
+      return;
+    }
+    
+    if (existingUser) {
+      console.log("🔄 L'email existe déjà, redirection vers la page de connexion...");
+      navigate('/login');
     } else {
-      alert("Veuillez accepter la politique de confidentialité.");
+      console.log("✅ L'email n'existe pas, création d'un nouvel utilisateur...");
+      
+      // Hachage du mot de passe avant l'insertion
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(password, salt);
+      
+      console.log("🔐 Mot de passe hashé:", hashedPassword);
+      
+      // Créer l'utilisateur dans Supabase Auth
+      const { data, error } = await supabase.auth.signUp({ email, password });
+
+      if (error) {
+        console.error("❌ Erreur lors de l'inscription:", error);
+      } else {
+        console.log("🎉 Utilisateur ajouté à `auth.users`, maintenant on l'insère dans `users`...");
+
+        // Insérer l'utilisateur dans `users`
+        await supabase.from('users').insert([
+          {
+            id: data.user.id,
+            email,
+            password_hash: hashedPassword,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+            full_name: null,
+            avatar_url: null,
+            points: 0,
+            first_name: null,
+            last_name: null,
+            birth_date: null,
+            phone_number: null,
+            nationality: null,
+            role: 'user'
+          }
+        ]);
+
+        // Stocker l'ID utilisateur dans le localStorage
+        localStorage.setItem("userId", data.user.id);
+        console.log("🔐 ID utilisateur stocké :", data.user.id);
+        
+        navigate('/signup2');
+      }
     }
   };
 
   return (
     <div className="flex h-screen w-full">
-      {/* Section Gauche */}
       <div className="w-full md:w-1/2 flex flex-col justify-center items-center px-8 md:px-16 bg-white relative">
         <Link to="/" className="absolute top-6 left-8"><img src={Logo} alt="Stella" className="w-28" /></Link>
         <h2 className="text-3xl font-bold text-[#9557fa] mt-12">Inscription</h2>
@@ -92,7 +160,6 @@ function SignUp() {
         </form>
       </div>
       
-      {/* Section Droite */}
       <div className="hidden md:block md:w-1/2 relative">
         <img
           src={BackgroundImage}

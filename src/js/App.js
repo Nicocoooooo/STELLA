@@ -5,6 +5,7 @@ import Home from '../pages/Home';
 import About from '../pages/About';
 import SignUp from '../pages/SignUp'; // 🔹 Import de la page SignUp
 import SignUp2 from '../pages/SignUp2'; 
+import SignUp3 from '../pages/SignUp3'; 
 
 function App() {
   return (

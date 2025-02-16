@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // 🔹 Import du Link
+import { Link, useNavigate } from 'react-router-dom';
 import { FaChevronDown } from 'react-icons/fa';
+import supabase from '../supabaseClient';
 import Logo from '../assets/images/Logo.png';
 import BackgroundImage from '../assets/images/mountain_background.png';
 
@@ -13,6 +14,7 @@ import FlagES from '../assets/images/flag_es.png';
 import '../styles/SignUp2.css';
 
 function SignUp2() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     civilite: '',
     nationalite: '',
@@ -36,6 +38,39 @@ function SignUp2() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const userId = localStorage.getItem("userId");
+
+    if (!userId) {
+      console.error("❌ Aucun utilisateur connecté, redirection vers l'inscription.");
+      navigate('/signup');
+      return;
+    }
+
+    console.log("📝 Mise à jour des informations utilisateur...");
+
+    const { error } = await supabase
+      .from('users')
+      .update({
+        full_name: `${formData.prenom} ${formData.nom}`,
+        first_name: formData.prenom,
+        last_name: formData.nom,
+        phone_number: formData.telephone,
+        nationality: formData.nationalite,
+        birth_date: formData.dateNaissance,
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', userId);
+
+    if (error) {
+      console.error("❌ Erreur lors de la mise à jour de l'utilisateur:", error);
+    } else {
+      console.log("✅ Informations mises à jour avec succès !");
+      navigate('/signup3');
+    }
+  };
+
   return (
     <div className="relative flex items-center justify-center h-screen bg-cover bg-center" style={{ backgroundImage: `url(${BackgroundImage})` }}>
       {/* Logo cliquable qui redirige vers la home */}
@@ -48,7 +83,7 @@ function SignUp2() {
         <h2 className="text-3xl font-bold text-[#9557fa] text-center">Apprenons à mieux vous connaître ✨</h2>
 
         {/* Formulaire */}
-        <form className="mt-6 grid grid-cols-2 gap-6">
+        <form className="mt-6 grid grid-cols-2 gap-6" onSubmit={handleSubmit}>
           {/* Civilité */}
           <div>
             <label className="block text-gray-700">Civilité (M./Mme)</label>
@@ -86,85 +121,34 @@ function SignUp2() {
             </div>
           </div>
 
-          {/* Nom */}
+          {/* Nom et Prénom */}
           <div>
             <label className="block text-gray-700">Nom</label>
-            <input
-              type="text"
-              name="nom"
-              placeholder="Votre nom"
-              value={formData.nom}
-              onChange={handleChange}
-              className="w-full bg-[#e9d9ff] rounded-lg py-3 px-4 text-gray-800 outline-none"
-            />
+            <input type="text" name="nom" placeholder="Votre nom" value={formData.nom} onChange={handleChange} className="w-full bg-[#e9d9ff] rounded-lg py-3 px-4 text-gray-800 outline-none" />
           </div>
-
-          {/* Prénom */}
           <div>
             <label className="block text-gray-700">Prénom</label>
-            <input
-              type="text"
-              name="prenom"
-              placeholder="Votre prénom"
-              value={formData.prenom}
-              onChange={handleChange}
-              className="w-full bg-[#e9d9ff] rounded-lg py-3 px-4 text-gray-800 outline-none"
-            />
+            <input type="text" name="prenom" placeholder="Votre prénom" value={formData.prenom} onChange={handleChange} className="w-full bg-[#e9d9ff] rounded-lg py-3 px-4 text-gray-800 outline-none" />
           </div>
 
-          {/* Téléphone avec drapeau dynamique */}
+          {/* Téléphone et Date de naissance */}
           <div>
             <label className="block text-gray-700">Numéro de téléphone</label>
             <div className="relative">
-              <img
-                src={drapeaux[formData.nationalite] || FlagUS} // Drapeau dynamique
-                alt="Drapeau"
-                className="absolute left-4 top-3 w-6"
-              />
-              <input
-                type="tel"
-                name="telephone"
-                placeholder="Votre numéro"
-                value={formData.telephone}
-                onChange={handleChange}
-                className="w-full bg-[#e9d9ff] rounded-lg py-3 pl-14 pr-4 text-gray-800 outline-none"
-              />
+              <img src={drapeaux[formData.nationalite] || FlagUS} alt="Drapeau" className="absolute left-4 top-3 w-6" />
+              <input type="tel" name="telephone" placeholder="Votre numéro" value={formData.telephone} onChange={handleChange} className="w-full bg-[#e9d9ff] rounded-lg py-3 pl-14 pr-4 text-gray-800 outline-none" />
             </div>
           </div>
-
-          {/* Date de naissance */}
           <div>
             <label className="block text-gray-700">Date de Naissance</label>
-            <div className="relative">
-              <input
-                type="date"
-                name="dateNaissance"
-                value={formData.dateNaissance}
-                onChange={handleChange}
-                className="w-full bg-[#e9d9ff] rounded-lg py-3 px-4 text-gray-800 outline-none"
-              />
-            </div>
+            <input type="date" name="dateNaissance" value={formData.dateNaissance} onChange={handleChange} className="w-full bg-[#e9d9ff] rounded-lg py-3 px-4 text-gray-800 outline-none" />
           </div>
+
+          {/* Bouton de soumission */}
+          <button type="submit" className="col-span-2 w-full py-3 mt-6 text-white font-semibold rounded-lg bg-gradient-to-r from-[#9557fa] to-[#fa9b3d] hover:opacity-90">
+            S’inscrire →
+          </button>
         </form>
-
-        {/* Case à cocher */}
-        <div className="mt-6 flex items-start space-x-2">
-          <input
-            type="checkbox"
-            id="accept"
-            checked={checked}
-            onChange={() => setChecked(!checked)}
-            className="w-5 h-5 border-gray-300 text-[#9557fa] rounded focus:ring-0"
-          />
-          <label htmlFor="accept" className="text-sm text-gray-600">
-            En m'inscrivant, j’accepte de recevoir les actualités par email et confirme avoir lu la politique de confidentialité.*
-          </label>
-        </div>
-
-        {/* Bouton d'inscription */}
-        <Link to="/signin3" className="w-full mt-6 inline-block py-3 text-white font-semibold text-center rounded-lg transition-all bg-gradient-to-r from-[#9557fa] to-[#fa9b3d] hover:opacity-90">
-          S’inscrire →
-        </Link>
       </div>
     </div>
   );
