@@ -6,6 +6,8 @@ import About from '../pages/About';
 import SignUp from '../pages/SignUp'; // 🔹 Import de la page SignUp
 import SignUp2 from '../pages/SignUp2'; 
 import SignUp3 from '../pages/SignUp3'; 
+import Login from '../pages/Login'; 
+
 
 function App() {
   return (
@@ -18,6 +20,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} /> {/* 🔹 Ajout de la route */}
           <Route path="/signup2" element={<SignUp2 />} />
           <Route path="/signup3" element={<SignUp3/>} />
+          <Route path="/Login" element={<Login/>} />
         </Routes>
       </div>
     </Router>
