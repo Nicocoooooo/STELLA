@@ -162,9 +162,9 @@ function SignUp2() {
         </div>
 
         {/* Bouton d'inscription */}
-        <button className="w-full mt-6 py-3 text-white font-semibold rounded-lg transition-all bg-gradient-to-r from-[#9557fa] to-[#fa9b3d] hover:opacity-90">
+        <Link to="/signin3" className="w-full mt-6 inline-block py-3 text-white font-semibold text-center rounded-lg transition-all bg-gradient-to-r from-[#9557fa] to-[#fa9b3d] hover:opacity-90">
           S’inscrire →
-        </button>
+        </Link>
       </div>
     </div>
   );

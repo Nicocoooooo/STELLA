@@ -16,6 +16,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/signup" element={<SignUp />} /> {/* 🔹 Ajout de la route */}
           <Route path="/signup2" element={<SignUp2 />} />
+          <Route path="/signup3" element={<SignUp3/>} />
         </Routes>
       </div>
     </Router>
