@@ -23,10 +23,10 @@ function Login() {
     const { email, password } = formData;
     
     console.log("🔍 Vérification des identifiants...");
-    
+
     const { data: user, error: fetchError } = await supabase
       .from('users')
-      .select('id, password_hash')
+      .select('id, password_hash, phone_number')
       .eq('email', email)
       .single();
     
@@ -45,7 +45,15 @@ function Login() {
     
     console.log("✅ Connexion réussie, ID utilisateur:", user.id);
     localStorage.setItem("userId", user.id);
-    navigate('/dashboard'); // Redirection après connexion
+
+    // ✅ Vérification du numéro de téléphone
+    if (!user.phone_number || user.phone_number === null) {
+      console.log("📱 Numéro de téléphone manquant, redirection vers SignUp2...");
+      navigate('/signup2');
+    } else {
+      console.log("🏠 Redirection vers le Dashboard...");
+      navigate('/dashboard');
+    }
   };
 
   return (
