@@ -13,17 +13,17 @@ import Questions from '../pages/Questions';
 import BudgetQuestions from '../pages/BudgetQuestions';
 import PreferencesQuestions from '../pages/PreferencesQuestions';
 import QuizConfirmation from '../pages/QuizConfirmation';
+import SignUp from '../pages/SignUp'; // 🔹 Import de la page SignUp
+import SignUp2 from '../pages/SignUp2'; 
+import SignUp3 from '../pages/SignUp3'; 
+import Login from '../pages/Login'; 
+
 // Composant de chargement
 const LoadingFallback = () => (
   <div className="min-h-screen flex items-center justify-center">
     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#9557fa]"></div>
   </div>
 );
-import SignUp from '../pages/SignUp'; // 🔹 Import de la page SignUp
-import SignUp2 from '../pages/SignUp2'; 
-import SignUp3 from '../pages/SignUp3'; 
-import Login from '../pages/Login'; 
-
 
 function App() {
   return (
