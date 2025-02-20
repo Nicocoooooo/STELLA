@@ -35,7 +35,7 @@ function App() {
               {/* Routes principales */}
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
-              
+
               {/* Routes du questionnaire */}
               <Route path="/quiz" element={<Quiz />} />
               <Route path="/quiz/questions" element={<Questions />} />
@@ -44,21 +44,15 @@ function App() {
               <Route path="/test" element={<SupabaseTest />} />
               <Route path="/quiz/confirmation" element={<QuizConfirmation />} />
 
+              {/* Routes d'inscription et connexion */}
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/signup2" element={<SignUp2 />} />
+              <Route path="/signup3" element={<SignUp3 />} />
+              <Route path="/Login" element={<Login />} />
             </Routes>
           </div>
         </Suspense>
       </QuizProvider>
-      <div className="App">
-        {/* Configuration des Routes */}
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/signup" element={<SignUp />} /> {/* 🔹 Ajout de la route */}
-          <Route path="/signup2" element={<SignUp2 />} />
-          <Route path="/signup3" element={<SignUp3/>} />
-          <Route path="/Login" element={<Login/>} />
-        </Routes>
-      </div>
     </Router>
   );
 }
