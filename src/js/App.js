@@ -4,7 +4,6 @@ import { QuizProvider } from '../context/QuizContext';
 import '../styles/App.css';
 import SupabaseTest from '../components/SupabaseTest';
 
-
 // Import des pages
 import Home from '../pages/Home';
 import About from '../pages/About';
@@ -13,10 +12,12 @@ import Questions from '../pages/Questions';
 import BudgetQuestions from '../pages/BudgetQuestions';
 import PreferencesQuestions from '../pages/PreferencesQuestions';
 import QuizConfirmation from '../pages/QuizConfirmation';
-import SignUp from '../pages/SignUp'; // 🔹 Import de la page SignUp
-import SignUp2 from '../pages/SignUp2'; 
-import SignUp3 from '../pages/SignUp3'; 
-import Login from '../pages/Login'; 
+import SignUp from '../pages/SignUp';
+import SignUp2 from '../pages/SignUp2';
+import SignUp3 from '../pages/SignUp3';
+import Login from '../pages/Login';
+import PastTrips from '../pages/PastTrips'; // Import de la page Mes Anciens Voyages
+import TripDetail from '../pages/TripDetail'; // Import de la page Détail du Voyage
 
 // Composant de chargement
 const LoadingFallback = () => (
@@ -48,7 +49,11 @@ function App() {
               <Route path="/signup" element={<SignUp />} />
               <Route path="/signup2" element={<SignUp2 />} />
               <Route path="/signup3" element={<SignUp3 />} />
-              <Route path="/Login" element={<Login />} />
+              <Route path="/login" element={<Login />} />
+
+              {/* Nouvelles routes */}
+              <Route path="/past-trips" element={<PastTrips />} />
+              <Route path="/trip-detail/:tripId" element={<TripDetail />} />
             </Routes>
           </div>
         </Suspense>
