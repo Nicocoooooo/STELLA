@@ -13,6 +13,11 @@ import Questions from '../pages/Questions';
 import BudgetQuestions from '../pages/BudgetQuestions';
 import PreferencesQuestions from '../pages/PreferencesQuestions';
 import QuizConfirmation from '../pages/QuizConfirmation';
+import SignUp from '../pages/SignUp'; // 🔹 Import de la page SignUp
+import SignUp2 from '../pages/SignUp2'; 
+import SignUp3 from '../pages/SignUp3'; 
+import Login from '../pages/Login'; 
+
 // Composant de chargement
 const LoadingFallback = () => (
   <div className="min-h-screen flex items-center justify-center">
@@ -30,7 +35,7 @@ function App() {
               {/* Routes principales */}
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
-              
+
               {/* Routes du questionnaire */}
               <Route path="/quiz" element={<Quiz />} />
               <Route path="/quiz/questions" element={<Questions />} />
@@ -39,6 +44,11 @@ function App() {
               <Route path="/test" element={<SupabaseTest />} />
               <Route path="/quiz/confirmation" element={<QuizConfirmation />} />
 
+              {/* Routes d'inscription et connexion */}
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/signup2" element={<SignUp2 />} />
+              <Route path="/signup3" element={<SignUp3 />} />
+              <Route path="/Login" element={<Login />} />
             </Routes>
           </div>
         </Suspense>
