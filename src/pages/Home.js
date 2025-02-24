@@ -84,7 +84,7 @@ function Home() {
           <p>© 2024 Stella. All rights reserved.</p>
           <div className="flex gap-4 mt-4 md:mt-0">
             <Link to="/cgu" className="hover:text-[#9557fa]">CGU</Link>
-            <Link to="/mentions-legales" className="hover:text-[#9557fa]">Mentions légales</Link>
+            <Link to="/legalmentions" className="hover:text-[#9557fa]">Mentions légales</Link>
           </div>
           <div className="flex gap-4 mt-4 md:mt-0">
             <a href="#" className="text-gray-500 hover:text-[#9557fa]">

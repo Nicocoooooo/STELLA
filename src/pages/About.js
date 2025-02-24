@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../assets/images/Logo.png';
 
 const About = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="min-h-screen font-['Outfit'] bg-white text-gray-800">
       {/* Navigation */}
@@ -33,7 +37,6 @@ const About = () => {
         </p>
 
         <h2 className="text-3xl sm:text-4xl font-bold text-center text-[#9557fa] mt-12">Notre équipe</h2>
-
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mt-12">
           {[
