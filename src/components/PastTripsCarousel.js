@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 function PastTripsCarousel({ trips }) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -48,7 +49,7 @@ function PastTripsCarousel({ trips }) {
       return [prev, currentIndex, next];
     }
     
-    // Pour les petits écrans (sm, xs), montrer 1-3 éléments
+    // Pour les petits écrans (sm), montrer 1-3 éléments
     if (screenSize === 'sm') {
       return [prev, currentIndex, next];
     }
@@ -109,8 +110,9 @@ function PastTripsCarousel({ trips }) {
             const isCentered = i === centerIndex;
             
             return (
-              <div
+              <Link 
                 key={trip.id}
+                to={`/past-trips/${trip.id}`}
                 className={`relative transition-all duration-500 rounded-xl sm:rounded-2xl md:rounded-3xl overflow-hidden mx-1 sm:mx-2
                   ${isCentered 
                     ? 'w-36 h-48 sm:w-56 sm:h-72 md:w-80 md:h-96' 
@@ -145,7 +147,7 @@ function PastTripsCarousel({ trips }) {
                     {new Date(trip.start_date).getFullYear()}
                   </p>
                 </div>
-              </div>
+              </Link>
             );
           })}
         </div>

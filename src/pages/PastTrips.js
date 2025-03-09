@@ -1,22 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../assets/images/Logo.png';
 import supabase from '../supabaseClient';
 import PastTripsCarousel from '../components/PastTripsCarousel';
 
 function PastTrips() {
+  const navigate = useNavigate();
   const [trips, setTrips] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
+    // Vérification immédiate de l'authentification
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+      console.log("Aucun utilisateur connecté, redirection vers la page de connexion");
+      navigate('/login');
+      return;
+    } else {
+      setIsAuthenticated(true);
+    }
+
     const fetchPastTrips = async () => {
-      const userId = localStorage.getItem('userId');
-      
-      if (!userId) {
-        setLoading(false);
-        return;
-      }
-  
       try {
         const { data, error } = await supabase
           .from('trips')
@@ -32,7 +37,8 @@ function PastTrips() {
               image_url
             )
           `)
-          .eq('user_id', userId);
+          .eq('user_id', userId)
+          .order('start_date', { ascending: false });
         
         console.log("Données récupérées:", data);
         
@@ -50,8 +56,16 @@ function PastTrips() {
       }
     };
   
-    fetchPastTrips();
-  }, []);
+    if (isAuthenticated) {
+      fetchPastTrips();
+    }
+  }, [navigate, isAuthenticated]);
+
+  // Si l'utilisateur n'est pas authentifié, on ne rend rien
+  // La redirection sera gérée par le useEffect
+  if (!isAuthenticated && !loading) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen font-['Outfit'] bg-white">
