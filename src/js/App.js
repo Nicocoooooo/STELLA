@@ -18,6 +18,7 @@ import SignUp3 from '../pages/SignUp3';
 import Login from '../pages/Login';
 import PastTrips from '../pages/PastTrips'; // Import de la page Mes Anciens Voyages
 import TripDetail from '../pages/TripDetail'; // Import de la page Détail du Voyage
+import DashboardProvisoire from '../pages/DashboardProvisoire'; // Import de la page Dashboard Provisoire
 
 // Composant de chargement
 const LoadingFallback = () => (
@@ -54,6 +55,8 @@ function App() {
               {/* Nouvelles routes */}
               <Route path="/past-trips" element={<PastTrips />} />
               <Route path="/trip-detail/:tripId" element={<TripDetail />} />
+              <Route path="/past-trips" element={<PastTrips />} />
+              <Route path="/dashboard-provisoire" element={<DashboardProvisoire />} />
             </Routes>
           </div>
         </Suspense>
