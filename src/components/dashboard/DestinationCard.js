@@ -5,14 +5,14 @@ import { Link } from 'react-router-dom';
 const DestinationCard = ({ image, name, isSaved = false, isCreateCard = false }) => {
   if (isCreateCard) {
     return (
-      <div className="relative rounded-[32px] border-2 border-dashed border-accent/20 h-[280px] flex flex-col items-center justify-center cursor-pointer transition-all duration-300 hover:border-accent/40 hover:shadow-lg group bg-white/50">
+      <Link to="/quiz" className="relative rounded-[32px] border-2 border-dashed border-accent/20 h-[280px] flex flex-col items-center justify-center cursor-pointer transition-all duration-300 hover:border-accent/40 hover:shadow-lg group bg-white/50">
         <div className="w-14 h-14 rounded-full border border-accent/30 flex items-center justify-center mb-4 transition-all duration-300 group-hover:bg-accent/5">
           <Plus className="w-7 h-7 text-accent" />
         </div>
         <p className="text-accent/80 text-lg text-center font-outfit">
           Plannifiez votre prochain<br />voyage
         </p>
-      </div>
+      </Link>
     );
   }
 

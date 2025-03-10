@@ -2,8 +2,18 @@ import React from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 import { ChevronDown } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const ProfileMenu = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // Supprimer l'identifiant de l'utilisateur du localStorage
+    localStorage.removeItem('userId');
+    // Rediriger vers la page de connexion
+    navigate('/login');
+  };
+
   return (
     <Menu as="div" className="relative">
       <Menu.Button className="flex items-center text-gray-700 hover:text-primary transition-colors font-outfit">
@@ -35,6 +45,7 @@ const ProfileMenu = () => {
           <Menu.Item>
             {({ active }) => (
               <button
+                onClick={() => navigate('/past-trips')}
                 className={`${
                   active ? 'bg-primary/5 text-primary' : 'text-gray-700'
                 } block w-full px-6 py-2.5 text-left text-base font-outfit transition-colors`}
@@ -46,6 +57,7 @@ const ProfileMenu = () => {
           <Menu.Item>
             {({ active }) => (
               <button
+                onClick={handleLogout}
                 className={`${
                   active ? 'bg-primary/5 text-primary' : 'text-gray-700'
                 } block w-full px-6 py-2.5 text-left text-base font-outfit transition-colors`}

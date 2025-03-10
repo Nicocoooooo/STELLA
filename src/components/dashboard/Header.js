@@ -1,13 +1,16 @@
 import React from 'react';
 import { Calendar, Heart, Star } from 'lucide-react';
 import ProfileMenu from './ProfileMenu';
+import { Link } from 'react-router-dom';
 
 const Header = ({ userName, tripsCount, savedTripsCount, points, loading }) => {
   return (
     <div className="w-full">
       {/* Logo et profil */}
       <div className="flex justify-between items-center mb-6 sm:mb-8 md:mb-12">
-        <img src={require('../../assets/images/Logo.png')} alt="Stella" className="h-10 sm:h-12 md:h-16" />
+        <Link to="/">
+          <img src={require('../../assets/images/Logo.png')} alt="Stella" className="h-10 sm:h-12 md:h-16" />
+        </Link>
         <ProfileMenu />
       </div>
 
