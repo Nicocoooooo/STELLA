@@ -7,6 +7,11 @@ import SupabaseTest from '../components/SupabaseTest';
 // Import des pages
 import Home from '../pages/Home';
 import About from '../pages/About';
+import Faq from '../pages/Faq';
+import Ask from '../pages/Ask';
+import Help from '../pages/Help';
+import Contact from '../pages/Contact';
+import LegalMentions from '../pages/LegalMentions';
 import Quiz from '../pages/Quiz';
 import Questions from '../pages/Questions';
 import BudgetQuestions from '../pages/BudgetQuestions';
@@ -44,6 +49,11 @@ function App() {
               <Route path="/quiz/preferences" element={<PreferencesQuestions />} />
               <Route path="/test" element={<SupabaseTest />} />
               <Route path="/quiz/confirmation" element={<QuizConfirmation />} />
+              <Route path="/faq" element={<Faq />} />
+              <Route path="/ask" element={<Ask />} />
+              <Route path="/help" element={<Help />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/legalmentions" element={<LegalMentions />} />
 
               {/* Routes d'inscription et connexion */}
               <Route path="/signup" element={<SignUp />} />
@@ -76,7 +86,8 @@ function App() {
                   </ProtectedRoute>
                 } 
               />
-            </Routes>
+          
+        </Routes>
           </div>
         </Suspense>
       </QuizProvider>
