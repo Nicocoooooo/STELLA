@@ -98,7 +98,7 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-white flex flex-col">
       {/* Main content */}
-      <div className="flex-grow w-full px-24 py-12">
+      <div className="flex-grow w-full px-4 sm:px-8 md:px-12 lg:px-24 py-8 lg:py-12">
         {/* Content container with max-width */}
         <div className="max-w-[1800px] mx-auto">
           <Header 
@@ -119,7 +119,7 @@ const Dashboard = () => {
       </div>
 
       {/* Footer with the same width constraints */}
-      <div className="w-full px-24">
+      <div className="w-full px-4 sm:px-8 md:px-12 lg:px-24">
         <div className="max-w-[1800px] mx-auto">
           <Footer />
         </div>

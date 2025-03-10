@@ -111,7 +111,7 @@ const DestinationGrid = ({ activeFilters }) => {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="grid grid-cols-3 gap-8 w-full mb-12">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 w-full mb-8 sm:mb-10 lg:mb-12">
         <DestinationCard isCreateCard={true} />
         {filteredDestinations.map((destination) => (
           <DestinationCard
@@ -123,14 +123,14 @@ const DestinationGrid = ({ activeFilters }) => {
       </div>
       
       {filteredDestinations.length > 0 && (
-        <button className="px-10 py-4 rounded-full bg-gradient-to-r from-primary to-accent text-white font-outfit text-lg transition-all duration-300 hover:shadow-lg hover:scale-105">
+        <button className="px-6 sm:px-8 lg:px-10 py-3 sm:py-3.5 lg:py-4 rounded-full bg-gradient-to-r from-primary to-accent text-white font-outfit text-sm sm:text-base lg:text-lg transition-all duration-300 hover:shadow-lg hover:scale-105">
           Voir plus
         </button>
       )}
       
       {filteredDestinations.length === 0 && (
-        <div className="text-center py-10">
-          <h3 className="text-xl text-gray-600">Aucune destination ne correspond à vos critères</h3>
+        <div className="text-center py-8 sm:py-10">
+          <h3 className="text-lg sm:text-xl text-gray-600">Aucune destination ne correspond à vos critères</h3>
           <p className="text-gray-500 mt-2">Essayez de modifier vos filtres</p>
         </div>
       )}
