@@ -43,7 +43,7 @@ function SignUp3() {
         <p className="text-[#fa9b3d] font-semibold">{email || 'Chargement...'}</p>
         
         <Link
-          to="/"
+          to="/dashboard"
           className="mt-6 inline-block bg-gradient-to-r from-[#9557fa] to-[#fa9b3d] text-white font-semibold py-3 px-6 rounded-lg transition-all hover:opacity-90"
         >
           Découvrir des destinations

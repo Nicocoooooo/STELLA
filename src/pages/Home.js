@@ -29,7 +29,7 @@ function Home() {
             S'inscrire
           </Link>
           <Link
-            to="/start"
+            to="/login"
             className="bg-[#fa9b3d] text-white px-4 sm:px-6 py-2 sm:py-2.5 rounded-[50px] hover:bg-[#fa9b3d]/90 transition-all text-sm sm:text-base"
           >
             Commencer
