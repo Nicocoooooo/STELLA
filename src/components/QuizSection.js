@@ -1,5 +1,6 @@
 import React from 'react';
 import BalloonsImg from '../assets/images/Turquie.png';
+import { Link } from 'react-router-dom';
 
 const QuizSection = () => {
   return (
@@ -30,9 +31,9 @@ const QuizSection = () => {
               <p className="text-base sm:text-lg text-gray-700 mb-6 sm:mb-8 text-center lg:text-left">
                 Répondez à quelques questions et laissez-nous vous guider vers des expériences qui vous correspondent parfaitement.
               </p>
-              <button className="bg-[#fa9b3d] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-[50px] hover:bg-[#fa9b3d]/90 transition-all text-base sm:text-lg w-fit mx-auto lg:mx-0">
+              <Link to="/quiz" className="bg-[#fa9b3d] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-[50px] hover:bg-[#fa9b3d]/90 transition-all text-base sm:text-lg w-fit mx-auto lg:mx-0 inline-block">
                 Lancer le test
-              </button>
+              </Link>
             </div>
           </div>
         </div>
