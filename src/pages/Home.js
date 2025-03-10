@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaFacebookF, FaTwitter, FaInstagram, FaTiktok } from "react-icons/fa";
 import Logo from '../assets/images/Logo.png';
 import NeomBg from '../assets/images/Neom.png';
 import Filtre from '../assets/images/LandingpageFiltre.png';
@@ -15,11 +14,11 @@ import SocialSection from '../components/SocialSection';
 
 function Home() {
   return (
-    <div className="min-h-screen font-['Outfit'] flex flex-col">
+    <div className="min-h-screen font-['Outfit']">
       {/* Navigation - Responsive */}
-      <nav className="fixed w-full px-6 sm:px-12 py-4 flex justify-between items-center z-50 bg-white shadow-md">
+      <nav className="fixed w-full px-4 sm:px-8 py-4 flex justify-between items-center z-50">
         <Link to="/" className="flex items-center">
-          <img src={Logo} alt="Stella" className="h-8 sm:h-10" />
+          <img src={Logo} alt="Stella" className="h-8 sm:h-12" />
         </Link>
 
         <div className="flex gap-3 sm:gap-6 items-center">
@@ -38,8 +37,8 @@ function Home() {
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <div className="relative flex-grow flex items-center justify-center pt-24 pb-12 sm:pb-20">
+      {/* Hero Section - Responsive */}
+      <div className="relative min-h-screen">
         <div className="absolute inset-0">
           <img
             src={NeomBg}
@@ -123,52 +122,6 @@ function Home() {
       <QuizSection />
       <PartnersSection />
       <SocialSection />
-      {/* Sections */}
-      <div className="py-12 sm:py-16 md:py-20 bg-white">
-        <CarouselSection />
-        <CreateTripSection />
-        <FeaturesSection />
-        <TestimonialsSection />
-        <QuizSection />
-        <PartnersSection />
-        <SocialSection />
-      </div>
-
-      {/* Footer */}
-      <footer className="bg-white border-t border-gray-200 py-12 px-6 sm:px-12 mt-12">
-        <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
-          <Link to="/" className="flex items-center">
-            <img src={Logo} alt="Stella" className="h-8 sm:h-10" />
-          </Link>
-          <nav className="flex flex-wrap gap-6 text-gray-700 text-sm mt-6 md:mt-0">
-            <Link to="/about" className="hover:text-[#9557fa]">About</Link>
-            <Link to="/faq" className="hover:text-[#9557fa]">FAQ</Link>
-            <Link to="/help" className="hover:text-[#9557fa]">Aide</Link>
-            <Link to="/contact" className="hover:text-[#9557fa]">Nous contacter</Link>
-          </nav>
-        </div>
-        <div className="mt-8 border-t border-gray-200 pt-6 flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm">
-          <p>© 2024 Stella. All rights reserved.</p>
-          <div className="flex gap-4 mt-4 md:mt-0">
-            <Link to="/cgu" className="hover:text-[#9557fa]">CGU</Link>
-            <Link to="/legalmentions" className="hover:text-[#9557fa]">Mentions légales</Link>
-          </div>
-          <div className="flex gap-4 mt-4 md:mt-0">
-            <a href="#" className="text-gray-500 hover:text-[#9557fa]">
-              <FaFacebookF />
-            </a>
-            <a href="#" className="text-gray-500 hover:text-[#9557fa]">
-              <FaTwitter />
-            </a>
-            <a href="#" className="text-gray-500 hover:text-[#9557fa]">
-              <FaInstagram />
-            </a>
-            <a href="#" className="text-gray-500 hover:text-[#9557fa]">
-              <FaTiktok />
-            </a>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
