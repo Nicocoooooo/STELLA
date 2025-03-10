@@ -17,7 +17,7 @@ import SignUp2 from '../pages/SignUp2';
 import SignUp3 from '../pages/SignUp3';
 import Login from '../pages/Login';
 import PastTrips from '../pages/PastTrips'; // Import de la page Mes Anciens Voyages
-import DashboardProvisoire from '../pages/DashboardProvisoire'; // Import de la page Dashboard Provisoire
+import Dashboard from '../pages/Dashboard';
 import PastTripDetail from '../pages/PastTripDetail'; // Import de la page Détail de l'ancien Voyage
 import ProtectedRoute from '../components/ProtectedRoute'; // Import du composant ProtectedRoute
 
@@ -61,10 +61,10 @@ function App() {
                 } 
               />
               <Route 
-                path="/dashboard-provisoire" 
+                path="/dashboard" 
                 element={
                   <ProtectedRoute>
-                    <DashboardProvisoire />
+                    <Dashboard/>
                   </ProtectedRoute>
                 } 
               />

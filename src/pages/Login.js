@@ -52,7 +52,7 @@ function Login() {
       navigate('/signup2');
     } else {
       console.log("🏠 Redirection vers le Dashboard...");
-      navigate('/dashboard-provisoire');
+      navigate('/dashboard');
     }
   };
 
