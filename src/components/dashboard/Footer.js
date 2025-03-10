@@ -59,7 +59,7 @@ const Footer = () => {
 
         {/* Copyright */}
         <p className="text-gray-400 text-xs sm:text-sm order-1 md:order-2">
-          © 2024 Stella. All rights reserved.
+          © 2025 Stella. All rights reserved.
         </p>
       </div>
     </footer>

@@ -8,7 +8,7 @@ const SocialSection = () => {
     <section className="py-12 sm:py-16 md:py-24 bg-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Étoile décorative en haut */}
-        <div className="flex justify-center mb-4 hidden sm:flex">
+        <div className="justify-center mb-4 hidden sm:flex">
           <span className="text-[#fa9b3d] text-2xl">✧</span>
         </div>
 
@@ -54,7 +54,7 @@ const SocialSection = () => {
         </p>
 
         {/* Étoile décorative en bas */}
-        <div className="flex justify-center mt-4 hidden sm:flex">
+        <div className="justify-center mt-4 hidden sm:flex">
           <span className="text-[#fa9b3d] text-2xl">✧</span>
         </div>
       </div>

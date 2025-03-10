@@ -122,7 +122,7 @@ function PastTrips() {
               <Link to="/aide" className="text-gray-600 hover:text-[#9557fa] text-xs sm:text-sm md:text-base">Aide</Link>
               <Link to="/contact" className="text-gray-600 hover:text-[#9557fa] text-xs sm:text-sm md:text-base">Nous contacter</Link>
             </div>
-            <p className="text-gray-600 text-xs sm:text-sm mt-2 sm:mt-0">© 2024 Stella. All rights reserved.</p>
+            <p className="text-gray-600 text-xs sm:text-sm mt-2 sm:mt-0">© 2025 Stella. All rights reserved.</p>
           </div>
         </div>
       </footer>
