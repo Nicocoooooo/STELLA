@@ -1,5 +1,6 @@
 import React from 'react';
 import { Heart, Plus } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const DestinationCard = ({ image, name, isSaved = false, isCreateCard = false }) => {
   if (isCreateCard) {
@@ -15,30 +16,41 @@ const DestinationCard = ({ image, name, isSaved = false, isCreateCard = false })
     );
   }
 
+  // Convertir le nom en slug pour l'URL
+  const destinationSlug = name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, '-');
+
   return (
-    <div className="relative rounded-[32px] overflow-hidden h-[280px] group cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300">
-      {/* Image de fond */}
-      <img 
-        src={require(`../../assets/images/destinations/${image}`)}
-        alt={name}
-        className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-      />
-
-      {/* Overlay gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/0 via-black/10 to-black/70"></div>
-
-      {/* Bouton like */}
-      <button className="absolute top-5 right-5 p-2.5 rounded-full bg-white/10 backdrop-blur-[2px] transition-all duration-300 hover:bg-white/20 hover:scale-105">
-        <Heart 
-          className={`w-5 h-5 transition-colors duration-300 ${
-            isSaved ? 'fill-red-500 text-red-500' : 'text-white hover:fill-red-500/50'
-          }`} 
+    <Link to={`/destination/${destinationSlug}`} className="block">
+      <div className="relative rounded-[32px] overflow-hidden h-[280px] group cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300">
+        {/* Image de fond */}
+        <img 
+          src={require(`../../assets/images/destinations/${image}`)}
+          alt={name}
+          className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
         />
-      </button>
 
-      {/* Nom de la destination */}
-      <h3 className="absolute bottom-6 left-6 text-white text-2xl font-medium font-outfit tracking-wide">{name}</h3>
-    </div>
+        {/* Overlay gradient */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/0 via-black/10 to-black/70"></div>
+
+        {/* Bouton like */}
+        <button 
+          className="absolute top-5 right-5 p-2.5 rounded-full bg-white/10 backdrop-blur-[2px] transition-all duration-300 hover:bg-white/20 hover:scale-105"
+          onClick={(e) => {
+            e.preventDefault(); // Empêche la navigation vers la page de détail
+            // Logique pour ajouter/retirer des favoris
+          }}
+        >
+          <Heart 
+            className={`w-5 h-5 transition-colors duration-300 ${
+              isSaved ? 'fill-red-500 text-red-500' : 'text-white hover:fill-red-500/50'
+            }`} 
+          />
+        </button>
+
+        {/* Nom de la destination */}
+        <h3 className="absolute bottom-6 left-6 text-white text-2xl font-medium font-outfit tracking-wide">{name}</h3>
+      </div>
+    </Link>
   );
 };
 

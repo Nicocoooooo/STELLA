@@ -20,6 +20,8 @@ import PastTrips from '../pages/PastTrips'; // Import de la page Mes Anciens Voy
 import Dashboard from '../pages/Dashboard';
 import PastTripDetail from '../pages/PastTripDetail'; // Import de la page Détail de l'ancien Voyage
 import ProtectedRoute from '../components/ProtectedRoute'; // Import du composant ProtectedRoute
+import DestinationDetail from '../pages/DestinationDetail';
+
 
 // Composant de chargement
 const LoadingFallback = () => (
@@ -44,6 +46,9 @@ function App() {
               <Route path="/quiz/preferences" element={<PreferencesQuestions />} />
               <Route path="/test" element={<SupabaseTest />} />
               <Route path="/quiz/confirmation" element={<QuizConfirmation />} />
+              <Route path="/destination/:id" element={<DestinationDetail />} />
+
+
 
               {/* Routes d'inscription et connexion */}
               <Route path="/signup" element={<SignUp />} />
