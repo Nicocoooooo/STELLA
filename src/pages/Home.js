@@ -9,10 +9,8 @@ import CreateTripSection from '../components/CreateTripSection';
 import FeaturesSection from '../components/FeaturesSection';
 import TestimonialsSection from '../components/TestimonialsSection';
 import QuizSection from '../components/QuizSection';
-
 import PartnersSection from '../components/PartnersSection';
 import SocialSection from '../components/SocialSection';
-
 
 function Home() {
   return (
@@ -22,16 +20,16 @@ function Home() {
         <Link to="/" className="flex items-center">
           <img src={Logo} alt="Stella" className="h-8 sm:h-12" />
         </Link>
-        
+
         <div className="flex gap-3 sm:gap-6 items-center">
-          <Link 
-            to="/signup" 
+          <Link
+            to="/signup"
             className="text-black hover:text-[#ffe1c4] transition-colors text-sm sm:text-base"
           >
             S'inscrire
           </Link>
-          <Link 
-            to="/start" 
+          <Link
+            to="/start"
             className="bg-[#fa9b3d] text-white px-4 sm:px-6 py-2 sm:py-2.5 rounded-[50px] hover:bg-[#fa9b3d]/90 transition-all text-sm sm:text-base"
           >
             Commencer
@@ -42,9 +40,9 @@ function Home() {
       {/* Hero Section - Responsive */}
       <div className="relative min-h-screen">
         <div className="absolute inset-0">
-          <img 
+          <img
             src={NeomBg}
-            alt="Mountain landscape" 
+            alt="Mountain landscape"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-black/20"></div>
@@ -63,10 +61,10 @@ function Home() {
                 <button className="w-full sm:w-auto bg-[#fa9b3d] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-[50px] hover:bg-[#fa9b3d]/90 transition-all text-base sm:text-lg">
                   Commencer l'aventure
                 </button>
-                <button className="w-full sm:w-auto flex items-center justify-center gap-3 text-base sm:text-lg hover:bg-white/10 px-6 sm:px-8 py-3 sm:py-4 rounded-[50px] transition-all">
+                <Link to="/past-trips" className="w-full sm:w-auto flex items-center justify-center gap-3 text-base sm:text-lg hover:bg-white/10 px-6 sm:px-8 py-3 sm:py-4 rounded-[50px] transition-all">
                   <span className="text-[#9557fa] text-xl">▶</span>
                   <span className="text-white">Lancer la vidéo</span>
-                </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -103,9 +101,9 @@ function Home() {
 
             <div className="relative mt-8 md:mt-0">
               <div className="relative overflow-hidden rounded-2xl">
-                <img 
+                <img
                   src={Filtre}
-                  alt="Avion au coucher du soleil" 
+                  alt="Avion au coucher du soleil"
                   className="w-full h-full sm:h-[400px] md:h-[500px] object-contain"
                 />
               </div>
