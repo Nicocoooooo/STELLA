@@ -55,3 +55,5 @@ const FAQ = () => {
 };
 
 export default FAQ;
+
+//commentaire pour merge avec TremplinFooter
