@@ -376,7 +376,7 @@ const DestinationDetail = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/70 flex flex-col justify-end p-8 sm:p-12 md:p-16">
           <div className="max-w-7xl mx-auto w-full">
             <h1 className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2">
-              Composez votre voyage à
+              Composez votre voyage
             </h1>
             <h2 className="text-accent text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold">
               {destination.name}
