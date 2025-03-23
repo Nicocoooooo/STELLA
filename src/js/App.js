@@ -21,7 +21,8 @@ import Dashboard from '../pages/Dashboard';
 import PastTripDetail from '../pages/PastTripDetail'; // Import de la page Détail de l'ancien Voyage
 import ProtectedRoute from '../components/ProtectedRoute'; // Import du composant ProtectedRoute
 import DestinationDetail from '../pages/DestinationDetail';
-
+import ComposeVoyage from "../pages/ComposeVoyage";
+import HotelsPage from "../pages/HotelsPage";
 
 // Composant de chargement
 const LoadingFallback = () => (
@@ -48,6 +49,10 @@ function App() {
               <Route path="/quiz/confirmation" element={<QuizConfirmation />} />
               <Route path="/destination/:id" element={<DestinationDetail />} />
 
+
+               {/* Routes Composez Voyage*/}
+              <Route path="/ComposeVoyage" element={<ComposeVoyage />} /> 
+              <Route path="/HotelsPage" element={<HotelsPage />} /> 
 
 
               {/* Routes d'inscription et connexion */}
