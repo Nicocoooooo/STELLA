@@ -8,11 +8,11 @@ function PersonalInfoForm({ userProfile, updateProfile }) {
   const [formData, setFormData] = useState({
     nom: userProfile.last_name || '',
     prenom: userProfile.first_name || '',
-    civilite: userProfile.civilite || '',
     nationalite: userProfile.nationality || '',
     telephone: userProfile.phone_number || '',
     dateNaissance: userProfile.birth_date || '',
   });
+  
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
 
@@ -34,7 +34,6 @@ function PersonalInfoForm({ userProfile, updateProfile }) {
 
     try {
       const updateData = {
-        civilite: formData.civilite,
         nationality: formData.nationalite,
         first_name: formData.prenom,
         last_name: formData.nom,
@@ -43,6 +42,7 @@ function PersonalInfoForm({ userProfile, updateProfile }) {
         birth_date: formData.dateNaissance,
         updated_at: new Date().toISOString()
       };
+      console.log("data update user : ", updateData.birth_date, updateData.first_name, updateData.full_name, updateData.last_name, updateData.nationality, updateData.phone_number, updateData.updated_at );
 
       const result = await updateProfile(updateData);
       
@@ -72,24 +72,7 @@ function PersonalInfoForm({ userProfile, updateProfile }) {
       <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
         
         
-        {/* Civilité */}
-        <div>
-          <label className="block text-gray-700 mb-2">Civilité</label>
-          <div className="relative">
-            <select
-              name="civilite"
-              value={formData.civilite}
-              onChange={handleChange}
-              className="w-full bg-[#e9d9ff] rounded-lg py-3 px-4 text-gray-800 outline-none appearance-none"
-            >
-              <option value="">Sélectionner</option>
-              <option value="M.">M.</option>
-              <option value="Mme">Mme</option>
-            </select>
-            <FaChevronDown className="absolute right-4 top-4 text-gray-600" />
-          </div>
-        </div>
-
+  
         {/* Nationalité */}
         <div>
           <label className="block text-gray-700 mb-2">Nationalité</label>

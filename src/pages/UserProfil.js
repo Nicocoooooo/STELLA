@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import supabase from '../supabaseClient';
 
-import Header from '../components/UserProfile/ProfileHeader';
-import PersonalInfoForm from '../components/UserProfile/PersonnalInforForm';
+import ProfileHeader from '../components/UserProfile/ProfileHeader';
+import PersonalInfoForm from '../components/UserProfile/PersonalInfoForm';
 import AvatarUpload from '../components/UserProfile/AvatarUpload';
 import DeleteAccount from '../components/UserProfile/DeleteAccount';
 
@@ -20,6 +20,10 @@ function UserProfil() {
       try {
         // 1) Récupérer l'ID utilisateur depuis le localStorage
         const userId = localStorage.getItem('userId');
+
+      
+
+
         if (!userId) {
           setError('Aucun utilisateur connecté (userId manquant dans localStorage).');
           setLoading(false);
@@ -32,11 +36,12 @@ function UserProfil() {
           .select('*')
           .eq('id', userId)
           .single();
+        console.log('Résultat userData:', userData, 'Erreur:', userError);
 
         if (userError) {
           throw userError;
         }
-
+        
         // On met à jour le profil
         setProfile(userData);
 
@@ -60,7 +65,17 @@ function UserProfil() {
         .from('users')
         .update(updates)
         .eq('id', profile.id)
+        .select()
         .single();
+
+        /*const { data: testData, error: testError } = await supabase
+        .from('users')
+        .select('*')
+        .eq('id', profile.id);
+
+        console.log('Lignes trouvées pour cet ID :', testData?.length, testError);
+*/
+      
 
       if (error) {
         console.error('Erreur update profile:', error);
@@ -78,44 +93,50 @@ function UserProfil() {
 
   if (loading) return <div>Chargement...</div>;
   if (error) return <div>Erreur : {error}</div>;
+  if (!profile) {
+    return <div>Aucun profil trouvé pour cet utilisateur.</div>;
+  }
+  
 
   return (
     <div className="min-h-screen bg-white flex flex-col">
-        <div className="flex-grow w-full px-4 sm:px-8 md:px-12 lg:px-24 py-8 lg:py-12">
+      <div className="flex-grow w-full px-4 sm:px-8 md:px-12 lg:px-24 py-8 lg:py-12">
+        {/* Content container with max-width */}
         <div className="max-w-[1800px] mx-auto">
-      <Header/>
+      {/* Header commun (logo + menu) */}
+      <ProfileHeader />
 
-      {/* Contenu principal : 2 colonnes */}
-      <div className="flex flex-grow max-w-7xl mx-auto w-full">
+      {/* Conteneur principal en 2 colonnes, avec un léger espace (gap-4) */}
+      <div className="flex flex-grow max-w-7xl mx-auto w-full gap-4 px-4 py-6">
         {/* Colonne de gauche (menu) */}
-        <div className="w-1/4 p-6 bg-[#e9d9ff] rounded-l-lg shadow-lg">
+        <div className="w-1/4 bg-[#e9d9ff] rounded-lg shadow-lg p-6">
           <ul className="space-y-4 text-lg">
             <li
               className={`cursor-pointer px-4 py-2 rounded-md hover:bg-[#d7c3ff] transition-colors ${
-                selectedCategory === 'informations' 
-                ? 'bg-[#d7c3ff] font-bold text-[#9557fa]' 
-                : 'text-gray-800'}
-                `}
+                selectedCategory === 'informations'
+                  ? 'bg-[#d7c3ff] font-bold text-[#9557fa]'
+                  : 'text-gray-800'
+              }`}
               onClick={() => setSelectedCategory('informations')}
             >
               Informations
             </li>
             <li
               className={`cursor-pointer px-4 py-2 rounded-md hover:bg-[#d7c3ff] transition-colors ${
-                selectedCategory === 'preferences' 
-                ? 'bg-[#d7c3ff] font-bold text-[#9557fa]' 
-                : 'text-gray-800'}
-                `}
+                selectedCategory === 'preferences'
+                  ? 'bg-[#d7c3ff] font-bold text-[#9557fa]'
+                  : 'text-gray-800'
+              }`}
               onClick={() => setSelectedCategory('preferences')}
             >
               Préférences de voyages
             </li>
             <li
               className={`cursor-pointer px-4 py-2 rounded-md hover:bg-[#d7c3ff] transition-colors ${
-                selectedCategory === 'delete' 
-                ? 'bg-[#d7c3ff] font-bold text-[#9557fa]' 
-                : 'text-gray-800'}
-                `}
+                selectedCategory === 'delete'
+                  ? 'bg-[#d7c3ff] font-bold text-[#9557fa]'
+                  : 'text-gray-800'
+              }`}
               onClick={() => setSelectedCategory('delete')}
             >
               Supprimer
@@ -123,9 +144,8 @@ function UserProfil() {
           </ul>
         </div>
 
-        {/* Colonne de droite (contenu) */}
-        <div className="w-3/4 p-4">
-          {/* Onglet Informations */}
+        {/* Colonne de droite (contenu), avec le même type de relief */}
+        <div className="w-3/4 bg-white rounded-lg shadow-lg p-6">
           {selectedCategory === 'informations' && (
             <div className="space-y-8">
               <PersonalInfoForm 
@@ -139,7 +159,6 @@ function UserProfil() {
             </div>
           )}
 
-          {/* Onglet Préférences (pour l’instant vide) */}
           {selectedCategory === 'preferences' && (
             <div>
               <h2 className="text-xl font-bold mb-4">Préférences de voyages</h2>
@@ -147,9 +166,8 @@ function UserProfil() {
             </div>
           )}
 
-          {/* Onglet Supprimer */}
           {selectedCategory === 'delete' && (
-            <DeleteAccount userId={profile.id} />
+            <DeleteAccount userId={profile?.id} />
           )}
         </div>
       </div>
