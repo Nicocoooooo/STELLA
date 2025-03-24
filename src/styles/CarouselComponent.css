@@ -4,11 +4,12 @@
 .card-perspective-wrapper {
   position: relative;
   width: 100%;
-  height: 320px;
+  height: 30vh;
   padding: 20px;
   margin: 20px 0 20px 0;
   perspective: 2000px;
   z-index: 1;
+  background-color: #fa9b3d;
 }
 
 .card-wrapper {

@@ -128,78 +128,135 @@ function ComposeVoyage() {
   return (
     <div>
       {/* Bannière pleine largeur sans marges */}
-      {banner && (
-        <div className="w-full h-screen/3 overflow-hidden relative">
-          <img
-            src={banner}
-            alt={`Banner ${destination}`}
-            className="w-full h-full object-cover object-center"
-          />
-        </div>
-      )}
+      {banner && ( 
+  <div className="w-full h-screen/3 overflow-hidden relative"> 
+    <img
+      src={banner}
+      alt={`Banner ${destination}`}
+      className="w-full h-full object-cover object-center"
+    />
+  </div>
+)}
 
-      {/* Section L'essentiel à savoir */}
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-purple-600 text-4xl font-bold mb-4">L'essentiel à savoir</h1>
+{/* Section L'essentiel à savoir */}
+<div className="rounded-2xl p-4 bg-red-200 shadow-lg w-[90%] mx-auto mb-10 mt-10">
+
+
+
+
+        <h1 className="text-[#9557fa] text-4xl text-left font-bold mb-4">L'essentiel à savoir</h1>
 
         <div className="mb-8">
-          <h2 className="text-xl font-bold mb-3">Description générale</h2>
-          <p className="text-sm leading-relaxed mb-6">
-            {fullDescription || "Les Philippines, archipel paradisiaque de plus de 7 600 îles, offre un cocktail enchanteur de plages de sable blanc, d'eaux cristallines et de culture vibrante. Entre les rizières en terrasses de Banaue classées à l'UNESCO, les spots de plongée mondialement réputés de Palawan, et l'emblématique station balnéaire de Boracay, chaque voyageur trouve son petit coin de paradis.\nLe pays séduit par ses paysages à couper le souffle : littoraux turquoise, volcans majestueux, forêts tropicales luxuriantes et fonds marins exceptionnels où nagent les requins-baleines. La chaleur légendaire des Philippins, leur cuisine savoureuse mêlant influences asiatiques et hispaniques, et les nombreuses fêtes traditionnelles ajoutent une dimension culturelle unique à l'expérience."}
+          <h2 className="text-xl font-bold text-left mb-3">Description générale</h2>
+          <p className="text-sm text-left leading-relaxed mb-6">
+            {fullDescription || "Non disponible"}
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Informations pratiques */}
-          <div className="bg-gray-50 rounded-lg p-4 shadow-sm">
-            <h3 className="text-lg font-bold mb-4">Informations pratiques :</h3>
+          <div className="p-4 bg-blue-200">
+
+            <h3 className="text-lg text-left font-bold mb-3">Informations pratiques :</h3>
 
             {infoPratiques ? (
               <>
-                <div className="mb-3">
-                  <p className="text-purple-600 font-bold text-sm mb-1">Idéal pour :</p>
-                  <p className="text-sm">{infoPratiques.ideal_pour?.join(", ") || "Non disponible"}</p>
+                <div className="mb-1">
+  <div className="flex flex-wrap items-start">
+    {/* <p className="text-purple-600 bg-blue-200 font-bold text-sm mr-1 whitespace-nowrap">Idéal pour :</p>
+    <p className="text-sm bg-red-200 break-words w-full">{infoPratiques.ideal_pour?.join(", ") || "Non disponible"}</p> */}
+    <p className="text-sm text-left break-words"><span className="text-[#9557fa] font-bold text-sm mr-1 whitespace-nowrap">Idéal pour : </span>{infoPratiques.ideal_pour?.join(", ") || "Non disponible"}</p>
+  </div>
+</div>
+
+
+
+
+
+
+                <div className="mb-1">
+                <div className="flex flex-wrap items-start">
+                  
+                  <p className="text-sm text-left break-words"><span className="text-[#9557fa] font-bold text-sm mr-1 whitespace-nowrap">Décalage horaire :</span>{infoPratiques.decalage_horaire || "Non disponible"}</p>
+                </div>
                 </div>
 
-                <div className="mb-3">
-                  <p className="text-purple-600 font-bold text-sm mb-1">Décalage horaire :</p>
-                  <p className="text-sm">{infoPratiques.decalage_horaire || "Non disponible"}</p>
-                </div>
+                <div className="mb-1">
+  <div className="flex flex-wrap items-start">
+    <p className="text-sm text-left break-words">
+      <span className="text-[#9557fa] font-bold text-sm mr-1 whitespace-nowrap">Langues :</span>
+      {infoPratiques.langues?.join(", ") || "Non disponible"}
+    </p>
+  </div>
+</div>
 
-                <div className="mb-3">
-                  <p className="text-purple-600 font-bold text-sm mb-1">Langues :</p>
-                  <p className="text-sm">{infoPratiques.langues?.join(", ") || "Non disponible"}</p>
-                </div>
 
-                <div className="mb-3">
-                  <p className="text-purple-600 font-bold text-sm mb-1">Devise :</p>
-                  <p className="text-sm">{infoPratiques.devises || "Non disponible"}</p>
-                </div>
+<div className="mb-1">
+  <div className="flex flex-wrap items-start">
+    <p className="text-sm text-left break-words">
+      <span className="text-[#9557fa] font-bold text-sm mr-1 whitespace-nowrap">Devise :</span>
+      {infoPratiques.devises || "Non disponible"}
+    </p>
+  </div>
+</div>
 
-                <div className="mb-3">
-                  <p className="text-purple-600 font-bold text-sm mb-1">Voltage :</p>
-                  <p className="text-sm">{infoPratiques.voltage || "Non disponible"}</p>
-                </div>
 
-                <div className="mb-3">
-                  <p className="text-purple-600 font-bold text-sm mb-1">Températures :</p>
-                  <p className="text-sm">
-                    <strong>Été :</strong> {infoPratiques.temperatures?.ete || "Non disponible"}<br />
-                    <strong>Hiver :</strong> {infoPratiques.temperatures?.hiver || "Non disponible"}<br />
-                    <strong>Automne :</strong> {infoPratiques.temperatures?.automne || "Non disponible"}<br />
-                    <strong>Printemps :</strong> {infoPratiques.temperatures?.printemps || "Non disponible"}
-                  </p>
-                </div>
+<div className="mb-1">
+  <div className="flex flex-wrap items-start">
+    <p className="text-sm text-left break-words">
+      <span className="text-[#9557fa] font-bold text-sm mr-1 whitespace-nowrap">Voltage :</span>
+      {infoPratiques.voltage || "Non disponible"}
+    </p>
+  </div>
+</div>
 
-                <div className="mb-3">
-                  <p className="text-purple-600 font-bold text-sm mb-1">Meilleure période :</p>
-                  <p className="text-sm">{infoPratiques.meilleure_periode || "Non disponible"}</p>
-                </div>
 
-                <div className="mb-3">
-                  <p className="text-purple-600 font-bold text-sm mb-1">Incontournables :</p>
-                  <p className="text-sm">{infoPratiques.incontournables?.join(", ") || "Non disponible"}</p>
-                </div>
+<div className="mb-1">
+  <p className="text-[#9557fa] text-left font-bold text-sm mb-1">Températures :</p>
+  <ul className="list-none pl-5">
+    <li className="relative pl-7 text-xl text-left before:content-['•'] before:absolute before:left-0 before:text-[#9557fa] leading-tight">
+      <span className="text-sm">
+        Été : {infoPratiques.temperatures?.ete || "Non disponible"}
+      </span>
+    </li>
+    <li className="relative pl-7 text-xl text-left before:content-['•'] before:absolute before:left-0 before:text-[#9557fa] leading-tight">
+      <span className="text-sm">
+        Hiver :{infoPratiques.temperatures?.hiver || "Non disponible"}
+      </span>
+    </li>
+    <li className="relative pl-7 text-xl text-left before:content-['•'] before:absolute before:left-0 before:text-[#9557fa] leading-tight">
+      <span className="text-sm">
+        Automne : {infoPratiques.temperatures?.automne || "Non disponible"}
+      </span>
+    </li>
+    <li className="relative pl-7 text-xl text-left before:content-['•'] before:absolute before:left-0 before:text-[#9557fa] leading-tight">
+      <span className="text-sm">
+        Printemps : {infoPratiques.temperatures?.printemps || "Non disponible"}
+      </span>
+    </li>
+  </ul>
+</div>
+
+
+                <div className="mb-1">
+  <div className="flex flex-wrap items-start">
+    <p className="text-sm text-left break-words">
+      <span className="text-[#9557fa] font-bold text-sm mr-1 whitespace-nowrap">Meilleure période :</span>
+      {infoPratiques.meilleure_periode || "Non disponible"}
+    </p>
+  </div>
+</div>
+
+
+<div className="mb-1">
+  <div className="flex flex-wrap items-start">
+    <p className="text-sm text-left break-words">
+      <span className="text-[#9557fa] font-bold text-sm mr-1 whitespace-nowrap">Incontournables :</span>
+      {infoPratiques.incontournables?.join(", ") || "Non disponible"}
+    </p>
+  </div>
+</div>
+
               </>
             ) : (
               <p className="text-sm text-gray-500">Chargement des informations...</p>
@@ -207,236 +264,226 @@ function ComposeVoyage() {
           </div>
 
 
-          <div className="bg-gray-50 rounded-lg p-4 shadow-sm">
+          <div className="p-4 bg-blue-200">
             <div className="border-gray-200">
-            <h3 className="text-lg font-bold mb-4">Santé & Sécurité :</h3>
+              <h3 className="text-lg text-left font-bold mb-3">Santé & Sécurité :</h3>
 
-            {santeEtSecurite ? (
+              {santeEtSecurite ? (
+                <>
+                  <div className="mb-1">
+  <div className="flex flex-wrap items-start">
+    <p className="text-sm text-left break-words">
+      <span className="text-[#9557fa] font-bold text-sm mr-1 whitespace-nowrap">Se déplacer :</span>
+      {santeEtSecurite.se_deplacer?.join(", ") || "Non disponible"}
+    </p>
+  </div>
+</div>
+
+<div className="mb-1">
+  <div className="flex flex-wrap items-start">
+    <p className="text-sm text-left break-words">
+      <span className="text-[#9557fa] font-bold text-sm mr-1 whitespace-nowrap">Vaccins :</span>
+      {santeEtSecurite.vaccin?.join(", ") || "Non disponible"}
+    </p>
+  </div>
+</div>
+
+<div className="mb-1">
+  <div className="flex flex-wrap items-start">
+    <p className="text-sm text-left break-words">
+      <span className="text-[#9557fa] font-bold text-sm mr-1 whitespace-nowrap">Assurance :</span>
+      {santeEtSecurite.assurance?.join(", ") || "Non disponible"}
+    </p>
+  </div>
+</div>
+
+<div className="mb-1">
+  <div className="flex flex-wrap items-start">
+    <p className="text-sm text-left break-words">
+      <span className="text-[#9557fa] font-bold text-sm mr-1 whitespace-nowrap">Numéro d'urgence :</span>
+      {santeEtSecurite.numero_urgence || "Non disponible"}
+    </p>
+  </div>
+</div>
+
+                </>
+              ) : (
+                <p className="text-sm text-gray-500">Chargement des informations...</p>
+              )}
+            </div>
+
+            <div className="my-4"></div>
+
+            <h3 className="text-lg text-left font-bold mb-3">Formalités</h3>
+
+            {formalite ? (
               <>
-                <div className="mb-3">
-                  <p className="text-purple-600 font-bold text-sm mb-1">Se déplacer :</p>
-                  <p className="text-sm">{santeEtSecurite.se_deplacer?.join(", ") || "Non disponible"}</p>
-                </div>
+                <div className="mb-1">
+  <div className="flex flex-wrap items-start">
+    <p className="text-sm text-left break-words">
+      <span className="text-[#9557fa] font-bold text-sm mr-1 whitespace-nowrap">Visa :</span>
+      {formalite.visa || "Non disponible"}
+    </p>
+  </div>
+</div>
 
-                <div className="mb-3">
-                  <p className="text-purple-600 font-bold text-sm mb-1">Vaccins :</p>
-                  <p className="text-sm">{santeEtSecurite.vaccin?.join(", ") || "Non disponible"}</p>
-                </div>
+<div className="mb-1">
+  <div className="flex flex-wrap items-start">
+    <p className="text-sm text-left break-words">
+      <span className="text-[#9557fa] font-bold text-sm mr-1 whitespace-nowrap">Passeport :</span>
+      {formalite.passeport || "Non disponible"}
+    </p>
+  </div>
+</div>
 
-                <div className="mb-3">
-                  <p className="text-purple-600 font-bold text-sm mb-1">Assurance :</p>
-                  <p className="text-sm">{santeEtSecurite.assurance?.join(", ") || "Non disponible"}</p>
-                </div>
+<div className="mb-1">
+  <div className="flex flex-wrap items-start">
+    <p className="text-sm text-left break-words">
+      <span className="text-[#9557fa] font-bold text-sm mr-1 whitespace-nowrap">Documents :</span>
+      {formalite.documents?.length ? (
+        formalite.documents.join(", ")
+      ) : (
+        "Non disponible"
+      )}
+    </p>
+  </div>
+</div>
 
-                <div className="mb-3">
-                  <p className="text-purple-600 font-bold text-sm mb-1">Numéro d'urgence :</p>
-                  <p className="text-sm">{santeEtSecurite.numero_urgence || "Non disponible"}</p>
-                </div>
+<div className="mb-1">
+  <div className="flex flex-wrap items-start">
+    <p className="text-sm text-left break-words">
+      <span className="text-[#9557fa] font-bold text-sm mr-1 whitespace-nowrap">Durée max :</span>
+      {formalite.duree_max || "Non disponible"}
+    </p>
+  </div>
+</div>
+
+              </>
+            ) : (
+                <p className="text-sm text-gray-500">Chargement des informations...</p>
+            )}
+          </div>
+
+          <div className="p-4 bg-blue-200">
+            <h3 className="text-lg text-left font-bold mb-3">Budget :</h3>
+
+            {budget ? (
+              <>
+                <div className="mb-1">
+  <p className="text-purple-600 text-left font-bold text-sm mb-1">Coût de la vie :</p>
+  <ul className="list-none pl-5">
+    <li className="relative pl-7 text-xl text-left before:content-['•'] before:absolute before:left-0 before:text-purple-600 leading-tight">
+      <span className="text-sm">
+        Budget routard : {budget.budget_routard_par_jour || "Non disponible"} /jour
+      </span>
+    </li>
+    <li className="relative pl-7 text-xl text-left before:content-['•'] before:absolute before:left-0 before:text-purple-600 leading-tight">
+      <span className="text-sm">Budget confort : {budget.budget_confort_par_jour || "Non disponible"} /jour</span>
+    </li>
+    <li className="relative pl-7 text-xl text-left before:content-['•'] before:absolute before:left-0 before:text-purple-600 leading-tight">
+      <span className="text-sm">Budget luxe : {budget.budget_luxe_par_jour || "Non disponible"} /jour</span>
+    </li>
+  </ul>
+</div>
+
+
+
+                <div className="mb-1">
+  <div className="flex flex-wrap items-start">
+    <p className="text-sm text-left break-words">
+      <span className="text-[#9557fa] font-bold text-sm mr-1 whitespace-nowrap">Paiement :</span>
+      {budget.mode_de_paiement?.length ? (
+        budget.mode_de_paiement.join(", ")
+      ) : (
+        "Non disponible"
+      )}
+    </p>
+  </div>
+</div>
+
               </>
             ) : (
               <p className="text-sm text-gray-500">Chargement des informations...</p>
             )}
-            </div>
-
-            <div className="border-t border-gray-200 my-4"></div>
-
-<h3 className="text-lg font-bold mb-4">Formalités</h3>
-
-{formalite ? (
-  <>
-    <div className="mb-3">
-      <p className="text-purple-600 font-bold text-sm mb-1">Visa :</p>
-      <p className="text-sm">{formalite.visa || "Non disponible"}</p>
-    </div>
-    
-    <div className="mb-3">
-      <p className="text-purple-600 font-bold text-sm mb-1">Passeport :</p>
-      <p className="text-sm">{formalite.passeport || "Non disponible"}</p>
-    </div>
-
-    <div className="mb-3">
-      <p className="text-purple-600 font-bold text-sm mb-1">Documents :</p>
-      {formalite.documents?.length ? (
-        <ul className="text-sm list-disc pl-5">
-          {formalite.documents.map((doc, index) => (
-            <li key={index}>{doc}</li>
-          ))}
-        </ul>
-      ) : (
-        <p className="text-sm">Non disponible</p>
-      )}
-    </div>
-
-    <div className="mb-3">
-      <p className="text-purple-600 font-bold text-sm mb-1">Durée max :</p>
-      <p className="text-sm">{formalite.duree_max || "Non disponible"}</p>
-    </div>
-  </>
-) : (
-  <>
-    <div className="mb-3">
-      <p className="text-purple-600 font-bold text-sm mb-1">Visa :</p>
-      <p className="text-sm">Non requis jusqu'à 30 jours</p>
-    </div>
-    
-    <div className="mb-3">
-      <p className="text-purple-600 font-bold text-sm mb-1">Passeport :</p>
-      <p className="text-sm">Valide 6 mois après retour</p>
-    </div>
-
-    <div className="mb-3">
-      <p className="text-purple-600 font-bold text-sm mb-1">Documents :</p>
-      <p className="text-sm">Billet retour exigé</p>
-    </div>
-
-    <div className="mb-3">
-      <p className="text-purple-600 font-bold text-sm mb-1">Durée max :</p>
-      <p className="text-sm">30 jours (extensible)</p>
-    </div>
-  </>
-)}
-</div>
-
-<div className="bg-gray-50 rounded-lg p-4 shadow-sm">
-  <h3 className="text-lg font-bold mb-4">Budget :</h3>
-
-  {budget ? (
-    <>
-      <div className="mb-3">
-        <p className="text-purple-600 font-bold text-sm mb-1">Coût de la vie :</p>
-        <ul className="list-none pl-4">
-          <li className="relative pl-3 mb-1 text-sm before:content-['•'] before:absolute before:left-0 before:text-purple-600">
-            Budget routard : {budget.budget_routard_par_jour || "Non disponible"} /jour
-          </li>
-          <li className="relative pl-3 mb-1 text-sm before:content-['•'] before:absolute before:left-0 before:text-purple-600">
-            Budget confort : {budget.budget_confort_par_jour || "Non disponible"} /jour
-          </li>
-          <li className="relative pl-3 mb-1 text-sm before:content-['•'] before:absolute before:left-0 before:text-purple-600">
-            Budget luxe : {budget.budget_luxe_par_jour || "Non disponible"} /jour
-          </li>
-        </ul>
-      </div>
-
-      <div className="mb-3">
-        <p className="text-purple-600 font-bold text-sm mb-1">Paiement :</p>
-        {budget.mode_de_paiement?.length ? (
-          <ul className="list-disc pl-5 text-sm">
-            {budget.mode_de_paiement.map((mode, index) => (
-              <li key={index}>{mode}</li>
-            ))}
-          </ul>
-        ) : (
-          <p className="text-sm">Non disponible</p>
-        )}
-      </div>
-    </>
-  ) : (
-    <>
-      <div className="mb-3">
-        <p className="text-purple-600 font-bold text-sm mb-1">Coût de la vie :</p>
-        <ul className="list-none pl-4">
-          <li className="relative pl-3 mb-1 text-sm before:content-['•'] before:absolute before:left-0 before:text-purple-600">
-            Budget routard : 30-40€/jour
-          </li>
-          <li className="relative pl-3 mb-1 text-sm before:content-['•'] before:absolute before:left-0 before:text-purple-600">
-            Budget confort : 60-100€/jour
-          </li>
-          <li className="relative pl-3 mb-1 text-sm before:content-['•'] before:absolute before:left-0 before:text-purple-600">
-            Budget luxe : 150€+/jour
-          </li>
-        </ul>
-      </div>
-
-      <div className="mb-3">
-        <p className="text-purple-600 font-bold text-sm mb-1">Paiement :</p>
-        <p className="text-sm">Espèces privilégiées, CB dans les grandes villes</p>
-      </div>
-    </>
-  )}
-</div>
+          </div>
 
           {/* Gastronomie */}
-<div className="bg-gray-50 rounded-lg p-4 shadow-sm">
-  <h3 className="text-lg font-bold mb-4">Gastronomie :</h3>
+          <div className="p-4 bg-blue-200">
+            <h3 className="text-lg text-left font-bold mb-3">Gastronomie :</h3>
 
-  {gastronomie ? (
-    <>
-      {/* Spécialités */}
-      <div className="mb-3">
-        <p className="text-purple-600 font-bold text-sm mb-1">Spécialités :</p>
-        <ul className="list-none pl-4">
-          {gastronomie.specialites?.map((specialite, index) => (
-            <li key={index} className="relative pl-3 mb-1 text-sm before:content-['•'] before:absolute before:left-0 before:text-purple-600">
-              {specialite}
-            </li>
-          ))}
-        </ul>
-      </div>
+            {gastronomie ? (
+              <>
+                {/* Spécialités */}
+                <div className="mb-1">
+  <p className="text-purple-600 text-left font-bold text-sm mb-1">Spécialités :</p>
+  <ul className="list-none pl-5">
+    {gastronomie.specialites?.map((specialite, index) => (
+      <li key={index} className="relative pl-7 text-xl text-left before:content-['•'] before:absolute before:left-0 before:text-purple-600 leading-tight">
+        <span className="text-sm">{specialite}</span>
+      </li>
+    )) || <p className="text-sm">Non disponible</p>}
+  </ul>
+</div>
 
-      {/* Précautions */}
-      <div className="mb-3">
-        <p className="text-purple-600 font-bold text-sm mb-1">Précautions :</p>
-        <ul className="list-none pl-4">
-          {gastronomie.precautions?.map((precaution, index) => (
-            <li key={index} className="relative pl-3 mb-1 text-sm before:content-['•'] before:absolute before:left-0 before:text-purple-600">
-              {precaution}
-            </li>
-          ))}
-        </ul>
-      </div>
+                {/* Précautions */}
+                <div className="mb-1">
+  <div className="flex flex-wrap items-start">
+    <p className="text-sm text-left break-words">
+      <span className="text-[#9557fa] font-bold text-sm mr-1 whitespace-nowrap">Précautions :</span>
+      {gastronomie.precautions?.join(", ") || "Non disponible"}
+    </p>
+  </div>
+</div>
 
-      {/* Horaires de repas */}
-      <div className="mb-3">
-        <p className="text-purple-600 font-bold text-sm mb-1">Horaires :</p>
-        <p className="text-sm">{gastronomie.horaires_repas}</p>
-      </div>
-    </>
+
+
+                {/* Horaires de repas */}
+
+                <div className="mb-1">
+  <p className="text-purple-600 text-left font-bold text-sm mb-1">Horaires :</p>
+  {gastronomie.horaires_repas ? (
+    <ul className="list-none pl-5">
+      {gastronomie.horaires_repas.split(',').map((horaire, index) => (
+        <li key={index} className="relative pl-7 text-xl text-left before:content-['•'] before:absolute before:left-0 before:text-purple-600 leading-tight">
+          <span className="text-sm">{horaire.trim()}</span>
+        </li>
+      ))}
+    </ul>
   ) : (
-    <>
-      {/* Spécialités par défaut */}
-      <div className="mb-3">
-        <p className="text-purple-600 font-bold text-sm mb-1">Spécialités :</p>
-        <ul className="list-none pl-4">
-          <li className="relative pl-3 mb-1 text-sm before:content-['•'] before:absolute before:left-0 before:text-purple-600">Adobo (viande marinée)</li>
-          <li className="relative pl-3 mb-1 text-sm before:content-['•'] before:absolute before:left-0 before:text-purple-600">Lechon (cochon grillé)</li>
-          <li className="relative pl-3 mb-1 text-sm before:content-['•'] before:absolute before:left-0 before:text-purple-600">Sinigang (soupe aigre)</li>
-          <li className="relative pl-3 mb-1 text-sm before:content-['•'] before:absolute before:left-0 before:text-purple-600">Pancit (nouilles sautées)</li>
-        </ul>
-      </div>
-
-      {/* Précautions par défaut */}
-      <div className="mb-3">
-        <p className="text-purple-600 font-bold text-sm mb-1">Précautions :</p>
-        <p className="text-sm">Éviter l'eau du robinet, préférer l'eau en bouteille</p>
-      </div>
-
-      {/* Horaires par défaut */}
-      <div className="mb-3">
-        <p className="text-purple-600 font-bold text-sm mb-1">Horaires :</p>
-        <ul className="list-none pl-4">
-          <li className="relative pl-3 mb-1 text-sm before:content-['•'] before:absolute before:left-0 before:text-purple-600">Petit-déjeuner : 6h-8h</li>
-          <li className="relative pl-3 mb-1 text-sm before:content-['•'] before:absolute before:left-0 before:text-purple-600">Déjeuner : 11h-13h</li>
-          <li className="relative pl-3 mb-1 text-sm before:content-['•'] before:absolute before:left-0 before:text-purple-600">Dîner : 18h-23h</li>
-        </ul>
-      </div>
-    </>
+    <p className="text-sm">Non disponible</p>
   )}
 </div>
+
+                
+              </>
+            ) : (
+              <p className="text-sm text-gray-500">Chargement des informations...</p>
+            )}
+          </div>
 
         </div>
       </div>
 
       {/* Contenu avec le padding habituel */}
-      <div className="container mx-auto px-4 py-8">
-        <h2 className="text-2xl font-bold mb-6">Découvrez les meilleurs hôtels</h2>
+      <div className="container mx-auto bg-green-400 flex">
+  {/* Partie gauche (2/3 de la largeur) */}
+  <div className="w-2/3 p-4">
+    <h2 className="text-2xl font-bold mb-6">Découvrez les meilleurs hôtels</h2>
 
-        {/* Utilisation du composant carrousel */}
-        <HotelCarousel hotels={hotels} />
-        <HotelCarousel hotels={lieux} />
-        <HotelCarousel hotels={activites} />
-        <HotelCarousel hotels={restaurants} />
-      </div>
-    </div>
+    {/* Utilisation du composant carrousel */}
+    <HotelCarousel hotels={hotels} />
+    <HotelCarousel hotels={lieux} />
+    <HotelCarousel hotels={activites} />
+    <HotelCarousel hotels={restaurants} />
+  </div>
+
+  {/* Partie droite (1/3 de la largeur) */}
+  <div className="w-1/3">
+    {/* Rien à mettre ici pour l'instant */}
+  </div>
+</div>
+</div>
+
   );
 };
 

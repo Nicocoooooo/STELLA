@@ -15,73 +15,71 @@ const HotelCard = ({ hotel, onAddClick }) => {
 
   return (
     <div className="card-perspective-wrapper">
-      <div className="card-wrapper">
-        <div 
-          className={`card ${isFlipped ? 'is-flipped' : ''}`}
-          onClick={handleCardClick}
-        >
-          {/* Face avant */}
-          <div className="card-face card-front">
-            <img 
-              src={hotel.photo || placeholderImage} 
-              alt={hotel.name || 'Hôtel'} 
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end">
-            <h3 className="text-lg font-bold text-white px-3 py-1 rounded-md absolute top-[75%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4/5 text-center">
-      {hotel.name || "Nom de l'hôtel inconnu"}
-    </h3>
-            </div>
-          </div>
-
-          {/* Face arrière */}
-<div className="card-face card-back bg-gradient-to-r from-[#9557fa] to-[#fa9b3d] text-white">
-  <div className="p-4">
-  <h3 className="text-lg font-bold text-white px-3 py-1 backdrop-blur-lg bg-white/30 rounded-md absolute top-[25%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4/5 text-center">
-      {hotel.name || "Nom de l'hôtel inconnu"}
-    </h3>
-        
-    <div className="text-sm space-y-4 mt-[50%]">
-      {hotel.prix && (
-        <div className="flex items-center">
-          <span className="font-medium text-white mr-2">Prix :</span>
-          <span className="text-white text-left">{hotel.prix}</span>
-        </div>
-      )}
-
-      {hotel.rating && (
-        <div className="flex items-center">
-          <span className="font-medium text-white mr-2">Notation :</span>
-          <div className="flex items-center text-yellow-400 text-left">
-            <Star size={16} fill="currentColor" />
-            <span className="ml-1 text-white text-left">{hotel.rating}/5 </span>
-          </div>
-        </div>
-      )}
-
-      {hotel.address && (
-        <div className="flex items-start">
-          <span className="font-medium text-white whitespace-nowrap mr-2">Adresse :</span>
-          <span className="text-white break-words text-left">{hotel.address}</span>
-        </div>
-      )}
-    </div>
-  </div>
-</div>
+  <div className="card-wrapper">
+    <div 
+      className={`card ${isFlipped ? 'is-flipped' : ''}`}
+      onClick={handleCardClick}
+    >
+      {/* Face avant */}
+      <div className="card-face card-front">
+        <img 
+          src={hotel.photo || placeholderImage} 
+          alt={hotel.name || 'Hôtel'} 
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end">
+          <h3 className="text-sm font-bold text-white px-3 py-1 rounded-md absolute top-[75%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4/5 text-center">
+            {hotel.name || "Nom de l'hôtel inconnu"}
+          </h3>
         </div>
       </div>
-      
-      {/* Bouton positionné absolument par rapport au wrapper */}
-      <button 
-        className={`action-button ${isFlipped ? 'is-flipped' : ''}`}
-        onClick={(e) => {
-          e.stopPropagation();
-          onAddClick(hotel);
-        }}
-      >
-        <Plus className="button-icon" size={20} />
-      </button>
+
+      {/* Face arrière */}
+      <div className="card-face card-back bg-gradient-to-r from-[#9557fa] to-[#fa9b3d] text-white">
+        <div className="p-4">
+          <h3 className="text-xs font-bold text-white px-3 py-1 backdrop-blur-lg bg-white/30 rounded-md absolute top-[25%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4/5 text-center">
+            {hotel.name || "Nom de l'hôtel inconnu"}
+          </h3>
+          
+          <div className="text-xs mt-[50%]">
+            {hotel.prix && (
+              <div className="flex items-center">
+                <p className="text-white text-left"><span className="font-medium text-white mr-2">Prix : </span>{hotel.prix}</p>
+              </div>
+            )}
+
+            {hotel.rating && (
+              <div className="flex items-center">
+                <div className="flex items-center text-yellow-400 text-left">
+                  <span className="font-medium text-white mr-2">Notation :</span>
+                  <Star size={16} fill="currentColor" />
+                  <span className="ml-1 text-white text-left">{hotel.rating}/5 </span>
+                </div>
+              </div>
+            )}
+
+            {hotel.address && (
+              <div className="flex items-start">
+                <p className="text-white break-words text-left"><span className="font-medium text-white whitespace-nowrap mr-2">Adresse :</span>{hotel.address}</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
+  
+  {/* Bouton positionné absolument par rapport au wrapper */}
+  <button 
+    className={`action-button ${isFlipped ? 'is-flipped' : ''}`}
+    onClick={(e) => {
+      e.stopPropagation();
+      onAddClick(hotel);
+    }}
+  >
+    <Plus className="button-icon" size={20} />
+  </button>
+</div>
   );
 };
 
