@@ -62,6 +62,7 @@ function App() {
               <Route path="/signup2" element={<SignUp2 />} />
               <Route path="/signup3" element={<SignUp3 />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/user-profil" element={<UserProfil />} />
 
               {/* Routes protégées */}
               <Route 
@@ -88,14 +89,7 @@ function App() {
                   </ProtectedRoute>
                 } 
               />
-              <Route 
-                path="/user-profil/:id" 
-                element={
-                  <ProtectedRoute>
-                    <UserProfil />
-                  </ProtectedRoute>
-                } 
-              />
+              
             </Routes>
           </div>
         </Suspense>

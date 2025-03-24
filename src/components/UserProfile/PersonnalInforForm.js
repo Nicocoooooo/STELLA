@@ -6,13 +6,12 @@ import FlagES from '../../assets/images/flag_es.png';
 
 function PersonalInfoForm({ userProfile, updateProfile }) {
   const [formData, setFormData] = useState({
-    civilite: userProfile.civilite || '',
-    nationalite: userProfile.nationality || '',
     nom: userProfile.last_name || '',
     prenom: userProfile.first_name || '',
+    civilite: userProfile.civilite || '',
+    nationalite: userProfile.nationality || '',
     telephone: userProfile.phone_number || '',
     dateNaissance: userProfile.birth_date || '',
-    email: userProfile.email || '',
   });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
@@ -71,18 +70,7 @@ function PersonalInfoForm({ userProfile, updateProfile }) {
       )}
       
       <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Email (en lecture seule) */}
-        <div className="md:col-span-2">
-          <label className="block text-gray-700 mb-2">Email</label>
-          <input 
-            type="email" 
-            name="email" 
-            value={formData.email} 
-            readOnly 
-            className="w-full bg-gray-100 rounded-lg py-3 px-4 text-gray-800 outline-none cursor-not-allowed" 
-          />
-          <p className="text-sm text-gray-500 mt-1">L'email ne peut pas être modifié</p>
-        </div>
+        
         
         {/* Civilité */}
         <div>
