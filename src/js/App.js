@@ -23,6 +23,8 @@ import ProtectedRoute from '../components/ProtectedRoute'; // Import du composan
 import DestinationDetail from '../pages/DestinationDetail';
 import UserProfil from '../pages/UserProfil';
 
+import ComposeVoyage from "../pages/ComposeVoyage";
+import HotelsPage from "../pages/HotelsPage";
 
 // Composant de chargement
 const LoadingFallback = () => (
@@ -49,6 +51,10 @@ function App() {
               <Route path="/quiz/confirmation" element={<QuizConfirmation />} />
               <Route path="/destination/:id" element={<DestinationDetail />} />
 
+
+               {/* Routes Composez Voyage*/}
+              <Route path="/ComposeVoyage" element={<ComposeVoyage />} /> 
+              <Route path="/HotelsPage" element={<HotelsPage />} /> 
 
 
               {/* Routes d'inscription et connexion */}
