@@ -21,6 +21,7 @@ import Dashboard from '../pages/Dashboard';
 import PastTripDetail from '../pages/PastTripDetail'; // Import de la page Détail de l'ancien Voyage
 import ProtectedRoute from '../components/ProtectedRoute'; // Import du composant ProtectedRoute
 import DestinationDetail from '../pages/DestinationDetail';
+import UserProfil from '../pages/UserProfil';
 
 
 // Composant de chargement
@@ -78,6 +79,14 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <PastTripDetail />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/user-profil/:id" 
+                element={
+                  <ProtectedRoute>
+                    <UserProfil />
                   </ProtectedRoute>
                 } 
               />
