@@ -18,6 +18,9 @@ function ComposeVoyage() {
   const [activites, setActivites] = useState([]);
   const [lieux, setLieux] = useState([]);
   const [restaurants, setRestos] = useState([]);
+  const [userId, setUserId] = useState(null);
+
+  
 
   const navigate = useNavigate();
   const [selectedItems, setSelectedItems] = useState({
@@ -59,30 +62,116 @@ function ComposeVoyage() {
     }));
   };
 
+  const handleSaveDestination = async () => {
+    try {
+      // Validate that we have all required data
+      
+      
+      if (!formId || !destinationId || !userId) {
+        console.error("Missing required data for saving destination");
+        return;
+      }
+
+      // Prepare the data to be saved
+      const savedDestinationData = {
+        user_id: userId || null,
+      destination_id: destinationId || null,
+      form_id: formId || null,
+      hotels: selectedItems.hotels.length > 0 
+        ? JSON.stringify(selectedItems.hotels.map(hotel => ({
+            place_id: hotel.place_id,
+            name: hotel.name,
+            // Autres champs essentiels
+          }))) 
+        : null,
+      lieux: selectedItems.lieux.length > 0 
+        ? JSON.stringify(selectedItems.lieux.map(lieu => ({
+            place_id: lieu.place_id,
+            name: lieu.name,
+            // Autres champs essentiels
+          }))) 
+        : null,
+      activites: selectedItems.activites.length > 0 
+        ? JSON.stringify(selectedItems.activites.map(activite => ({
+            place_id: activite.place_id,
+            name: activite.name,
+            // Autres champs essentiels
+          }))) 
+        : null,
+      restaurants: selectedItems.restaurants.length > 0 
+        ? JSON.stringify(selectedItems.restaurants.map(restaurant => ({
+            place_id: restaurant.place_id,
+            name: restaurant.name,
+            // Autres champs essentiels
+          }))) 
+        : null, 
+        created_at: new Date().toISOString()
+    };
+
+    console.log("🟢 User :", userId);
+
+      // Insert into saved_destinations table
+      const { data, error } = await supabase
+      .from('saved_destinations')
+      .insert([savedDestinationData])
+      .select();
+
+      if (error) {
+        console.error("Error saving destination:", error);
+        // Optionally show an error message to the user
+        return;
+      }
+
+      // Navigate to the next page or show success message
+      console.log("Destination saved successfully:", data);
+      navigate('/HotelsPage');
+
+    } catch (error) {
+      console.error("Unexpected error saving destination:", error);
+    }
+  };
+
   useEffect(() => {
+    
     const fetchFormData = async () => {
       try {
         console.log("🟢 Début de la récupération des données");
 
-        // Étape 1 : Récupérer l'ID du formulaire et la destination
-        const { data: formData, error: formError } = await supabase
-          .from('quiz_responses')
-          .select('id, destination')
-          .order('created_at', { ascending: false })
-          .limit(1);
+        
+        // Stocker l'ID utilisateur dans le state
 
-        if (formError) {
-          console.error("❌ Erreur lors de la récupération des réponses du quiz:", formError);
-          return;
-        }
+        const { data: { user }, error: authError } = await supabase.auth.getUser();
+
+let userId;
+if (user && user.id) {
+    userId = user.id;  // Utilise l'ID de l'utilisateur connecté
+} else {
+    userId = "65c55e51-915b-41b1-9bba-b6d241b193aa"; // Valeur en dur si l'utilisateur n'est pas connecté
+}
+
+setUserId(userId);
+
+// Étape 1 : Récupérer l'ID du formulaire et la destination
+const { data: formData, error: formError } = await supabase
+    .from('quiz_responses')
+    .select('id, destination, user_id')
+    .eq('user_id', userId)  // Utilisation de l'ID déterminé
+    .order('created_at', { ascending: false })
+    .limit(1);
+
+if (formError) {
+    console.error("Erreur lors de la récupération du formulaire :", formError.message);
+} else {
+    console.log("Formulaire récupéré :", formData);
+}
 
         if (!formData || formData.length === 0) {
           console.warn("⚠️ Aucune réponse trouvée dans quiz_responses");
           return;
         }
 
-        const { id, destination: rawDestination } = formData[0];
-        console.log("🔍 Données du formulaire récupérées:", { id, rawDestination });
+        const { id, destination: rawDestination, user_id } = formData[0];
+        console.log("🔍 Données du formulaire récupérées:", { id, rawDestination, user_id });
 
         // Formatage de la destination
         const formattedDestination = capitalizeFirstLetter(rawDestination);
@@ -133,6 +222,7 @@ function ComposeVoyage() {
 
         // Mise à jour des états
         setFormId(id);
+        setUserId(user_id);
         setDestination(formattedDestination);
         setDestinationId(destinationId);
         setFullDescription(descData.full_description);
@@ -163,7 +253,6 @@ function ComposeVoyage() {
         console.error("❌ Erreur globale lors de la récupération des données:", error);
       }
     };
-
     fetchFormData();
   }, []);
 
@@ -178,7 +267,7 @@ function ComposeVoyage() {
       alt={`Banner ${destination}`}
       className="w-full h-full object-cover object-center"
     />
-    <div className="absolute top-1/2 left-[10%] transform -translate-y-1/2 text-center">
+    <div className="absolute rounded-2xl top-1/2 left-[10%] backdrop-blur-lg px-3 py-1 transform -translate-y-1/2 text-center">
       <p className=" text-white text-2xl font-semibold">Composez votre voyage à</p>
       <p className="text-4xl text-left font-bold text-[#FA9B3D]">{destination}</p>
     </div>
@@ -187,7 +276,7 @@ function ComposeVoyage() {
 
 
       {/* Section L'essentiel à savoir */}
-      <div className="rounded-2xl p-4 bg-red-200 shadow-lg w-[90%] mx-auto mb-10 mt-10">
+      <div className="rounded-2xl p-4 shadow-lg w-[90%] mx-auto mb-10 mt-10">
 
 
 
@@ -203,7 +292,7 @@ function ComposeVoyage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Informations pratiques */}
-          <div className="p-4 bg-blue-200">
+          <div className="p-4">
 
             <h3 className="text-lg text-left font-bold mb-3">Informations pratiques :</h3>
 
@@ -211,7 +300,7 @@ function ComposeVoyage() {
               <>
                 <div className="mb-1">
                   <div className="flex flex-wrap items-start">
-                    {/* <p className="text-purple-600 bg-blue-200 font-bold text-sm mr-1 whitespace-nowrap">Idéal pour :</p>
+                    {/* <p className="text-[#9557fa] bg-blue-200 font-bold text-sm mr-1 whitespace-nowrap">Idéal pour :</p>
                       <p className="text-sm bg-red-200 break-words w-full">{infoPratiques.ideal_pour?.join(", ") || "Non disponible"}</p> */}
                     <p className="text-sm text-left break-words"><span className="text-[#9557fa] font-bold text-sm mr-1 whitespace-nowrap">Idéal pour : </span>{infoPratiques.ideal_pour?.join(", ") || "Non disponible"}</p>
                   </div>
@@ -312,7 +401,7 @@ function ComposeVoyage() {
           </div>
 
 
-          <div className="p-4 bg-blue-200">
+          <div className="p-4">
             <div className="border-gray-200">
               <h3 className="text-lg text-left font-bold mb-3">Santé & Sécurité :</h3>
 
@@ -412,23 +501,23 @@ function ComposeVoyage() {
             )}
           </div>
 
-          <div className="p-4 bg-blue-200">
+          <div className="p-4">
             <h3 className="text-lg text-left font-bold mb-3">Budget :</h3>
 
             {budget ? (
               <>
                 <div className="mb-1">
-                  <p className="text-purple-600 text-left font-bold text-sm mb-1">Coût de la vie :</p>
+                  <p className="text-[#9557fa] text-left font-bold text-sm mb-1">Coût de la vie :</p>
                   <ul className="list-none pl-5">
-                    <li className="relative pl-7 text-xl text-left before:content-['•'] before:absolute before:left-0 before:text-purple-600 leading-tight">
+                    <li className="relative pl-7 text-xl text-left before:content-['•'] before:absolute before:left-0 before:text-[#9557fa] leading-tight">
                       <span className="text-sm">
                         Budget routard : {budget.budget_routard_par_jour || "Non disponible"} /jour
                       </span>
                     </li>
-                    <li className="relative pl-7 text-xl text-left before:content-['•'] before:absolute before:left-0 before:text-purple-600 leading-tight">
+                    <li className="relative pl-7 text-xl text-left before:content-['•'] before:absolute before:left-0 before:text-[#9557fa] leading-tight">
                       <span className="text-sm">Budget confort : {budget.budget_confort_par_jour || "Non disponible"} /jour</span>
                     </li>
-                    <li className="relative pl-7 text-xl text-left before:content-['•'] before:absolute before:left-0 before:text-purple-600 leading-tight">
+                    <li className="relative pl-7 text-xl text-left before:content-['•'] before:absolute before:left-0 before:text-[#9557fa] leading-tight">
                       <span className="text-sm">Budget luxe : {budget.budget_luxe_par_jour || "Non disponible"} /jour</span>
                     </li>
                   </ul>
@@ -456,17 +545,17 @@ function ComposeVoyage() {
           </div>
 
           {/* Gastronomie */}
-          <div className="p-4 bg-blue-200">
+          <div className="p-4">
             <h3 className="text-lg text-left font-bold mb-3">Gastronomie :</h3>
 
             {gastronomie ? (
               <>
                 {/* Spécialités */}
                 <div className="mb-1">
-                  <p className="text-purple-600 text-left font-bold text-sm mb-1">Spécialités :</p>
+                  <p className="text-[#9557fa] text-left font-bold text-sm mb-1">Spécialités :</p>
                   <ul className="list-none pl-5">
                     {gastronomie.specialites?.map((specialite, index) => (
-                      <li key={index} className="relative pl-7 text-xl text-left before:content-['•'] before:absolute before:left-0 before:text-purple-600 leading-tight">
+                      <li key={index} className="relative pl-7 text-xl text-left before:content-['•'] before:absolute before:left-0 before:text-[#9557fa] leading-tight">
                         <span className="text-sm">{specialite}</span>
                       </li>
                     )) || <p className="text-sm">Non disponible</p>}
@@ -488,11 +577,11 @@ function ComposeVoyage() {
                 {/* Horaires de repas */}
 
                 <div className="mb-1">
-                  <p className="text-purple-600 text-left font-bold text-sm mb-1">Horaires :</p>
+                  <p className="text-[#9557fa] text-left font-bold text-sm mb-1">Horaires :</p>
                   {gastronomie.horaires_repas ? (
                     <ul className="list-none pl-5">
                       {gastronomie.horaires_repas.split(',').map((horaire, index) => (
-                        <li key={index} className="relative pl-7 text-xl text-left before:content-['•'] before:absolute before:left-0 before:text-purple-600 leading-tight">
+                        <li key={index} className="relative pl-7 text-xl text-left before:content-['•'] before:absolute before:left-0 before:text-[#9557fa] leading-tight">
                           <span className="text-sm">{horaire.trim()}</span>
                         </li>
                       ))}
@@ -610,11 +699,11 @@ function ComposeVoyage() {
           </div>
         </div>
         <button 
-          onClick={() => navigate('/HotelsPage')}
-          className="bg-gradient-to-r from-[#9557fa] to-[#fa9b3d] text-white px-6 py-2 mt-5 pt-4 pb-4 rounded-full text-sm"
-        >
+        onClick={handleSaveDestination}
+        className="bg-gradient-to-r from-[#9557fa] to-[#fa9b3d] text-white px-6 py-2 mt-5 pt-4 pb-4 rounded-full text-sm"
+      >
         Pret au Décollage !!
-        </button>
+      </button>
       </div>
 
     </div>

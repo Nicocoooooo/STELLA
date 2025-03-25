@@ -21,8 +21,6 @@ import Dashboard from '../pages/Dashboard';
 import PastTripDetail from '../pages/PastTripDetail'; // Import de la page Détail de l'ancien Voyage
 import ProtectedRoute from '../components/ProtectedRoute'; // Import du composant ProtectedRoute
 import DestinationDetail from '../pages/DestinationDetail';
-import UserProfil from '../pages/UserProfil';
-
 import ComposeVoyage from "../pages/ComposeVoyage";
 import HotelsPage from "../pages/HotelsPage";
 
@@ -62,7 +60,6 @@ function App() {
               <Route path="/signup2" element={<SignUp2 />} />
               <Route path="/signup3" element={<SignUp3 />} />
               <Route path="/login" element={<Login />} />
-              <Route path="/user-profil" element={<UserProfil />} />
 
               {/* Routes protégées */}
               <Route 
@@ -89,7 +86,6 @@ function App() {
                   </ProtectedRoute>
                 } 
               />
-              
             </Routes>
           </div>
         </Suspense>

@@ -34,7 +34,6 @@ const ProfileMenu = () => {
           <Menu.Item>
             {({ active }) => (
               <button
-                onClick={() => navigate('/user-profil')}
                 className={`${
                   active ? 'bg-primary/5 text-primary' : 'text-gray-700'
                 } block w-full px-6 py-2.5 text-left text-base font-outfit transition-colors`}

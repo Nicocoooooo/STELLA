@@ -58,9 +58,9 @@ function Home() {
                 L'organisateur de voyage intelligent
               </h2>
               <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
-                <Link to="/login" className="w-full sm:w-auto bg-[#fa9b3d] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-[50px] hover:bg-[#fa9b3d]/90 transition-all text-base sm:text-lg">
+                <button className="w-full sm:w-auto bg-[#fa9b3d] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-[50px] hover:bg-[#fa9b3d]/90 transition-all text-base sm:text-lg">
                   Commencer l'aventure
-                </Link>
+                </button>
                 <Link to="/past-trips" className="w-full sm:w-auto flex items-center justify-center gap-3 text-base sm:text-lg hover:bg-white/10 px-6 sm:px-8 py-3 sm:py-4 rounded-[50px] transition-all">
                   <span className="text-[#9557fa] text-xl">▶</span>
                   <span className="text-white">Lancer la vidéo</span>

@@ -632,10 +632,10 @@ const DestinationDetail = () => {
 
         {/* Bouton Composer mon voyage avec un design plus attrayant */}
         <div className="flex justify-center mb-8">
-          <Link to="/quiz" className="px-10 py-4 rounded-full bg-gradient-to-r from-primary to-accent text-white font-outfit text-lg transition-all duration-300 hover:shadow-lg hover:scale-105 relative overflow-hidden group">
+          <button className="px-10 py-4 rounded-full bg-gradient-to-r from-primary to-accent text-white font-outfit text-lg transition-all duration-300 hover:shadow-lg hover:scale-105 relative overflow-hidden group">
             <span className="relative z-10">Composer mon voyage</span>
             <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity"></div>
-          </Link>
+          </button>
         </div>
       </div>
     </div>

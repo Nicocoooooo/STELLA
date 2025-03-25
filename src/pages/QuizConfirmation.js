@@ -30,10 +30,10 @@ function QuizConfirmation() {
             </p>
             
             <Link 
-              to="/dashboard"
+              to="/"
               className="inline-block bg-gradient-to-r from-[#9557fa] to-[#fa9b3d] text-white px-8 py-3 rounded-full text-lg hover:opacity-90 transition-all"
             >
-              Retour à mon dashboard
+              Retour à l'accueil
             </Link>
           </div>
         </div>
