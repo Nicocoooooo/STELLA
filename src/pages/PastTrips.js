@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../assets/images/Logo.png';
 import supabase from '../supabaseClient';
 import PastTripsCarousel from '../components/PastTripsCarousel';
+import ProfileHeader from '../components/UserProfile/ProfileHeader';
 
 function PastTrips() {
   const navigate = useNavigate();
@@ -68,18 +69,11 @@ function PastTrips() {
   }
 
   return (
-    <div className="min-h-screen font-['Outfit'] bg-white">
+    <div className="min-h-screen bg-white flex flex-col">
+      <div className="flex-grow w-full px-4 sm:px-8 md:px-12 lg:px-24 py-8 lg:py-12">
+      <div className="max-w-[1800px] mx-auto">
       {/* Header - Responsive */}
-      <header className="py-3 sm:py-4 md:py-5 px-4 sm:px-6 md:px-8 flex justify-between items-center">
-        <Link to="/">
-          <img src={Logo} alt="Stella" className="h-6 sm:h-8 md:h-10" />
-        </Link>
-        <div className="flex items-center">
-          <Link to="/profile" className="text-black hover:text-[#9557fa] transition-colors text-sm sm:text-base">
-            Mon Profil
-          </Link>
-        </div>
-      </header>
+      <ProfileHeader />
 
       {/* Contenu principal - Responsive */}
       <main className="container mx-auto px-4 sm:px-6 md:px-8 py-6 sm:py-8 md:py-12">
@@ -126,6 +120,8 @@ function PastTrips() {
           </div>
         </div>
       </footer>
+      </div>
+      </div>
     </div>
   );
 }
