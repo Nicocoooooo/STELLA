@@ -4,6 +4,7 @@ import supabase from '../supabaseClient';
 import Logo from '../assets/images/Logo.png';
 import TravelJournal from '../components/TravelJournal';
 import TravelMap from '../components/TravelMap';
+import ProfileHeader from '../components/UserProfile/ProfileHeader';
 
 function PastTripDetail() {
   const navigate = useNavigate();
@@ -80,21 +81,14 @@ function PastTripDetail() {
   };
 
   return (
-    <div className="min-h-screen font-['Outfit'] bg-white">
-      {/* Header - Responsive */}
-      <header className="py-3 sm:py-4 md:py-5 px-4 sm:px-6 md:px-8 flex justify-between items-center">
-        <Link to="/">
-          <img src={Logo} alt="Stella" className="h-6 sm:h-8 md:h-10" />
-        </Link>
-        <div className="flex items-center">
-          <Link to="/profile" className="text-black hover:text-[#9557fa] transition-colors text-sm sm:text-base">
-            Mon Profil
-          </Link>
-        </div>
-      </header>
+    <div className="min-h-screen bg-white flex flex-col">
+      <div className="flex-grow w-full px-4 sm:px-8 md:px-12 lg:px-24 py-8 lg:py-12">
+        <div className="max-w-[1800px] mx-auto">
+      
+        <ProfileHeader />  
 
       {/* Contenu principal */}
-      <main className="pb-6 sm:pb-8 md:pb-12">
+      <main className="container mx-auto px-4 sm:px-6 md:px-8 py-6 sm:py-8 md:py-12">
         {loading ? (
           <div className="text-center py-8">
             <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#9557fa]"></div>
@@ -107,9 +101,9 @@ function PastTripDetail() {
               <img 
                 src={tripDetails.destinations.image_url} 
                 alt={tripDetails.destinations.name}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover z-0"
               />
-              <div className="absolute inset-0 bg-black/30"></div>
+              <div className="absolute inset-0 bg-black/30 z-0"></div>
               
               {/* Container avec le même padding que le reste du contenu */}
               <div className="absolute bottom-0 left-0 w-full">
@@ -162,6 +156,8 @@ function PastTripDetail() {
           </div>
         </div>
       </footer>
+      </div>
+      </div>
     </div>
   );
 }

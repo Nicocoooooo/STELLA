@@ -16,11 +16,11 @@ function TravelPreferences({ userProfile }) {
   });
 
   // Exemple d’options
-  const destinationOptions = [
-    { id: 'paris', label: 'Paris, France' },
-    { id: 'london', label: 'Londres, Royaume-Uni' },
-    { id: 'rome', label: 'Rome, Italie' },
-  ];
+  //day intensity
+  //comfort preference
+  //dietary restrictions
+  //specific activites
+  //
   const travelWithOptions = [
     { id: 'seul', label: 'Seul(e)' },
     { id: 'couple', label: 'En couple' },
@@ -40,11 +40,7 @@ function TravelPreferences({ userProfile }) {
     { id: 'appartement', label: 'Appartement' },
     { id: 'auberge', label: 'Auberge de jeunesse' },
   ];
-  const budgetOptions = [
-    { id: 'economique', label: 'Économique' },
-    { id: 'moyen', label: 'Moyen' },
-    { id: 'luxe', label: 'Luxe' },
-  ];
+  
 
   useEffect(() => {
     if (!userProfile?.id) return;
@@ -179,9 +175,9 @@ function TravelPreferences({ userProfile }) {
 
         {/* Destinations */}
         <div className="mb-6">
-          <h3 className="text-lg font-medium mb-2">Destinations favorites</h3>
+          <h3 className="text-lg font-medium mb-2"></h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            {destinationOptions.map(dest => (
+            {/*destinationOptions.map(dest => (
               <label key={dest.id} className="flex items-center gap-2 cursor-pointer">
                 <input
                   type="checkbox"
@@ -191,7 +187,7 @@ function TravelPreferences({ userProfile }) {
                 />
                 <span className="text-sm text-gray-700">{dest.label}</span>
               </label>
-            ))}
+            ))*/}
           </div>
         </div>
 
@@ -253,9 +249,9 @@ function TravelPreferences({ userProfile }) {
 
         {/* Budget */}
         <div className="mb-6">
-          <h3 className="text-lg font-medium mb-2">Budget</h3>
+          <h3 className="text-lg font-medium mb-2"></h3>
           <div className="flex flex-col gap-2">
-            {budgetOptions.map(opt => (
+            {/*budgetOptions.map(opt => (
               <label key={opt.id} className="flex items-center gap-2 cursor-pointer">
                 <input
                   type="radio"
@@ -267,7 +263,7 @@ function TravelPreferences({ userProfile }) {
                 />
                 <span className="text-sm text-gray-700">{opt.label}</span>
               </label>
-            ))}
+            ))*/}
           </div>
         </div>
 
