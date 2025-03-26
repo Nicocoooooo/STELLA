@@ -4,7 +4,7 @@ import ProfileMenu from './ProfileMenu_User';
 
 const Header = () => {
   return (
-    <div className="w-full">
+    <div className="relative z-50 w-full">
       {/* Barre supérieure : Logo à gauche, menu à droite */}
       <div className="flex justify-between items-center mb-6 sm:mb-8 md:mb-12">
         <Link to="/">
