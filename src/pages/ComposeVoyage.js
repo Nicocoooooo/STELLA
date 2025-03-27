@@ -78,33 +78,65 @@ function ComposeVoyage() {
       destination_id: destinationId || null,
       form_id: formId || null,
       hotels: selectedItems.hotels.length > 0 
-        ? JSON.stringify(selectedItems.hotels.map(hotel => ({
-            place_id: hotel.place_id,
-            name: hotel.name,
-            // Autres champs essentiels
-          }))) 
-        : null,
+    ? selectedItems.hotels.map(hotel => ({
+        place_id: hotel.place_id,
+        name: hotel.name,
+        price: hotel.prix, // Changement ici
+        photos: [hotel.photo], // Transformation en tableau de photos
+        description: "", // Ajout d'un champ description vide
+        rating: hotel.rating,
+        location: {
+          address: hotel.address,
+          coordinates: null // Vous pouvez ajouter les coordonnées si disponibles
+        },
+        tags: [] // Vous pouvez ajouter des tags si nécessaire
+      }))
+    : null,
       lieux: selectedItems.lieux.length > 0 
-        ? JSON.stringify(selectedItems.lieux.map(lieu => ({
-            place_id: lieu.place_id,
-            name: lieu.name,
-            // Autres champs essentiels
-          }))) 
-        : null,
+        ? selectedItems.lieux.map(lieu => ({
+          place_id: lieu.place_id,
+          name: lieu.name,
+          price: lieu.prix, // Changement ici
+          photos: [lieu.photo], // Transformation en tableau de photos
+          description: "", // Ajout d'un champ description vide
+          rating: lieu.rating,
+          location: {
+            address: lieu.address,
+            coordinates: null // Vous pouvez ajouter les coordonnées si disponibles
+          },
+          tags: [] // Vous pouvez ajouter des tags si nécessaire
+        }))
+      : null,
       activites: selectedItems.activites.length > 0 
-        ? JSON.stringify(selectedItems.activites.map(activite => ({
-            place_id: activite.place_id,
-            name: activite.name,
-            // Autres champs essentiels
-          }))) 
-        : null,
+        ? selectedItems.activites.map(activite => ({
+          place_id: activite.place_id,
+          name: activite.name,
+          price: activite.prix, // Changement ici
+          photos: [activite.photo], // Transformation en tableau de photos
+          description: "", // Ajout d'un champ description vide
+          rating: activite.rating,
+          location: {
+            address: activite.address,
+            coordinates: null // Vous pouvez ajouter les coordonnées si disponibles
+          },
+          tags: [] // Vous pouvez ajouter des tags si nécessaire
+        }))
+      : null,
       restaurants: selectedItems.restaurants.length > 0 
-        ? JSON.stringify(selectedItems.restaurants.map(restaurant => ({
-            place_id: restaurant.place_id,
-            name: restaurant.name,
-            // Autres champs essentiels
-          }))) 
-        : null, 
+        ? selectedItems.restaurants.map(restaurant => ({
+          place_id: restaurant.place_id,
+          name: restaurant.name,
+          price: restaurant.prix, // Changement ici
+          photos: [restaurant.photo], // Transformation en tableau de photos
+          description: "", // Ajout d'un champ description vide
+          rating: restaurant.rating,
+          location: {
+            address: restaurant.address,
+            coordinates: null // Vous pouvez ajouter les coordonnées si disponibles
+          },
+          tags: [] // Vous pouvez ajouter des tags si nécessaire
+        }))
+      : null,
         created_at: new Date().toISOString()
     };
 
