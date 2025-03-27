@@ -1,4 +1,4 @@
-/* Ajouter ces styles dans votre fichier CSS
+ Ajouter ces styles dans votre fichier CSS
 
 .calendar-view {
     margin-top: 30px;
@@ -29,18 +29,18 @@
   }
   
   /* Améliorer la lisibilité du texte pour les événements */
-  /* .fc-event-title {
+   .fc-event-title {
     font-weight: 500;
     padding: 2px 4px;
   } */
   
   /* Style pour la vue journalière */
-  /* .fc-timeGridDay-view .fc-timegrid-slot {
+   .fc-timeGridDay-view .fc-timegrid-slot {
     height: 40px !important;
   } */
   
   /* Style pour le titre des repas */
-  /* .meal-title {
+   .meal-title {
     display: flex;
     align-items: center;
     gap: 5px;
@@ -48,4 +48,77 @@
   
   .meal-title i {
     font-size: 1.2em;
-  } */ 
+  } 
+
+  /* Ajoutez ces styles à votre fichier CSS (Planning.css) */
+
+/* Style pour les boutons d'itinéraires */
+.itinerary-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 15px 0;
+  }
+  
+  .map-button, .maps-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 16px;
+    border-radius: 4px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.2s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+  }
+  
+  .map-button {
+    background-color: #4285F4;
+    color: white;
+    border: none;
+  }
+  
+  .map-button:hover {
+    background-color: #3b77db;
+  }
+  
+  .maps-button {
+    background-color: #1a73e8;
+    color: white;
+  }
+  
+  .maps-button:hover {
+    background-color: #0d62d0;
+  }
+  
+  .btn-icon {
+    font-size: 1.4em;
+    margin-right: 8px;
+  }
+  
+  .btn-text {
+    font-size: 1em;
+  }
+  
+  .btn-details {
+    font-weight: normal;
+    opacity: 0.9;
+  }
+  
+  /* Styles pour Leaflet */
+  .leaflet-container {
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+  }
+  
+  /* S'assurer que les popups de Leaflet sont au-dessus des autres éléments */
+  .leaflet-popup {
+    z-index: 10 !important;
+  }
+  
+  /* Styles pour les marqueurs personnalisés */
+  .custom-div-icon {
+    background: none;
+    border: none;
+  }

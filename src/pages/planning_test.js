@@ -2,10 +2,13 @@ import { useEffect, useState, useRef } from 'react';
 import supabase from '../supabaseClient';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import timeGridPlugin from '@fullcalendar/timegrid'; // Nouvel import
+import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import '../styles/Planning.css';
-import RoutePreviewModal from '../components/RoutePreviewModal';
+import 'leaflet/dist/leaflet.css';
+import StaticMapPreview from '../components/StaticMapPreview';
+import LeafletMapPreview from '../components/LeafletMapPreview';
+import MapPreviewModal from '../components/MapPreviewModal'; // Ajouter l'import du nouveau composant
 
 // Fonctions utilitaires déplacées hors du composant
 
@@ -1098,7 +1101,8 @@ const exportDayItineraryToCSV = (dayPlanning, date) => {
  * Génère un lien Google Maps pour un trajet spécifique
  */
 const generateGoogleMapsLink = (depart, arrivee, transportMode) => {
-  if (!depart?.lat || !depart?.lon || !arrivee?.lat || !arrivee?.lon) {
+  // Vérification de sécurité pour les coordonnées
+  if (!depart || !depart.lat || !depart.lon || !arrivee || !arrivee.lat || !arrivee.lon) {
     console.warn("Coordonnées manquantes pour générer le lien Google Maps");
     return "#";
   }
@@ -1119,7 +1123,7 @@ const generateDayItinerary = (dayPlan, transportMode, allDestinations) => {
     console.warn("Aucune destination pour cette journée");
     return "#";
   }
-  
+
   // Récupérer les coordonnées de l'hôtel
   let hotelCoords = null;
   // Chercher l'hôtel dans les destinations de la journée
@@ -1135,53 +1139,53 @@ const generateDayItinerary = (dayPlan, transportMode, allDestinations) => {
       hotelCoords = { lat: hotel.lat, lon: hotel.lon };
     }
   }
-  
+
   // Si on n'a pas trouvé les coordonnées de l'hôtel, on ne peut pas générer l'itinéraire
   if (!hotelCoords) {
     console.warn(`Coordonnées introuvables pour l'hôtel: ${dayPlan.hotel}`);
     return "#";
   }
-  
+
   // Trier les destinations par heure de début
   const sortedDestinations = [...dayPlan.destinations]
     .filter(dest => dest.type !== 'hotel' && dest.lat && dest.lon)
     .sort((a, b) => (a.heureDebut || 0) - (b.heureDebut || 0));
-  
+
   // Si pas de destinations, retourner un lien vers l'hôtel seulement
   if (sortedDestinations.length === 0) {
     return `https://www.google.com/maps/search/?api=1&query=${hotelCoords.lat},${hotelCoords.lon}`;
   }
-  
+
   // Convertir le mode de transport au format Google Maps
   const gmapsMode = {
     'driving': 'driving',
     'walking': 'walking',
     'bicycle': 'bicycling'
   }[transportMode] || 'driving';
-  
+
   // Construire l'URL Google Maps
   // Format: https://www.google.com/maps/dir/?api=1&origin=LAT,LON&destination=LAT,LON&waypoints=LAT,LON|LAT,LON&travelmode=MODE
-  
+
   // Point de départ (hôtel)
   let url = `https://www.google.com/maps/dir/?api=1&origin=${hotelCoords.lat},${hotelCoords.lon}`;
-  
+
   // Destination finale (retour à l'hôtel)
   url += `&destination=${hotelCoords.lat},${hotelCoords.lon}`;
-  
+
   // Waypoints (étapes intermédiaires)
   if (sortedDestinations.length > 0) {
     url += `&waypoints=`;
-    
-    const waypoints = sortedDestinations.map(dest => 
+
+    const waypoints = sortedDestinations.map(dest =>
       `${dest.lat},${dest.lon}`
     ).join('|');
-    
+
     url += encodeURIComponent(waypoints);
   }
-  
+
   // Mode de transport
   url += `&travelmode=${gmapsMode}`;
-  
+
   return url;
 };
 
@@ -1197,7 +1201,7 @@ const generateOptimizedItinerary = (dayPlan, transportMode, allDestinations) => 
   if (!dayPlan || !dayPlan.destinations || dayPlan.destinations.length === 0) {
     return { url: "#", count: 0, duration: 0, distance: 0 };
   }
-  
+
   // Récupérer les coordonnées de l'hôtel
   let hotelCoords = null;
   // Chercher l'hôtel dans toutes les destinations
@@ -1207,7 +1211,7 @@ const generateOptimizedItinerary = (dayPlan, transportMode, allDestinations) => 
   if (hotel && hotel.lat && hotel.lon) {
     hotelCoords = { lat: hotel.lat, lon: hotel.lon };
   }
-  
+
   // Si on n'a pas trouvé les coordonnées de l'hôtel, on essaie de les récupérer autrement
   if (!hotelCoords) {
     const hotelDest = dayPlan.destinations.find(dest => dest.type === 'hotel');
@@ -1218,71 +1222,71 @@ const generateOptimizedItinerary = (dayPlan, transportMode, allDestinations) => 
       return { url: "#", count: 0, duration: 0, distance: 0 };
     }
   }
-  
+
   // Filtrer les destinations avec des coordonnées valides et trier par heure
   const validDestinations = dayPlan.destinations
     .filter(dest => dest.type !== 'hotel' && dest.lat && dest.lon)
     .sort((a, b) => (a.heureDebut || 0) - (b.heureDebut || 0));
-  
+
   // Si pas de destinations valides, retourner un lien vers l'hôtel seulement
   if (validDestinations.length === 0) {
-    return { 
+    return {
       url: `https://www.google.com/maps/search/?api=1&query=${hotelCoords.lat},${hotelCoords.lon}`,
       count: 0,
       duration: 0,
       distance: 0
     };
   }
-  
+
   // Convertir le mode de transport au format Google Maps
   const gmapsMode = {
     'driving': 'driving',
     'walking': 'walking',
     'bicycle': 'bicycling'
   }[transportMode] || 'driving';
-  
+
   // Calculer la durée et la distance totale estimées
   let totalDuration = 0;
   let totalDistance = 0;
-  
+
   // Ajouter trajet hôtel -> première destination
   if (validDestinations[0].routeFromPrevious) {
     totalDuration += validDestinations[0].routeFromPrevious.duration;
     totalDistance += validDestinations[0].routeFromPrevious.distance;
   }
-  
+
   // Ajouter trajets entre destinations
   for (let i = 0; i < validDestinations.length - 1; i++) {
     const current = validDestinations[i];
     const next = validDestinations[i + 1];
-    
+
     // Si on a des infos de route entre les deux
     if (next.routeFromPrevious && next.previousLocation === current.name) {
       totalDuration += next.routeFromPrevious.duration;
       totalDistance += next.routeFromPrevious.distance;
     }
   }
-  
+
   // Ajouter trajet dernière destination -> hôtel
   const lastDest = validDestinations[validDestinations.length - 1];
   if (lastDest.routeToHotel) {
     totalDuration += lastDest.routeToHotel.duration;
     totalDistance += lastDest.routeToHotel.distance;
   }
-  
+
   // Construire l'URL Google Maps
   let url = `https://www.google.com/maps/dir/?api=1&origin=${hotelCoords.lat},${hotelCoords.lon}`;
   url += `&destination=${hotelCoords.lat},${hotelCoords.lon}`;
-  
+
   if (validDestinations.length > 0) {
     url += `&waypoints=`;
     const waypoints = validDestinations.map(dest => `${dest.lat},${dest.lon}`).join('|');
     url += encodeURIComponent(waypoints);
     url += `&waypoints_opt=optimize:true`;
   }
-  
+
   url += `&travelmode=${gmapsMode}`;
-  
+
   return {
     url,
     count: validDestinations.length,
@@ -1317,6 +1321,11 @@ export default function PlanningPage() {
   const [userId, setUserId] = useState(null);
 
   const [previewDay, setPreviewDay] = useState(null);
+  const [mapDay, setMapDay] = useState(null);
+
+  const [showMapModal, setShowMapModal] = useState(false);
+const [selectedDayMarkers, setSelectedDayMarkers] = useState([]);
+const [selectedDayHotel, setSelectedDayHotel] = useState(null);
 
   const placeholderImage = '/api/placeholder/400/320';
 
@@ -1588,6 +1597,83 @@ export default function PlanningPage() {
       setError("Erreur lors de la récupération des destinations");
     }
   };
+
+  const prepareMapDataForDay = (day) => {
+    // Vérification de sécurité pour éviter les erreurs si day est undefined
+    if (!day || !day.destinations || day.destinations.length === 0) {
+      console.warn("Aucune donnée à afficher pour cette journée");
+      return { markers: [], hotelCoords: null };
+    }
+  
+    // Trouver les coordonnées de l'hôtel
+    let hotelCoords = null;
+    const hotelDest = day.destinations.find(dest => dest.type === 'hotel');
+    
+    if (hotelDest && hotelDest.lat && hotelDest.lon) {
+      hotelCoords = { lat: hotelDest.lat, lon: hotelDest.lon };
+    } else {
+      // Chercher l'hôtel dans toutes les destinations
+      const hotel = allDestinationsWithCoords.find(
+        dest => dest.type === 'hotel' && dest.name === day.hotel
+      );
+      if (hotel && hotel.lat && hotel.lon) {
+        hotelCoords = { lat: hotel.lat, lon: hotel.lon };
+      }
+    }
+  
+    // Préparer les marqueurs pour chaque destination
+    const markers = day.destinations
+      .filter(dest => dest.type !== 'hotel' && dest.lat && dest.lon)
+      .map(dest => ({
+        position: [dest.lat, dest.lon],
+        title: dest.name,
+        type: dest.type,
+        // Déterminer une couleur différente selon le type
+        color: dest.type === 'activite' ? 'green' :
+               dest.type === 'lieu' ? 'blue' :
+               dest.type === 'restaurant' ? 'orange' : 'gray',
+        // Déterminer une icône selon le type
+        icon: dest.type === 'activite' ? '🎯' :
+              dest.type === 'lieu' ? '🏛️' :
+              dest.type === 'restaurant' ? '🍽️' : '📍',
+        // Ajouter l'heure si disponible
+        time: dest.heureDebutStr ? dest.heureDebutStr : null
+      }));
+  
+    return {
+      markers,
+      hotelCoords: hotelCoords ? [hotelCoords.lat, hotelCoords.lon] : null
+    };
+  };
+  
+  // 3. Ajoutez une fonction pour ouvrir la modal avec la carte
+  // Fonction sécurisée pour ouvrir la carte
+const openMapPreview = (day) => {
+  if (!day) {
+    console.warn("Jour non défini pour l'aperçu de la carte");
+    // Ouvrir quand même la modal mais avec des données vides
+    setSelectedDayMarkers([]);
+    setSelectedDayHotel(null);
+    setShowMapModal(true);
+    return;
+  }
+  
+  try {
+    const { markers, hotelCoords } = prepareMapDataForDay(day);
+    setSelectedDayMarkers(markers || []);
+    setSelectedDayHotel(hotelCoords);
+    setShowMapModal(true);
+  } catch (error) {
+    console.error("Erreur lors de la préparation des données de carte:", error);
+    // En cas d'erreur, on ouvre quand même la modal avec des données vides
+    setSelectedDayMarkers([]);
+    setSelectedDayHotel(null);
+    setShowMapModal(true);
+  }
+};
+  
+  // 4. Créez un composant modal pour afficher la carte
+ 
 
   // Effet unique pour l'initialisation de l'application
   useEffect(() => {
@@ -1916,115 +2002,79 @@ export default function PlanningPage() {
         </div>
       )} */}
 
-{dailyPlanning.length > 0 && (
-  <div className="daily-planning">
-    <h2>Planning Journalier</h2>
-    {dailyPlanning
-      .sort((a, b) => new Date(a.date) - new Date(b.date))
-      .map((day, index) => {
-        // Calculer l'itinéraire optimisé pour ce jour
-        const itinerary = generateOptimizedItinerary(day, transportMode, allDestinationsWithCoords);
-        
-        return (
-          <div key={index} className="daily-plan">
-            <h3>Jour {index + 1} - {day.date} - Hôtel: {day.hotel}</h3>
-            
-            {/* Boutons d'itinéraire */}
-            <div className="itinerary-buttons">
-              {/* Bouton de prévisualisation */}
-              <button 
-                onClick={() => setPreviewDay(day)} 
-                className="preview-button"
-              >
-                <span className="btn-icon">🗺️</span>
-                <span className="btn-text">Prévisualiser l'itinéraire</span>
-              </button>
-              
-              {/* Bouton direct vers Google Maps */}
-              {itinerary.count > 0 && (
-                <a 
-                  href={itinerary.url} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="maps-button"
-                >
-                  <span className="btn-icon">🔗</span>
-                  <span className="btn-text">
-                    Ouvrir dans Google Maps 
-                    {itinerary.distance > 0 && (
-                      <span className="btn-details">
-                        {" - "}{itinerary.distance} km
-                        {itinerary.duration > 0 && (
-                          itinerary.duration >= 60 
-                            ? ` (${Math.floor(itinerary.duration / 60)}h${itinerary.duration % 60 > 0 ? itinerary.duration % 60 + 'min' : ''})`
-                            : ` (${itinerary.duration} min)`
-                        )}
-                      </span>
-                    )}
-                  </span>
-                </a>
-              )}
-            </div>
-            
-            {/* Contenu des destinations (conservez votre code existant ici) */}
-            {day.destinations && day.destinations.length > 0 ? (
-              <ul className="day-activities">
-                {day.destinations
-                  .filter(dest => dest.type !== 'hotel')
-                  .sort((a, b) => (a.heureDebut || 0) - (b.heureDebut || 0))
-                  .map((dest, destIndex) => (
-                    <li key={destIndex} className={`activity-type-${dest.type}`}>
-                      {/* Horaires de l'activité */}
-                      {dest.heureDebutStr && dest.heureFinStr 
-                        ? `(${dest.heureDebutStr} - ${dest.heureFinStr}) ` 
-                        : ''}
-                      
-                      {/* Icône selon le type */}
-                      {dest.type === 'activite' ? '🎯 ' :
-                        dest.type === 'lieu' ? '🏛️ ' :
-                          dest.type === 'restaurant' ? '🍽️ ' : '📍 '}
-                      
-                      {/* Nom de la destination */}
-                      {dest.name}
-                      
-                      {/* Infos sur le trajet depuis le point précédent */}
-                      {dest.routeFromPrevious && (
-                        <div className="route-info">
-                          <p>
-                            🚶‍♂️ {dest.previousLocation} → {dest.name}: 
-                            {dest.departPreviousStr ? ` Départ à ${dest.departPreviousStr}, ` : ''}
-                            {dest.routeFromPrevious.distance.toFixed(1)} km 
-                            ({Math.floor(dest.routeFromPrevious.duration / 60) > 0 
-                              ? `${Math.floor(dest.routeFromPrevious.duration / 60)}h` 
-                              : ''}
-                            {dest.routeFromPrevious.duration % 60 > 0 
-                              ? `${dest.routeFromPrevious.duration % 60}min` 
-                              : Math.floor(dest.routeFromPrevious.duration / 60) === 0 ? '1min' : ''})
-                          </p>
-                        </div>
-                      )}
-                    </li>
-                  ))}
-              </ul>
-            ) : (
-              <p>Aucune destination planifiée pour ce jour.</p>
+      {dailyPlanning.length > 0 && (
+        <div className="daily-planning">
+          <h2>Planning Journalier</h2>
+          {dailyPlanning
+            .sort((a, b) => new Date(a.date) - new Date(b.date))
+            .map((day, index) => {
+              // Calculer l'itinéraire optimisé pour ce jour
+              const itinerary = generateOptimizedItinerary(day, transportMode, allDestinationsWithCoords);
+
+              return (
+                <div key={index} className="daily-plan">
+                  <h3>Jour {index + 1} - {day.date} - Hôtel: {day.hotel}</h3>
+
+                  {/* Remplacez votre section de boutons d'itinéraire par celui-ci */}
+<div className="itinerary-buttons">
+  {/* Bouton pour afficher la carte */}
+  <button
+    onClick={() => openMapPreview(day)}
+    className="map-button"
+  >
+    <span className="btn-icon">🗺️</span>
+    <span className="btn-text">
+      Voir la carte des destinations
+      {itinerary.count > 0 && (
+        <span className="btn-details">
+          {" - "}{itinerary.count} destination{itinerary.count > 1 ? 's' : ''}
+        </span>
+      )}
+    </span>
+  </button>
+
+  {/* Bouton direct vers Google Maps */}
+  {itinerary.count > 0 && (
+    <a
+      href={itinerary.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="maps-button"
+    >
+      <span className="btn-icon">🔗</span>
+      <span className="btn-text">
+        Ouvrir dans Google Maps
+        {itinerary.distance > 0 && (
+          <span className="btn-details">
+            {" - "}{itinerary.distance} km
+            {itinerary.duration > 0 && (
+              itinerary.duration >= 60
+                ? ` (${Math.floor(itinerary.duration / 60)}h${itinerary.duration % 60 > 0 ? itinerary.duration % 60 + 'min' : ''})`
+                : ` (${itinerary.duration} min)`
             )}
-          </div>
-        );
-      })}
-    
-    {/* Modale de prévisualisation */}
-    {previewDay && (
-      <RoutePreviewModal
-        isOpen={previewDay !== null}
-        onClose={() => setPreviewDay(null)}
-        dayPlan={previewDay}
-        transportMode={transportMode}
-      />
-    )}
-    
-    {/* Styles CSS */}
-    <style jsx>{`
+          </span>
+        )}
+      </span>
+    </a>
+  )}
+</div>
+
+                  {/* Contenu des destinations (conservez votre code existant ici) */}
+                  {day.destinations && day.destinations.length > 0 ? (
+                    <ul className="day-activities">
+                      {/* ... votre code existant ... */}
+                    </ul>
+                  ) : (
+                    <p>Aucune destination planifiée pour ce jour.</p>
+                  )}
+                </div>
+              );
+            })}
+
+         
+
+          {/* Styles CSS */}
+          <style jsx>{`
       .itinerary-buttons {
         display: flex;
         flex-wrap: wrap;
@@ -2032,7 +2082,7 @@ export default function PlanningPage() {
         margin: 15px 0;
       }
       
-      .preview-button, .maps-button {
+      .map-button, .maps-button {
         display: inline-flex;
         align-items: center;
         padding: 10px 16px;
@@ -2044,14 +2094,14 @@ export default function PlanningPage() {
         cursor: pointer;
       }
       
-      .preview-button {
-        background-color: #34a853;
+      .map-button {
+        background-color: #4285F4;
         color: white;
         border: none;
       }
       
-      .preview-button:hover {
-        background-color: #2d9249;
+      .map-button:hover {
+        background-color: #3b77db;
       }
       
       .maps-button {
@@ -2077,31 +2127,10 @@ export default function PlanningPage() {
         opacity: 0.9;
       }
       
-      .day-activities {
-        margin-top: 15px;
-        padding-left: 20px;
-      }
-      
-      .activity-type-restaurant {
-        color: #FF9800;
-      }
-      
-      .activity-type-activite {
-        color: #4CAF50;
-      }
-      
-      .activity-type-lieu {
-        color: #2196F3;
-      }
-      
-      .route-info {
-        margin-left: 20px;
-        font-size: 0.9em;
-        color: #555;
-      }
+      /* ... vos autres styles ... */
     `}</style>
-  </div>
-)}
+        </div>
+      )}
 
       {loading && <div>Chargement de votre planning...</div>}
 
@@ -2537,8 +2566,42 @@ export default function PlanningPage() {
             }}
 
           />
+          
+{/* Ajoutez la modal de prévisualisation de carte à la fin du composant PlanningPage */}
+<MapPreviewModal 
+  isOpen={showMapModal}
+  onClose={() => setShowMapModal(false)}
+  markers={selectedDayMarkers}
+  hotelCoords={selectedDayHotel}
+  dayDate={dailyPlanning.find(day => 
+    day.destinations.some(dest => 
+      selectedDayMarkers.some(m => 
+        m.title === dest.name && m.type === dest.type
+      )
+    )
+  )?.date || ""}
+/>
 
           <style jsx>{`
+
+        .map-button {
+  background-color: #4285F4;
+  color: white;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 16px;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.map-button:hover {
+  background-color: #3b77db;
+}
+
       .calendar-view {
         margin-top: 30px;
         padding: 20px;
@@ -2624,5 +2687,6 @@ export default function PlanningPage() {
         </div>
       )}
     </div>
+
   );
 }
