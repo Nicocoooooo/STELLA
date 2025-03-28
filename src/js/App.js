@@ -31,6 +31,7 @@ import Ask from '../pages/Ask';
 
 import ComposeVoyage from "../pages/ComposeVoyage";
 import HotelsPage from "../pages/HotelsPage";
+import PlanningPage1 from "../pages/planning_test";
 
 // Composant de chargement
 const LoadingFallback = () => (
@@ -66,6 +67,7 @@ function App() {
                {/* Routes Composez Voyage*/}
               <Route path="/ComposeVoyage" element={<ComposeVoyage />} /> 
               <Route path="/HotelsPage" element={<HotelsPage />} /> 
+              <Route path="/PlanningPage1" element={<PlanningPage1 />} /> 
 
 
               {/* Routes d'inscription et connexion */}
