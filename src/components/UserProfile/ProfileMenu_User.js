@@ -30,7 +30,7 @@ const ProfileMenu = () => {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute right-0 mt-2 w-48 rounded-2xl bg-white shadow-lg py-2 border border-gray-50">
+        <Menu.Items className="absolute right-0 mt-2 w-48 rounded-2xl bg-white shadow-lg py-2 border-2 border-gray-200">
         <Menu.Item>
             {({ active }) => (
               <button
@@ -72,7 +72,7 @@ const ProfileMenu = () => {
               <button
                 onClick={handleLogout}
                 className={`${
-                  active ? 'bg-primary/5 text-primary' : 'text-gray-700'
+                  active ? 'bg-primary/5 text-red-500' : 'text-gray-700'
                 } block w-full px-6 py-2.5 text-left text-base font-outfit transition-colors`}
               >
                 Se déconnecter

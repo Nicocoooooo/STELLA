@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Logo from '../assets/images/Logo.png';
 import supabase from '../supabaseClient';
 import PastTripsCarousel from '../components/PastTripsCarousel';
 import ProfileHeader from '../components/UserProfile/ProfileHeader';

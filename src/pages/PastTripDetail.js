@@ -4,7 +4,7 @@ import supabase from '../supabaseClient';
 import Logo from '../assets/images/Logo.png';
 import TravelJournal from '../components/TravelJournal';
 import TravelMap from '../components/TravelMap';
-import ProfileHeader from '../components/UserProfile/ProfileHeader';
+import ProfileMenu from '../components/UserProfile/ProfileMenu_User'; // Import du composant ProfileMenu
 
 function PastTripDetail() {
   const navigate = useNavigate();
@@ -81,14 +81,19 @@ function PastTripDetail() {
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
-      <div className="flex-grow w-full px-4 sm:px-8 md:px-12 lg:px-24 py-8 lg:py-12">
-        <div className="max-w-[1800px] mx-auto">
-      
-        <ProfileHeader />  
+    <div className="min-h-screen font-['Outfit'] bg-white">
+      {/* Header - Responsive */}
+      <header className="py-3 sm:py-4 md:py-5 px-4 sm:px-6 md:px-8 flex justify-between items-center relative z-50">
+        <Link to="/">
+          <img src={Logo} alt="Stella" className="h-6 sm:h-8 md:h-10" />
+        </Link>
+        <div className="flex items-center">
+          <ProfileMenu />
+        </div>
+      </header>
 
       {/* Contenu principal */}
-      <main className="container mx-auto px-4 sm:px-6 md:px-8 py-6 sm:py-8 md:py-12">
+      <main className="pb-6 sm:pb-8 md:pb-12">
         {loading ? (
           <div className="text-center py-8">
             <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#9557fa]"></div>
@@ -101,9 +106,9 @@ function PastTripDetail() {
               <img 
                 src={tripDetails.destinations.image_url} 
                 alt={tripDetails.destinations.name}
-                className="w-full h-full object-cover z-0"
+                className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-black/30 z-0"></div>
+              <div className="absolute inset-0 bg-black/30"></div>
               
               {/* Container avec le même padding que le reste du contenu */}
               <div className="absolute bottom-0 left-0 w-full">
@@ -125,8 +130,12 @@ function PastTripDetail() {
                 <TravelJournal />
                 
                 {/* Carte */}
-                <TravelMap />
+                <TravelMap destination={tripDetails.destinations}/>
               </div>
+            </div>
+            {/* Étoile décorative - Responsive */}
+            <div className="flex justify-center mt-4 sm:mt-6 md:mt-8">
+                <span className="text-[#fa9b3d] text-xl sm:text-2xl">✧</span>
             </div>
           </>
         ) : (
@@ -152,12 +161,10 @@ function PastTripDetail() {
               <Link to="/aide" className="text-gray-600 hover:text-[#9557fa] text-xs sm:text-sm md:text-base">Aide</Link>
               <Link to="/contact" className="text-gray-600 hover:text-[#9557fa] text-xs sm:text-sm md:text-base">Nous contacter</Link>
             </div>
-            <p className="text-gray-600 text-xs sm:text-sm mt-2 sm:mt-0">© 2025 Stella. All rights reserved.</p>
+            <p className="text-gray-600 text-xs sm:text-sm mt-2 sm:mt-0">© 2024 Stella. All rights reserved.</p>
           </div>
         </div>
       </footer>
-      </div>
-      </div>
     </div>
   );
 }

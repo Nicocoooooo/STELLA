@@ -9,6 +9,7 @@
     "bcryptjs": "^3.0.0",
     "cra-template": "1.2.0",
     "lucide-react": "^0.475.0",
+    "mapbox-gl": "^3.10.0",
     "react": "^19.0.0",
     "react-datepicker": "^8.0.0",
     "react-dom": "^19.0.0",
