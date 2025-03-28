@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import Footer from '../components/Footer';
 import { Link } from 'react-router-dom';
 import Logo from '../assets/images/Logo.png';
+import TravelSelectionSection from '../components/TravelSelectionSection';
+import MultiDestinationsMap from '../components/MultiDestinationsMap'; // Ajuster le chemin d'importation selon votre structure
 
 function ComposeVoyage() {
   const [formId, setFormId] = useState(null);
@@ -695,10 +697,18 @@ if (formError) {
           {/* Partie droite (1/3 de la largeur) */}
           <div className="w-1/3 flex flex-col space-y-4">
             {/* Div 1 de la partie droite (haut) */}
-            <div className="flex-1 bg-gray-100 p-4">
-              <h3 className="text-xl font-semibold">Section 1</h3>
-              {/* Contenu de la section 1 */}
-            </div>
+            {/* Div 1 de la partie droite (haut) - Carte des destinations */}
+            <div className="flex-1 bg-white p-1 ml-5 mt-10 rounded-lg bg-gradient-to-r from-[#9557fa] to-[#fa9b3d] shadow-sm flex items-center justify-center">
+            <div className="p-6 rounded-xl bg-white w-full h-full">
+            <div className="flex-1 bg-gradient-to-r from-[#9557fa] to-[#fa9b3d] h-full p-4 rounded-lg border border-gray-200 shadow-sm flex items-center justify-center" style={{ backdropFilter: 'blur(8px)' }}>
+            <div className="text-center bg-white/30 backdrop-blur-xl p-4 rounded-lg">
+  <h3 className="text-2xl font-bold text-[#9557fa] mb-2">Arrive Prochainement !</h3>
+  <p className="text-gray-600">Notre carte interactive sera bientôt disponible</p>
+</div>
+    </div>
+      </div>
+      </div>
+  
 
             {/* Div 2 de la partie droite (bas) */}
             <div className="p-1 rounded-xl ml-5 bg-gradient-to-r from-[#9557fa] to-[#fa9b3d]">
