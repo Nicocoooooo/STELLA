@@ -2,13 +2,14 @@ import { useEffect, useState, useRef } from 'react';
 import supabase from '../supabaseClient';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import timeGridPlugin from '@fullcalendar/timegrid'; // Nouvel import
+import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import '../styles/Planning.css';
 import 'leaflet/dist/leaflet.css';
 import { Link } from 'react-router-dom';
 import Logo from '../assets/images/Logo.png';
 import Footer from '../components/Footer';
+import LoadingOverlay from '../components/LoadingOverlay';
 
 // Fonctions utilitaires déplacées hors du composant
 
@@ -1327,12 +1328,22 @@ export default function PlanningPage() {
   const [selectedDayMarkers, setSelectedDayMarkers] = useState([]);
   const [selectedDayHotel, setSelectedDayHotel] = useState(null);
 
+  const [dataReady, setDataReady] = useState(false);
+  
+  // États pour le chargement et les étapes de chargement
+  const [loadingStep, setLoadingStep] = useState(0);
+  const [loadingSteps] = useState([
+    "Récupération des données de votre voyage",
+    "Calcul des coordonnées géographiques",
+    "Optimisation de votre parcours",
+    "Préparation de votre calendrier"
+  ]);
+
   const placeholderImage = '/api/placeholder/400/320';
 
   const capitalizeFirstLetter = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
   };
-
 
   // Utiliser des refs pour suivre l'état de certaines opérations
   const dataLoaded = useRef(false);
@@ -1356,6 +1367,7 @@ export default function PlanningPage() {
     }
 
     setLoading(true);
+    setLoadingStep(1); // Mettre à jour l'étape de chargement
 
     try {
       const allDestinations = [
@@ -1379,6 +1391,7 @@ export default function PlanningPage() {
         }))
       ];
 
+      console.log("Compilation des coordonnées pour", allDestinations.length, "destinations");
       const destinationsWithCoords = [];
 
       for (let destination of allDestinations) {
@@ -1406,6 +1419,7 @@ export default function PlanningPage() {
         }
       }
 
+      console.log("Coordonnées récupérées pour", destinationsWithCoords.length, "destinations");
       // Marquer comme compilé avant de mettre à jour l'état
       coordsCompiled.current = true;
       setAllDestinationsWithCoords(destinationsWithCoords);
@@ -1425,7 +1439,9 @@ export default function PlanningPage() {
 
     try {
       setLoading(true);
+      setLoadingStep(2); // Mise à jour de l'étape de chargement
 
+      console.log("Planification du voyage en cours...");
       // Étape 1: Calculer la proximité des hôtels
       const proximityHotels = await calculateHotelProximity(hotels, allDestinationsWithCoords, transportMode);
 
@@ -1454,6 +1470,8 @@ export default function PlanningPage() {
           };
         });
 
+        setLoadingStep(3); // Mise à jour de l'étape de chargement
+
         // Étape 5: Assigner les jours de visite aux destinations
         const { destinationsWithDates, dailyPlanning: planning } = assignDaysToDestinations(
           destinationsWithHotelInfo,
@@ -1478,11 +1496,14 @@ export default function PlanningPage() {
         // Mettre à jour les états une seule fois
         setHotelsWithDates(hotelDateRanges);
         setDailyPlanning(planning);
-        console.log("Planning 1 : ", dailyPlanning);
+        
+        console.log("Attribution des horaires...");
         const planningWithSchedule = assignTimeToDestinations(planning, gastronomie);
+        
+        console.log("Calcul des routes...");
         const planningWithRoutes = await calculateRoutesBetweenDestinations(planningWithSchedule, transportMode, finalDestinations);
+        
         setDailyPlanning(planningWithRoutes);
-        console.log("Planning 1 : ", dailyPlanning);
         setAllDestinationsWithCoords(finalDestinations);
         setHotelNights(nights);
       } else {
@@ -1492,9 +1513,12 @@ export default function PlanningPage() {
       // Marquer comme planifié
       tripPlanned.current = true;
       setPlanningGenerated(true);
+      setDataReady(true); // Important: indiquer que les données sont prêtes
+      console.log("Planification terminée avec succès");
     } catch (error) {
       console.error("Erreur lors de la planification du voyage:", error);
       setError("Erreur lors de la planification du voyage");
+      setDataReady(true); // Même en cas d'erreur, on affiche l'interface
     } finally {
       setLoading(false);
     }
@@ -1520,6 +1544,8 @@ export default function PlanningPage() {
         console.warn("⚠️ Aucune réponse de quiz trouvée");
         return;
       }
+
+      console.log("Données de quiz récupérées:", quizData);
 
       // Calculer le nombre de nuits
       let calculatedNights = 0;
@@ -1577,6 +1603,7 @@ export default function PlanningPage() {
       }
 
       const latestDestinations = formData[0];
+      console.log("Destinations récupérées:", latestDestinations);
 
       // Fonction pour vérifier et définir les données
       const safeSetArray = (data, setterFunction) => {
@@ -1662,8 +1689,12 @@ export default function PlanningPage() {
 
     const initApp = async () => {
       setLoading(true);
+      setLoadingStep(0); // Première étape
+      console.log("Initialisation de l'application...");
+      
       await fetchLatestQuizResponse();
       await fetchDestinations();
+      
       dataLoaded.current = true;
       setLoading(false);
     };
@@ -1679,6 +1710,31 @@ export default function PlanningPage() {
       compileDestinationsWithCoordinates();
     }
   }, [loading]);
+
+  // Effet pour planifier le voyage - ne se déclenche qu'une fois quand les données sont prêtes
+  useEffect(() => {
+    if (!loading &&
+      coordsCompiled.current &&
+      !tripPlanned.current &&
+      allDestinationsWithCoords.length > 0 &&
+      hotels.length > 0 &&
+      totalNights > 0) {
+      planTrip();
+    }
+  }, [loading, allDestinationsWithCoords.length]);
+
+  // Ajout d'un timeout de sécurité pour éviter un chargement infini
+  useEffect(() => {
+    // Si les données ne sont pas encore prêtes après 2 minutes, forcer l'affichage
+    if (!dataReady) {
+      const timeoutId = setTimeout(() => {
+        console.warn("Timeout de sécurité déclenché - forçage de l'affichage");
+        setDataReady(true);
+      }, 120000); // 2 minutes
+      
+      return () => clearTimeout(timeoutId);
+    }
+  }, [dataReady]);
 
   useEffect(() => {
     const fetchFormData = async () => {
@@ -1833,19 +1889,6 @@ export default function PlanningPage() {
     fetchFormData();
   }, []);
 
-  // Effet pour planifier le voyage - ne se déclenche qu'une fois quand les données sont prêtes
-  useEffect(() => {
-    if (!loading &&
-      coordsCompiled.current &&
-      !tripPlanned.current &&
-      allDestinationsWithCoords.length > 0 &&
-      hotels.length > 0 &&
-      totalNights > 0) {
-      planTrip();
-    }
-    console.log("Photos : ", allDestinationsWithCoords);
-  }, [loading, allDestinationsWithCoords.length]);
-
 
   useEffect(() => {
     // Fonction pour redessiner les bannières lors du redimensionnement de la fenêtre
@@ -1912,6 +1955,13 @@ export default function PlanningPage() {
 
   return (
     <>
+      {!dataReady ? (
+        <LoadingOverlay 
+          isLoading={true} 
+          loadingSteps={loadingSteps} 
+          currentStep={loadingStep} 
+        />
+      ) : ( <>
     {/* Header - Responsive */}
     <header className="py-3 sm:py-4 md:py-5 px-4 sm:px-6 md:px-8 flex justify-between items-center">
         <Link to="/">
@@ -2574,6 +2624,8 @@ export default function PlanningPage() {
     </main>
     <Footer />
     </>
+      )}
+      </>
   );
 
   
