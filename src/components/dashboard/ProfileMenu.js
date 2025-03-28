@@ -60,7 +60,7 @@ const ProfileMenu = () => {
               <button
                 onClick={handleLogout}
                 className={`${
-                  active ? 'bg-primary/5 text-primary' : 'text-gray-700'
+                  active ? 'bg-primary/5 text-red-500' : 'text-gray-700'
                 } block w-full px-6 py-2.5 text-left text-base font-outfit transition-colors`}
               >
                 Se déconnecter
