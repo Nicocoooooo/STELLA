@@ -115,7 +115,7 @@ function PastTripDetail() {
                 <div className="container mx-auto px-4 sm:px-6 md:px-8">
                   <div className="pb-6 text-left text-white">
                     <h1 className="text-3xl md:text-5xl font-bold">{tripDetails.destinations.name}</h1>
-                    <p className="text-xl md:text-2xl mt-2">
+                    <p className="text-l md:text-xl mt-2">
                       {formatDate(tripDetails.start_date)} - {formatDate(tripDetails.end_date)}
                     </p>
                   </div>
