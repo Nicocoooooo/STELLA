@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Navigation, Syringe, Phone, FileText, CreditCard, Utensils, Clock } from 'lucide-react';
+import Footer from '../components/Footer';
+
+
 
 const DestinationDetail = () => {
   const { id } = useParams();
@@ -638,6 +641,7 @@ const DestinationDetail = () => {
           </Link>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

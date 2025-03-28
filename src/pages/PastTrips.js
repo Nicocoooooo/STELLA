@@ -4,6 +4,8 @@ import Logo from '../assets/images/Logo.png';
 import supabase from '../supabaseClient';
 import PastTripsCarousel from '../components/PastTripsCarousel';
 import ProfileMenu from '../components/UserProfile/ProfileMenu_User'; // Import du composant ProfileMenu
+import Footer from '../components/Footer';
+
 
 function PastTrips() {
   const navigate = useNavigate();
@@ -111,20 +113,8 @@ function PastTrips() {
         )}
       </main>
 
-      {/* Footer - Responsive */}
-      <footer className="py-4 sm:py-6 mt-auto border-t border-gray-100">
-        <div className="container mx-auto px-4 sm:px-6 md:px-8">
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-            <div className="flex flex-wrap justify-center sm:justify-start gap-3 sm:gap-4">
-              <Link to="/about" className="text-gray-600 hover:text-[#9557fa] text-xs sm:text-sm md:text-base">About</Link>
-              <Link to="/faq" className="text-gray-600 hover:text-[#9557fa] text-xs sm:text-sm md:text-base">FAQ</Link>
-              <Link to="/aide" className="text-gray-600 hover:text-[#9557fa] text-xs sm:text-sm md:text-base">Aide</Link>
-              <Link to="/contact" className="text-gray-600 hover:text-[#9557fa] text-xs sm:text-sm md:text-base">Nous contacter</Link>
-            </div>
-            <p className="text-gray-600 text-xs sm:text-sm mt-2 sm:mt-0">© 2024 Stella. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
+      
     </div>
   );
 }

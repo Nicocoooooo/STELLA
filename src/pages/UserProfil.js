@@ -6,6 +6,8 @@ import PersonalInfoForm from '../components/UserProfile/PersonalInfoForm';
 import AvatarUpload from '../components/UserProfile/AvatarUpload';
 import DeleteAccount from '../components/UserProfile/DeleteAccount';
 import TravelPreferences from '../components/UserProfile/TravelPreferences';
+import Footer from '../components/Footer';
+
 
 function UserProfil() {
   const [profile, setProfile] = useState(null);
@@ -156,6 +158,8 @@ function UserProfil() {
           </div>
         </div>
       </div>
+
+      <Footer />
     </div>
   );
 }
