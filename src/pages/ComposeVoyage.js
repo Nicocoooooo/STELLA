@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import supabase from '../supabaseClient';
 import HotelCarousel from "../components/HotelCarousel";
 import { useNavigate } from 'react-router-dom';
+import Footer from '../components/dashboard/Footer';
+import { Link } from 'react-router-dom';
+import Logo from '../assets/images/Logo.png';
 
 function ComposeVoyage() {
   const [formId, setFormId] = useState(null);
@@ -290,6 +293,20 @@ if (formError) {
 
   // Le reste du code reste identique...
   return (
+
+    <>
+    {/* Header - Responsive */}
+    <header className="py-3 sm:py-4 md:py-5 px-4 sm:px-6 md:px-8 flex justify-between items-center">
+        <Link to="/">
+          <img src={Logo} alt="Stella" className="h-6 sm:h-8 md:h-10" />
+        </Link>
+        <div className="flex items-center">
+          <Link to="/profile" className="text-black hover:text-[#9557fa] transition-colors text-sm sm:text-base">
+            Mon Profil
+          </Link>
+        </div>
+      </header>
+    <main>
     <div>
       {/* Bannière pleine largeur sans marges */}
       {banner && (
@@ -739,6 +756,10 @@ if (formError) {
       </div>
 
     </div>
+    </main>
+    <Footer />
+
+    </>
 
   );
 };
