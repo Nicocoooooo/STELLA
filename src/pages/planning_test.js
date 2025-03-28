@@ -5,15 +5,10 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid'; // Nouvel import
 import interactionPlugin from '@fullcalendar/interaction';
 import '../styles/Planning.css';
-//import RoutePreviewModal from '../components/RoutePreviewModal';
 import 'leaflet/dist/leaflet.css';
-//import ItineraireMap from '../components/ItineraireMap';
-import StaticMapPreview from '../components/StaticMapPreview'; // Ajustez le chemin selon votre structure de dossiers
-import LeafletMapPreview from '../components/LeafletMapPreview';
 import { Link } from 'react-router-dom';
 import Logo from '../assets/images/Logo.png';
 import Footer from '../components/dashboard/Footer';
-import Header from '../components/dashboard/Header';
 
 // Fonctions utilitaires déplacées hors du composant
 
