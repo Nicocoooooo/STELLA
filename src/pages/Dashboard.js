@@ -3,7 +3,7 @@ import supabase from '../supabaseClient';
 import Header from '../components/dashboard/Header';
 import FilterBar from '../components/dashboard/FilterBar';
 import DestinationGrid from '../components/dashboard/DestinationGrid';
-import Footer from '../components/dashboard/Footer';
+import Footer from '../components/Footer';
 
 const Dashboard = () => {
   const [destinations, setDestinations] = useState([]);
