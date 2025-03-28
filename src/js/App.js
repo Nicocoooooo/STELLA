@@ -22,6 +22,12 @@ import PastTripDetail from '../pages/PastTripDetail'; // Import de la page Déta
 import ProtectedRoute from '../components/ProtectedRoute'; // Import du composant ProtectedRoute
 import DestinationDetail from '../pages/DestinationDetail';
 import UserProfil from '../pages/UserProfil';
+import Help from '../pages/Help';
+import Contact from '../pages/Contact';
+import LegalMentions from '../pages/LegalMentions';
+import FAQ from '../pages/Faq';
+import Ask from '../pages/Ask';
+
 
 import ComposeVoyage from "../pages/ComposeVoyage";
 import HotelsPage from "../pages/HotelsPage";
@@ -43,6 +49,11 @@ function App() {
               {/* Routes publiques */}
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
+              <Route path="/faq" element={<FAQ />} />
+              <Route path="/help" element={<Help />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/ask" element={<Ask />} />
+              <Route path="/legalmentions" element={<LegalMentions />} />
               <Route path="/quiz" element={<Quiz />} />
               <Route path="/quiz/questions" element={<Questions />} />
               <Route path="/quiz/budget" element={<BudgetQuestions />} />

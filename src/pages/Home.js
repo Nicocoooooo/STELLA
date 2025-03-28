@@ -11,6 +11,7 @@ import TestimonialsSection from '../components/TestimonialsSection';
 import QuizSection from '../components/QuizSection';
 import PartnersSection from '../components/PartnersSection';
 import SocialSection from '../components/SocialSection';
+import Footer from '../components/Footer';
 
 function Home() {
   return (
@@ -122,6 +123,8 @@ function Home() {
       <QuizSection />
       <PartnersSection />
       <SocialSection />
+      <Footer />
+
     </div>
   );
 }
