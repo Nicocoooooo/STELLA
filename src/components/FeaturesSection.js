@@ -25,7 +25,7 @@ const FeaturesSection = () => {
             {/* Texte descriptif */}
             <div className="text-center px-2 sm:px-4">
               <h3 className="text-2xl sm:text-2xl md:text-3xl font-bold text-[#9557fa] mb-3 sm:mb-4">
-                Photos, cartes et avis voyageurs
+                Photos, cartes et avis de voyageurs
               </h3>
               <p className="text-base sm:text-lg text-gray-700 max-w-xl sm:max-w-2xl mx-auto">
                 Plongez au cœur de votre destination. Des photos vibrantes,

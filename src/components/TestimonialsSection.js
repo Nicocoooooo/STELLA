@@ -33,7 +33,7 @@ const TestimonialsSection = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Titre principal */}
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 sm:mb-12 md:mb-16">
-          Déjà 1 million voyageurs nous font confiance
+          Déjà plus d'1 million de voyageurs nous font confiance
         </h2>
 
         {/* Cartes de témoignages */}
@@ -79,22 +79,22 @@ const TestimonialsSection = () => {
           <div className="bg-[#9557fa] rounded-lg py-4 sm:py-6 px-4 sm:px-8">
             <div className="flex flex-col sm:flex-row justify-between items-center gap-6 sm:gap-0 text-white">
               <div className="text-center">
-                <span className="text-3xl sm:text-4xl font-bold">95%</span>
-                <p className="text-sm sm:text-base">de voyages réussis</p>
+                <span className="text-3xl sm:text-4xl font-bold">100%</span>
+                <p className="text-sm sm:text-base">de voyages inoubliables</p>
               </div>
               <div className="text-center">
                 <div>
                   <span className="text-3xl sm:text-4xl font-bold">10</span>
                   <span className="text-xl sm:text-2xl"> heures</span>
                 </div>
-                <p className="text-sm sm:text-base">de planification</p>
+                <p className="text-sm sm:text-base">de planification économisées</p>
               </div>
               <div className="text-center">
                 <div>
-                  <span className="text-3xl sm:text-4xl font-bold">32</span>
+                  <span className="text-3xl sm:text-4xl font-bold">82</span>
                   <span className="text-xl sm:text-2xl"> pays</span>
                 </div>
-                <p className="text-sm sm:text-base">Leader dans</p>
+                <p className="text-sm sm:text-base">où nous sommes leaders</p>
               </div>
             </div>
           </div>
