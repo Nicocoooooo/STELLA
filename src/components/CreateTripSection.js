@@ -14,7 +14,7 @@ const CreateTripSection = () => {
             </div>
             
             <h2 className="text-3xl sm:text-4xl font-bold text-[#9557fa] mb-4 sm:mb-6 text-center lg:text-left">
-              Créez votre voyage unique
+              Créez des voyages uniques
             </h2>
             
             <div className="flex flex-col gap-2 sm:gap-3">
@@ -25,13 +25,13 @@ const CreateTripSection = () => {
                 Recevez des suggestions personnalisées
               </p>
               <p className="text-base sm:text-lg text-gray-700 text-center lg:text-left">
-                Découvrez des hébergements adaptés
+                Découvrez des hébergements adaptés à vos envies
               </p>
               <p className="text-base sm:text-lg text-gray-700 text-center lg:text-left">
-                Explorez des activités locales
+                Explorez des activités locales et authentiques
               </p>
               <p className="text-base sm:text-lg text-gray-700 text-center lg:text-left">
-                Trouvez les meilleurs restaurants
+                Trouvez les meilleurs restaurants et bars
               </p>
             </div>
           </div>

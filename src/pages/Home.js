@@ -52,9 +52,9 @@ function Home() {
         <div className="relative z-10 h-screen flex flex-col justify-center">
           <div className="container mx-auto px-4 sm:px-8 md:px-16 lg:px-20">
             <div className="flex flex-col text-left max-w-[700px]">
-              <h1 className="font-bold text-white text-3xl sm:text-4xl md:text-5xl lg:text-[64px] leading-tight tracking-wide">
-                Planifiez votre voyage idéal en quelques clics
-              </h1>
+            <h1 className="font-bold text-white text-3xl sm:text-4xl md:text-5xl lg:text-[64px] leading-tight tracking-wide border-none pb-0 mb-0">
+              Planifiez votre voyage idéal en quelques clics
+            </h1>
               <h2 className="text-xl sm:text-2xl md:text-3xl text-white/90 mt-4 mb-8 sm:mb-12">
                 L'organisateur de voyage intelligent
               </h2>
@@ -93,10 +93,10 @@ function Home() {
                 Personnalisation intuitive
               </h3>
               <ul className="space-y-2 text-base sm:text-lg text-gray-700 text-left list-none">
-                <li className="text-left">Choisissez votre saison idéale</li>
-                <li className="text-left">Sélectionnez votre destination rêvée</li>
+                <li className="text-left">Choisissez la saison idéale</li>
+                <li className="text-left">Sélectionnez votre destination de rêve</li>
                 <li className="text-left">Définissez votre style de voyage</li>
-                <li className="text-left">Adaptez à votre budget</li>
+                <li className="text-left">Le tout, adapté à votre budget</li>
               </ul>
             </div>
 
