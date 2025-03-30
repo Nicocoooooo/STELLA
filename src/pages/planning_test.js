@@ -484,7 +484,7 @@ const assignTimeToDestinations = (dailyPlanning, gastronomieHoraires) => {
     const estPremierJour = estPremierJourHotel(day.date, day.hotel, planningWithTimes);
 
     // Décalage à appliquer si c'est le premier jour (30 minutes = 30)
-    const decalage = estPremierJour ? 30 : 0;
+    const decalage = estPremierJour ? 0 : 0;
 
     // Si c'est le premier jour, ajouter une note dans le planning
     if (estPremierJour) {
@@ -732,7 +732,7 @@ const calculateRoutesBetweenDestinations = async (dailyPlanning, transportMode, 
           if (tempsFinActivitePlusDeplacement > nextDest.heureDebut) {
             // Pas assez de temps, ajuster l'heure de début de la prochaine destination
             const nouvelleHeureDebut = tempsFinActivitePlusDeplacement;
-            const decalage = nouvelleHeureDebut - nextDest.heureDebut;
+            const decalage = 0;
 
             nextDest.heureDebut = nouvelleHeureDebut;
             nextDest.heureFin += decalage; // Déplacer également l'heure de fin
@@ -912,7 +912,7 @@ const generateMealEvents = (dailyPlanning, gastronomieHoraires) => {
       const estPremierJour = estPremierJourHotel(date, dayPlan.hotel, dailyPlanning);
 
       // Décalage à appliquer si c'est le premier jour (30 minutes)
-      const decalage = estPremierJour ? 30 : 0;
+      const decalage = estPremierJour ? 0 : 0;
 
       // Vérifier les restaurants programmés pour cette journée
       const restaurantsForDay = dayPlan.destinations.filter(dest => dest.type === 'restaurant');
@@ -2217,121 +2217,7 @@ export default function PlanningPage() {
                         }}
                         height="auto"  
                         aspectRatio={2}  /* Ratio largeur/hauteur de 2:1 */
-                        dayCellDidMount={(info) => {
-                          // Obtenir la date au format YYYY-MM-DD
-                          const year = info.date.getFullYear();
-                          const month = String(info.date.getMonth() + 1).padStart(2, '0');
-                          const day = String(info.date.getDate()).padStart(2, '0');
-                          const dateStr = `${year}-${month}-${day}`;
-          
-                          // Trouver le planning pour cette date exacte
-                          const dayPlan = dailyPlanning.find(day => day.date === dateStr);
-          
-                          if (dayPlan && dayPlan.hotel) {
-                            // Ajouter un attribut data pour identifier facilement cette cellule
-                            info.el.setAttribute('data-date', dateStr);
-                            info.el.setAttribute('data-hotel', dayPlan.hotel);
-                          }
-                        }}
-                        datesSet={(dateInfo) => {
-                          setTimeout(() => {
-                            // Nettoyer les éventuelles bannières existantes
-                            document.querySelectorAll('.hotel-banner-span').forEach(el => el.remove());
-          
-                            // Regrouper les cellules par hôtel et date consécutive
-                            const hotelGroups = {};
-                            const dayCells = Array.from(document.querySelectorAll('[data-hotel]'))
-                              .sort((a, b) => a.getAttribute('data-date').localeCompare(b.getAttribute('data-date')));
-          
-                            // Première passe: regrouper par hôtel
-                            dayCells.forEach(cell => {
-                              const date = cell.getAttribute('data-date');
-                              const hotel = cell.getAttribute('data-hotel');
-          
-                              if (!hotelGroups[hotel]) {
-                                hotelGroups[hotel] = [];
-                              }
-          
-                              hotelGroups[hotel].push({
-                                date,
-                                cell
-                              });
-                            });
-          
-                            // Seconde passe: trouver les séquences consécutives pour chaque hôtel
-                            Object.keys(hotelGroups).forEach(hotel => {
-                              const cellsForHotel = hotelGroups[hotel].sort((a, b) => a.date.localeCompare(b.date));
-          
-                              // Parcourir toutes les cellules pour cet hôtel
-                              for (let i = 0; i < cellsForHotel.length; i++) {
-                                const currentCell = cellsForHotel[i].cell;
-                                const currentDate = new Date(cellsForHotel[i].date);
-          
-                                // Si c'est la première cellule ou si les jours ne sont pas consécutifs
-                                // (ou si on est au début d'une nouvelle semaine/ligne dans le calendrier)
-                                if (i === 0 ||
-                                  !isConsecutiveDate(cellsForHotel[i - 1].date, cellsForHotel[i].date) ||
-                                  currentCell.parentElement !== cellsForHotel[i - 1].cell.parentElement) {
-          
-                                  // Ajouter une nouvelle bannière
-                                  const banner = document.createElement('div');
-                                  banner.className = 'hotel-banner';
-                                  banner.innerHTML = `🏨 ${hotel}`;
-                                  banner.style.backgroundColor = '#c0c0c0';
-                                  banner.style.color = 'white';
-          
-                                  // Ajouter à la cellule
-                                  const dayTop = currentCell.querySelector('.fc-daygrid-day-top');
-                                  if (dayTop) {
-                                    dayTop.after(banner);
-                                  } else {
-                                    currentCell.insertBefore(banner, currentCell.firstChild);
-                                  }
-          
-                                  // Si ce n'est pas la dernière cellule et que le jour suivant est consécutif
-                                  // et dans la même ligne du calendrier
-                                  let consecutiveDays = 1;
-                                  let lastConsecutiveIdx = i;
-          
-                                  while (lastConsecutiveIdx + 1 < cellsForHotel.length) {
-                                    const nextDate = new Date(cellsForHotel[lastConsecutiveIdx + 1].date);
-                                    const nextCell = cellsForHotel[lastConsecutiveIdx + 1].cell;
-          
-                                    // Vérifier si le jour suivant est consécutif
-                                    const currentDate = new Date(cellsForHotel[lastConsecutiveIdx].date);
-                                    currentDate.setDate(currentDate.getDate() + 1);
-          
-                                    // Vérifier aussi qu'ils sont dans la même ligne (même parent)
-                                    if (currentDate.getTime() === nextDate.getTime() &&
-                                      nextCell.parentElement === currentCell.parentElement) {
-                                      consecutiveDays++;
-                                      lastConsecutiveIdx++;
-                                    } else {
-                                      break;
-                                    }
-                                  }
-          
-                                  // Si plus d'un jour consécutif, élargir la bannière
-                                  if (consecutiveDays > 1) {
-                                    const lastCell = cellsForHotel[lastConsecutiveIdx].cell;
-          
-                                    // Modifier la bannière pour qu'elle s'étende sur plusieurs jours
-                                    banner.classList.add('hotel-banner-span');
-          
-                                    // Calculer la largeur en fonction du nombre de cellules
-                                    const cellWidth = currentCell.offsetWidth;
-                                    banner.style.width = `${cellWidth * consecutiveDays - 10}px`;
-          
-                                    console.log(`Bannière pour ${hotel} étendue sur ${consecutiveDays} jours consécutifs`);
-          
-                                    // Sauter les cellules déjà couvertes
-                                    i = lastConsecutiveIdx;
-                                  }
-                                }
-                              }
-                            });
-                          }, 300);
-                        }}
+                        /* Bannières d'hôtel désactivées */
                       />
                       </div>
                     </div>
