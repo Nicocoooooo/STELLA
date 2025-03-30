@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import Logo from '../assets/images/Logo.png';
 import Footer from '../components/Footer';
 import LoadingOverlay from '../components/LoadingOverlay';
+import ProfileMenu from '../components/UserProfile/ProfileMenu_User'; // Import du composant ProfileMenu
 
 // Fonctions utilitaires déplacées hors du composant
 
@@ -1964,16 +1965,14 @@ export default function PlanningPage() {
       ) : (
         <div className="planning-test-app">
           {/* Header - Responsive */}
-          <header className="py-3 sm:py-4 md:py-5 px-4 sm:px-6 md:px-8 flex justify-between items-center">
-            <Link to="/">
-              <img src={Logo} alt="Stella" className="h-6 sm:h-8 md:h-10" />
-            </Link>
-            <div className="flex items-center">
-              <Link to="/profile" className="text-black hover:text-[#9557fa] transition-colors text-sm sm:text-base">
-                Mon Profil
-              </Link>
-            </div>
-          </header>
+          <header className="py-3 sm:py-4 md:py-5 px-4 sm:px-6 md:px-8 flex justify-between items-center relative z-50">
+        <Link to="/">
+          <img src={Logo} alt="Stella" className="h-6 sm:h-8 md:h-10" />
+        </Link>
+        <div className="flex items-center">
+          <ProfileMenu />
+        </div>
+      </header>
           <main>
             <div className="planning-container">
               {banner && (

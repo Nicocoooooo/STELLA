@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import Logo from '../assets/images/Logo.png';
 import TravelSelectionSection from '../components/TravelSelectionSection';
 import MultiDestinationsMap from '../components/MultiDestinationsMap'; // Ajuster le chemin d'importation selon votre structure
+import ProfileMenu from '../components/UserProfile/ProfileMenu_User'; // Import du composant ProfileMenu
 
 function ComposeVoyage() {
   const [formId, setFormId] = useState(null);
@@ -298,14 +299,12 @@ if (formError) {
 
     <>
     {/* Header - Responsive */}
-    <header className="py-3 sm:py-4 md:py-5 px-4 sm:px-6 md:px-8 flex justify-between items-center">
+    <header className="py-3 sm:py-4 md:py-5 px-4 sm:px-6 md:px-8 flex justify-between items-center relative z-50">
         <Link to="/">
           <img src={Logo} alt="Stella" className="h-6 sm:h-8 md:h-10" />
         </Link>
         <div className="flex items-center">
-          <Link to="/profile" className="text-black hover:text-[#9557fa] transition-colors text-sm sm:text-base">
-            Mon Profil
-          </Link>
+          <ProfileMenu />
         </div>
       </header>
     <main>
