@@ -1759,7 +1759,7 @@ export default function PlanningPage() {
         const { data: formData, error: formError } = await supabase
           .from('quiz_responses')
           .select('id, destination, user_id')
-          .eq('user_id', userId)  // Utilisation de l'ID déterminé
+          //.eq('user_id', userId)  // Utilisation de l'ID déterminé
           .order('created_at', { ascending: false })
           .limit(1);
 

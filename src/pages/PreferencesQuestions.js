@@ -168,7 +168,7 @@ const handleSubmit = async () => {
 
     if (error) throw error;
 
-    navigate('/quiz/confirmation');
+    navigate('/ComposeVoyage');
   } catch (err) {
     alert(`Une erreur est survenue lors de l'enregistrement: ${err.message}`);
   }

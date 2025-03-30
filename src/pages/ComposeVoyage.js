@@ -138,7 +138,7 @@ function ComposeVoyage() {
               tags: []
             }))
           : null,
-        created_at: new Date().toISOString()
+        //created_at: new Date().toISOString()
       };
 
       console.log("🟢 Saving destination data:", savedDestinationData);
