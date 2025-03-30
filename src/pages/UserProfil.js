@@ -52,7 +52,7 @@ function UserProfil() {
     fetchData();
   }, []);
 
-  // Fonction d’update du profil (utilisée par PersonalInfoForm & AvatarUpload)
+  // Fonction d'update du profil (utilisée par PersonalInfoForm & AvatarUpload)
   const updateProfile = async (updates) => {
     if (!profile) return { success: false };
     try {
@@ -68,7 +68,7 @@ function UserProfil() {
         return { success: false };
       }
 
-      // Mise à jour de l’état local
+      // Mise à jour de l'état local
       setProfile(data);
       return { success: true };
     } catch (err) {
@@ -77,10 +77,10 @@ function UserProfil() {
     }
   };
 
-  if (loading) return <div>Chargement...</div>;
-  if (error) return <div>Erreur : {error}</div>;
+  if (loading) return <div className="flex justify-center items-center min-h-screen">Chargement...</div>;
+  if (error) return <div className="flex justify-center items-center min-h-screen">Erreur : {error}</div>;
   if (!profile) {
-    return <div>Aucun profil trouvé pour cet utilisateur.</div>;
+    return <div className="flex justify-center items-center min-h-screen">Aucun profil trouvé pour cet utilisateur.</div>;
   }
   
   return (
@@ -91,10 +91,10 @@ function UserProfil() {
           {/* Header commun (logo + menu) */}
           <ProfileHeader />
 
-          {/* Conteneur principal en 2 colonnes, avec un léger espace (gap-4) */}
-          <div className="flex flex-col md:flex-row flex-grow max-w-7xl mx-auto w-full gap-4 px-4 py-6">
-            {/* Colonne de gauche (menu) */}
-            <div className="md:w-1/4 w-full bg-[#e9d9ff] rounded-lg shadow-lg p-6">
+          {/* Conteneur principal en 2 colonnes, avec un léger espace */}
+          <div className="flex flex-col md:flex-row max-w-7xl mx-auto w-full gap-6 mt-8 mb-8">
+            {/* Colonne de gauche (menu) - ajustement pour mobile */}
+            <div className="md:w-1/4 w-full bg-[#e9d9ff] rounded-lg shadow-lg p-6 flex-shrink-0">
               <ul className="space-y-4 text-sm sm:text-base md:text-lg">
                 <li
                   className={`cursor-pointer px-4 py-2 rounded-md hover:bg-[#d7c3ff] transition-colors ${
@@ -130,7 +130,7 @@ function UserProfil() {
             </div>
 
             {/* Colonne de droite (contenu), avec le même type de relief */}
-            <div className="w-3/4 bg-white rounded-lg shadow-lg p-6">
+            <div className="md:w-3/4 w-full bg-white rounded-lg shadow-lg p-6 flex-grow">
               {selectedCategory === 'informations' && (
                 <div className="space-y-8">
                   <PersonalInfoForm 
@@ -145,7 +145,6 @@ function UserProfil() {
               )}
 
               {selectedCategory === 'preferences' && (
-                // 2) Rendre le composant TravelPreferences
                 <div className="space-y-8">
                   <TravelPreferences userProfile={profile} />
                 </div>
