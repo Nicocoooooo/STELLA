@@ -1961,671 +1961,435 @@ export default function PlanningPage() {
           loadingSteps={loadingSteps} 
           currentStep={loadingStep} 
         />
-      ) : ( <>
-    {/* Header - Responsive */}
-    <header className="py-3 sm:py-4 md:py-5 px-4 sm:px-6 md:px-8 flex justify-between items-center">
-        <Link to="/">
-          <img src={Logo} alt="Stella" className="h-6 sm:h-8 md:h-10" />
-        </Link>
-        <div className="flex items-center">
-          <Link to="/profile" className="text-black hover:text-[#9557fa] transition-colors text-sm sm:text-base">
-            Mon Profil
-          </Link>
-        </div>
-      </header>
-    <main>
-    <div className="planning-container">
-      {banner && (
-        <div className="relative w-full h-screen/3 overflow-hidden">
-          <img
-            src={banner}
-            alt={`Banner ${destination}`}
-            className="w-full h-full object-cover object-center"
-          />
-          <div className="absolute rounded-2xl top-1/2 left-[10%] backdrop-blur-lg px-3 py-1 transform -translate-y-1/2 text-center">
-            <p className=" text-white text-2xl font-semibold">Composez votre voyage à</p>
-            <p className="text-4xl text-left font-bold text-[#FA9B3D]">{destination}</p>
-          </div>
-        </div>
-      )}
-  
-      <div className="trip-introduction">
-        <h2>Votre Aventure Prend Forme !</h2>
-        <h2>Téléchargez vos itinéraires et votre calendrier pour transformer ce rêve en réalité.</h2>
-      </div>
-  
-      {dailyPlanning.length > 0 && (
-        <div className="calendar-container">
-          <h2>Vue Calendrier</h2>
-          
-          <div className="calendar-split-view">
-            {/* Partie gauche - Calendrier */}
-            <div className="calendar-section">
-              <FullCalendar
-                plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-                initialView={determineInitialView(dailyPlanning)}
-                initialDate={dailyPlanning.length > 0 ? dailyPlanning[0].date : new Date().toISOString().split('T')[0]}
-                headerToolbar={{
-                  left: 'prev,next today',
-                  center: 'title',
-                  right: 'dayGridMonth,timeGridWeek,timeGridDay'
-                }}
-                slotMinTime="06:00:00"
-                slotMaxTime="23:00:00"
-                allDaySlot={false}
-                events={[
-                  // Événements des destinations
-                  ...dailyPlanning.flatMap(day =>
-                    day.destinations.map(dest => {
-                      // Trouver la destination complète avec photos dans allDestinationsWithCoords
-                      const fullDest = allDestinationsWithCoords.find(d =>
-                        d.name === dest.name && d.type === dest.type
-                      );
-  
-                      // Récupérer l'URL de la photo si disponible
-                      const photoUrl = fullDest && fullDest.photos && fullDest.photos[0]
-                        ? fullDest.photos[0]
-                        : null;
-  
-                      // Sélectionner l'icône et la couleur de secours en fonction du type
-                      let icon, bgColor, borderColor;
-  
-                      switch (dest.type) {
-                        case 'activite':
-                          icon = '🎯';
-                          bgColor = '#4CAF50';
-                          borderColor = '#388E3C';
-                          break;
-                        case 'lieu':
-                          icon = '🏛️';
-                          bgColor = '#2196F3';
-                          borderColor = '#1976D2';
-                          break;
-                        case 'restaurant':
-                          icon = '🍽️';
-                          bgColor = '#FF9800';
-                          borderColor = '#F57C00';
-                          break;
-                        case 'hotel':
-                          icon = '🏨';
-                          bgColor = '#9C27B0';
-                          borderColor = '#7B1FA2';
-                          break;
-                        default:
-                          icon = '📍';
-                          bgColor = '#607D8B';
-                          borderColor = '#455A64';
-                      }
-  
-                      // Créer les événements en utilisant les photos comme fond
-                      if (dest.heureDebutStr && dest.heureFinStr) {
-                        return {
-                          title: `${icon} ${dest.name}`,
-                          start: `${day.date}T${dest.heureDebutStr}`,
-                          end: `${day.date}T${dest.heureFinStr}`,
-                          backgroundColor: photoUrl ? 'transparent' : bgColor,
-                          borderColor: borderColor,
-                          textColor: '#FFFFFF',
-                          allDay: false,
-                          extendedProps: {
-                            type: dest.type,
-                            destination: dest,
-                            icon: icon,
-                            photoUrl: photoUrl,
-                            useAsBackground: true
-                          }
-                        };
-                      } else {
-                        return {
-                          title: `${icon} ${dest.name}`,
-                          start: day.date, // Utiliser directement la date sans T00:00:00
-                          allDay: true,
-                          date: day.date,
-                          backgroundColor: photoUrl ? 'transparent' : bgColor,
-                          borderColor: borderColor,
-                          textColor: '#FFFFFF',
-                          extendedProps: {
-                            type: dest.type,
-                            destination: dest,
-                            icon: icon,
-                            photoUrl: photoUrl,
-                            useAsBackground: true
-                          }
-                        };
-                      }
-                    })
-                  ),
-                  // Événements des repas
-                  ...generateMealEvents(dailyPlanning, gastronomie)
-                ]}
-                eventContent={(eventInfo) => {
-                  const { extendedProps } = eventInfo.event;
-  
-                  // Pour les événements de repas
-                  if (extendedProps && extendedProps.type === 'repas') {
-                    return (
-                      <div style={{ padding: '4px' }}>
-                        <span style={{ fontSize: '1.2em' }}>{eventInfo.event.title}</span>
-                      </div>
-                    );
-                  }
-  
-                  // Pour les destinations avec photos en arrière-plan
-                  if (extendedProps && extendedProps.photoUrl && extendedProps.useAsBackground) {
-                    const isTimeGridView =
-                      eventInfo.view.type === 'timeGridWeek' ||
-                      eventInfo.view.type === 'timeGridDay';
-  
-                    // Styles pour le container avec image en arrière-plan
-                    const containerStyle = {
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'flex-end',
-                      alignItems: 'flex-start',
-                      height: '100%',
-                      width: '100%',
-                      padding: '5px',
-                      backgroundImage: `url(${extendedProps.photoUrl})`,
-                      backgroundSize: 'cover',
-                      backgroundPosition: 'center',
-                      backgroundRepeat: 'no-repeat',
-                      position: 'relative',
-                      overflow: 'hidden',
-                      borderRadius: '5px'
-                    };
-  
-                    // Styles pour l'overlay semi-transparent
-                    const overlayStyle = {
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      backgroundColor: 'rgba(0, 0, 0, 0.5)', // Overlay noir semi-transparent
-                      zIndex: 1
-                    };
-  
-                    // Styles pour le texte
-                    const textStyle = {
-                      position: 'relative',
-                      zIndex: 2,
-                      color: 'white',
-                      fontWeight: 'bold',
-                      textShadow: '1px 1px 2px black',
-                      display: 'flex',
-                      alignItems: 'center',
-                      padding: '4px',
-                      width: '100%'
-                    };
-  
-                    return (
-                      <div style={containerStyle}>
-                        <div style={overlayStyle}></div>
-                        <div style={textStyle}>
-                          <span style={{
-                            fontSize: '1.5em',
-                            marginRight: '5px'
-                          }}>
-                            {extendedProps.icon}
-                          </span>
-                          <span style={{
-                            whiteSpace: 'nowrap',
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis'
-                          }}>
-                            {extendedProps.destination.name}
-                          </span>
-                        </div>
-                      </div>
-                    );
-                  }
-  
-                  // Pour les destinations sans photos
-                  if (extendedProps && extendedProps.icon) {
-                    return (
-                      <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        padding: '4px',
-                        height: '100%'
-                      }}>
-                        <span style={{
-                          fontSize: '1.5em',
-                          marginRight: '5px'
-                        }}>
-                          {extendedProps.icon}
-                        </span>
-                        <span style={{
-                          whiteSpace: 'nowrap',
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis'
-                        }}>
-                          {extendedProps.destination.name}
-                        </span>
-                      </div>
-                    );
-                  }
-  
-                  return null; // Utiliser le rendu par défaut pour les autres événements
-                }}
-                eventTimeFormat={{
-                  hour: '2-digit',
-                  minute: '2-digit',
-                  hour12: false
-                }}
-                height="auto"  
-                aspectRatio={2}  /* Ratio largeur/hauteur de 2:1 */
-                dayCellDidMount={(info) => {
-                  // Obtenir la date au format YYYY-MM-DD
-                  const year = info.date.getFullYear();
-                  const month = String(info.date.getMonth() + 1).padStart(2, '0');
-                  const day = String(info.date.getDate()).padStart(2, '0');
-                  const dateStr = `${year}-${month}-${day}`;
-  
-                  // Trouver le planning pour cette date exacte
-                  const dayPlan = dailyPlanning.find(day => day.date === dateStr);
-  
-                  if (dayPlan && dayPlan.hotel) {
-                    // Ajouter un attribut data pour identifier facilement cette cellule
-                    info.el.setAttribute('data-date', dateStr);
-                    info.el.setAttribute('data-hotel', dayPlan.hotel);
-                  }
-                }}
-                datesSet={(dateInfo) => {
-                  setTimeout(() => {
-                    // Nettoyer les éventuelles bannières existantes
-                    document.querySelectorAll('.hotel-banner-span').forEach(el => el.remove());
-  
-                    // Regrouper les cellules par hôtel et date consécutive
-                    const hotelGroups = {};
-                    const dayCells = Array.from(document.querySelectorAll('[data-hotel]'))
-                      .sort((a, b) => a.getAttribute('data-date').localeCompare(b.getAttribute('data-date')));
-  
-                    // Première passe: regrouper par hôtel
-                    dayCells.forEach(cell => {
-                      const date = cell.getAttribute('data-date');
-                      const hotel = cell.getAttribute('data-hotel');
-  
-                      if (!hotelGroups[hotel]) {
-                        hotelGroups[hotel] = [];
-                      }
-  
-                      hotelGroups[hotel].push({
-                        date,
-                        cell
-                      });
-                    });
-  
-                    // Seconde passe: trouver les séquences consécutives pour chaque hôtel
-                    Object.keys(hotelGroups).forEach(hotel => {
-                      const cellsForHotel = hotelGroups[hotel].sort((a, b) => a.date.localeCompare(b.date));
-  
-                      // Parcourir toutes les cellules pour cet hôtel
-                      for (let i = 0; i < cellsForHotel.length; i++) {
-                        const currentCell = cellsForHotel[i].cell;
-                        const currentDate = new Date(cellsForHotel[i].date);
-  
-                        // Si c'est la première cellule ou si les jours ne sont pas consécutifs
-                        // (ou si on est au début d'une nouvelle semaine/ligne dans le calendrier)
-                        if (i === 0 ||
-                          !isConsecutiveDate(cellsForHotel[i - 1].date, cellsForHotel[i].date) ||
-                          currentCell.parentElement !== cellsForHotel[i - 1].cell.parentElement) {
-  
-                          // Ajouter une nouvelle bannière
-                          const banner = document.createElement('div');
-                          banner.className = 'hotel-banner';
-                          banner.innerHTML = `🏨 ${hotel}`;
-                          banner.style.backgroundColor = '#c0c0c0';
-                          banner.style.color = 'white';
-  
-                          // Ajouter à la cellule
-                          const dayTop = currentCell.querySelector('.fc-daygrid-day-top');
-                          if (dayTop) {
-                            dayTop.after(banner);
-                          } else {
-                            currentCell.insertBefore(banner, currentCell.firstChild);
-                          }
-  
-                          // Si ce n'est pas la dernière cellule et que le jour suivant est consécutif
-                          // et dans la même ligne du calendrier
-                          let consecutiveDays = 1;
-                          let lastConsecutiveIdx = i;
-  
-                          while (lastConsecutiveIdx + 1 < cellsForHotel.length) {
-                            const nextDate = new Date(cellsForHotel[lastConsecutiveIdx + 1].date);
-                            const nextCell = cellsForHotel[lastConsecutiveIdx + 1].cell;
-  
-                            // Vérifier si le jour suivant est consécutif
-                            const currentDate = new Date(cellsForHotel[lastConsecutiveIdx].date);
-                            currentDate.setDate(currentDate.getDate() + 1);
-  
-                            // Vérifier aussi qu'ils sont dans la même ligne (même parent)
-                            if (currentDate.getTime() === nextDate.getTime() &&
-                              nextCell.parentElement === currentCell.parentElement) {
-                              consecutiveDays++;
-                              lastConsecutiveIdx++;
-                            } else {
-                              break;
-                            }
-                          }
-  
-                          // Si plus d'un jour consécutif, élargir la bannière
-                          if (consecutiveDays > 1) {
-                            const lastCell = cellsForHotel[lastConsecutiveIdx].cell;
-  
-                            // Modifier la bannière pour qu'elle s'étende sur plusieurs jours
-                            banner.classList.add('hotel-banner-span');
-  
-                            // Calculer la largeur en fonction du nombre de cellules
-                            const cellWidth = currentCell.offsetWidth;
-                            banner.style.width = `${cellWidth * consecutiveDays - 10}px`;
-  
-                            console.log(`Bannière pour ${hotel} étendue sur ${consecutiveDays} jours consécutifs`);
-  
-                            // Sauter les cellules déjà couvertes
-                            i = lastConsecutiveIdx;
-                          }
-                        }
-                      }
-                    });
-                  }, 300);
-                }}
-              />
+      ) : (
+        <div className="planning-test-app">
+          {/* Header - Responsive */}
+          <header className="py-3 sm:py-4 md:py-5 px-4 sm:px-6 md:px-8 flex justify-between items-center">
+            <Link to="/">
+              <img src={Logo} alt="Stella" className="h-6 sm:h-8 md:h-10" />
+            </Link>
+            <div className="flex items-center">
+              <Link to="/profile" className="text-black hover:text-[#9557fa] transition-colors text-sm sm:text-base">
+                Mon Profil
+              </Link>
             </div>
-  
-            {/* Partie droite - Contenu à ajouter */}
-            <div className="details-section">
-              <div className="details-container">
-                <h3>Itinéraires Google Maps</h3>
-                <div className="details-content">
-                  <div className="google-maps-links">
-                    {dailyPlanning
-                      .sort((a, b) => new Date(a.date) - new Date(b.date))
-                      .map((day, index) => {
-                        // Calculer l'itinéraire optimisé pour ce jour
-                        const itinerary = generateOptimizedItinerary(day, transportMode, allDestinationsWithCoords);
-  
-                        return (
-                          <div key={index} className="daily-map-link">
-                            <h4>Jour {index + 1} - {new Date(day.date).toLocaleDateString()}</h4>
-                            {itinerary.count > 0 ? (
-                              <a
-                                href={itinerary.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="maps-button"
-                              >
-                                <span className="btn-icon">🔗</span>
-                                <span className="btn-text">
-                                  Google Maps
-                                  {itinerary.distance > 0 && (
-                                    <span className="btn-details">
-                                      {" - "}{itinerary.distance} km
-                                      {itinerary.duration > 0 && (
-                                        itinerary.duration >= 60
-                                          ? ` (${Math.floor(itinerary.duration / 60)}h${itinerary.duration % 60 > 0 ? itinerary.duration % 60 + 'min' : ''})`
-                                          : ` (${itinerary.duration} min)`
-                                      )}
-                                    </span>
-                                  )}
-                                </span>
-                              </a>
-                            ) : (
-                              <p className="no-itinerary">Pas d'itinéraire disponible pour ce jour</p>
-                            )}
-                          </div>
-                        );
-                      })}
+          </header>
+          <main>
+            <div className="planning-container">
+              {banner && (
+                <div className="relative w-full h-screen/3 overflow-hidden">
+                  <img
+                    src={banner}
+                    alt={`Banner ${destination}`}
+                    className="w-full h-full object-cover object-center"
+                  />
+                  <div className="absolute rounded-2xl top-1/2 left-[10%] backdrop-blur-lg px-3 py-1 transform -translate-y-1/2 text-center">
+                    <p className="text-white text-2xl font-semibold">Composez votre voyage à</p>
+                    <p className="text-4xl text-left font-bold text-[#FA9B3D]">{destination}</p>
                   </div>
                 </div>
+              )}
+          
+              <div className="trip-introduction">
+                <h2>Votre Aventure Prend Forme !</h2>
+                <h2>Téléchargez vos itinéraires et votre calendrier pour transformer ce rêve en réalité.</h2>
               </div>
+          
+              {dailyPlanning.length > 0 && (
+                <div className="calendar-view">
+                  <h2>Vue Calendrier</h2>
+                  
+                  <div className="planning-map-container">
+                    {/* Partie gauche - Calendrier */}
+                    <div className="daily-planning-column">
+                      <div className="calendar-background">
+                      <FullCalendar
+                        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+                        initialView={determineInitialView(dailyPlanning)}
+                        initialDate={dailyPlanning.length > 0 ? dailyPlanning[0].date : new Date().toISOString().split('T')[0]}
+                        headerToolbar={{
+                          left: 'prev,next today',
+                          center: 'title',
+                          right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                        }}
+                        slotMinTime="06:00:00"
+                        slotMaxTime="23:00:00"
+                        allDaySlot={false}
+                        events={[
+                          // Événements des destinations
+                          ...dailyPlanning.flatMap(day =>
+                            day.destinations.map(dest => {
+                              // Trouver la destination complète avec photos dans allDestinationsWithCoords
+                              const fullDest = allDestinationsWithCoords.find(d =>
+                                d.name === dest.name && d.type === dest.type
+                              );
+          
+                              // Récupérer l'URL de la photo si disponible
+                              const photoUrl = fullDest && fullDest.photos && fullDest.photos[0]
+                                ? fullDest.photos[0]
+                                : null;
+          
+                              // Sélectionner l'icône et la couleur de secours en fonction du type
+                              let icon, bgColor, borderColor;
+          
+                              switch (dest.type) {
+                                case 'activite':
+                                  icon = '🎯';
+                                  bgColor = '#4CAF50';
+                                  borderColor = '#388E3C';
+                                  break;
+                                case 'lieu':
+                                  icon = '🏛️';
+                                  bgColor = '#2196F3';
+                                  borderColor = '#1976D2';
+                                  break;
+                                case 'restaurant':
+                                  icon = '🍽️';
+                                  bgColor = '#FF9800';
+                                  borderColor = '#F57C00';
+                                  break;
+                                case 'hotel':
+                                  icon = '🏨';
+                                  bgColor = '#9C27B0';
+                                  borderColor = '#7B1FA2';
+                                  break;
+                                default:
+                                  icon = '📍';
+                                  bgColor = '#607D8B';
+                                  borderColor = '#455A64';
+                              }
+          
+                              // Créer les événements en utilisant les photos comme fond
+                              if (dest.heureDebutStr && dest.heureFinStr) {
+                                return {
+                                  title: `${icon} ${dest.name}`,
+                                  start: `${day.date}T${dest.heureDebutStr}`,
+                                  end: `${day.date}T${dest.heureFinStr}`,
+                                  backgroundColor: photoUrl ? 'transparent' : bgColor,
+                                  borderColor: borderColor,
+                                  textColor: '#FFFFFF',
+                                  allDay: false,
+                                  extendedProps: {
+                                    type: dest.type,
+                                    destination: dest,
+                                    icon: icon,
+                                    photoUrl: photoUrl,
+                                    useAsBackground: true
+                                  }
+                                };
+                              } else {
+                                return {
+                                  title: `${icon} ${dest.name}`,
+                                  start: day.date, // Utiliser directement la date sans T00:00:00
+                                  allDay: true,
+                                  date: day.date,
+                                  backgroundColor: photoUrl ? 'transparent' : bgColor,
+                                  borderColor: borderColor,
+                                  textColor: '#FFFFFF',
+                                  extendedProps: {
+                                    type: dest.type,
+                                    destination: dest,
+                                    icon: icon,
+                                    photoUrl: photoUrl,
+                                    useAsBackground: true
+                                  }
+                                };
+                              }
+                            })
+                          ),
+                          // Événements des repas
+                          ...generateMealEvents(dailyPlanning, gastronomie)
+                        ]}
+                        eventContent={(eventInfo) => {
+                          const { extendedProps } = eventInfo.event;
+          
+                          // Pour les événements de repas
+                          if (extendedProps && extendedProps.type === 'repas') {
+                            return (
+                              <div style={{ padding: '4px' }}>
+                                <span style={{ fontSize: '1.2em' }}>{eventInfo.event.title}</span>
+                              </div>
+                            );
+                          }
+          
+                          // Pour les destinations avec photos en arrière-plan
+                          if (extendedProps && extendedProps.photoUrl && extendedProps.useAsBackground) {
+                            const isTimeGridView =
+                              eventInfo.view.type === 'timeGridWeek' ||
+                              eventInfo.view.type === 'timeGridDay';
+          
+                            // Styles pour le container avec image en arrière-plan
+                            const containerStyle = {
+                              display: 'flex',
+                              flexDirection: 'column',
+                              justifyContent: 'flex-end',
+                              alignItems: 'flex-start',
+                              height: '100%',
+                              width: '100%',
+                              padding: '5px',
+                              backgroundImage: `url(${extendedProps.photoUrl})`,
+                              backgroundSize: 'cover',
+                              backgroundPosition: 'center',
+                              backgroundRepeat: 'no-repeat',
+                              position: 'relative',
+                              overflow: 'hidden',
+                              borderRadius: '5px'
+                            };
+          
+                            // Styles pour l'overlay semi-transparent
+                            const overlayStyle = {
+                              position: 'absolute',
+                              top: 0,
+                              left: 0,
+                              right: 0,
+                              bottom: 0,
+                              backgroundColor: 'rgba(0, 0, 0, 0.5)', // Overlay noir semi-transparent
+                              zIndex: 1
+                            };
+          
+                            // Styles pour le texte
+                            const textStyle = {
+                              position: 'relative',
+                              zIndex: 2,
+                              color: 'white',
+                              fontWeight: 'bold',
+                              textShadow: '1px 1px 2px black',
+                              display: 'flex',
+                              alignItems: 'center',
+                              padding: '4px',
+                              width: '100%'
+                            };
+          
+                            return (
+                              <div style={containerStyle}>
+                                <div style={overlayStyle}></div>
+                                <div style={textStyle}>
+                                  <span style={{
+                                    fontSize: '1.5em',
+                                    marginRight: '5px'
+                                  }}>
+                                    {extendedProps.icon}
+                                  </span>
+                                  <span style={{
+                                    whiteSpace: 'nowrap',
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis'
+                                  }}>
+                                    {extendedProps.destination.name}
+                                  </span>
+                                </div>
+                              </div>
+                            );
+                          }
+          
+                          // Pour les destinations sans photos
+                          if (extendedProps && extendedProps.icon) {
+                            return (
+                              <div style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                padding: '4px',
+                                height: '100%'
+                              }}>
+                                <span style={{
+                                  fontSize: '1.5em',
+                                  marginRight: '5px'
+                                }}>
+                                  {extendedProps.icon}
+                                </span>
+                                <span style={{
+                                  whiteSpace: 'nowrap',
+                                  overflow: 'hidden',
+                                  textOverflow: 'ellipsis'
+                                }}>
+                                  {extendedProps.destination.name}
+                                </span>
+                              </div>
+                            );
+                          }
+          
+                          return null; // Utiliser le rendu par défaut pour les autres événements
+                        }}
+                        eventTimeFormat={{
+                          hour: '2-digit',
+                          minute: '2-digit',
+                          hour12: false
+                        }}
+                        height="auto"  
+                        aspectRatio={2}  /* Ratio largeur/hauteur de 2:1 */
+                        dayCellDidMount={(info) => {
+                          // Obtenir la date au format YYYY-MM-DD
+                          const year = info.date.getFullYear();
+                          const month = String(info.date.getMonth() + 1).padStart(2, '0');
+                          const day = String(info.date.getDate()).padStart(2, '0');
+                          const dateStr = `${year}-${month}-${day}`;
+          
+                          // Trouver le planning pour cette date exacte
+                          const dayPlan = dailyPlanning.find(day => day.date === dateStr);
+          
+                          if (dayPlan && dayPlan.hotel) {
+                            // Ajouter un attribut data pour identifier facilement cette cellule
+                            info.el.setAttribute('data-date', dateStr);
+                            info.el.setAttribute('data-hotel', dayPlan.hotel);
+                          }
+                        }}
+                        datesSet={(dateInfo) => {
+                          setTimeout(() => {
+                            // Nettoyer les éventuelles bannières existantes
+                            document.querySelectorAll('.hotel-banner-span').forEach(el => el.remove());
+          
+                            // Regrouper les cellules par hôtel et date consécutive
+                            const hotelGroups = {};
+                            const dayCells = Array.from(document.querySelectorAll('[data-hotel]'))
+                              .sort((a, b) => a.getAttribute('data-date').localeCompare(b.getAttribute('data-date')));
+          
+                            // Première passe: regrouper par hôtel
+                            dayCells.forEach(cell => {
+                              const date = cell.getAttribute('data-date');
+                              const hotel = cell.getAttribute('data-hotel');
+          
+                              if (!hotelGroups[hotel]) {
+                                hotelGroups[hotel] = [];
+                              }
+          
+                              hotelGroups[hotel].push({
+                                date,
+                                cell
+                              });
+                            });
+          
+                            // Seconde passe: trouver les séquences consécutives pour chaque hôtel
+                            Object.keys(hotelGroups).forEach(hotel => {
+                              const cellsForHotel = hotelGroups[hotel].sort((a, b) => a.date.localeCompare(b.date));
+          
+                              // Parcourir toutes les cellules pour cet hôtel
+                              for (let i = 0; i < cellsForHotel.length; i++) {
+                                const currentCell = cellsForHotel[i].cell;
+                                const currentDate = new Date(cellsForHotel[i].date);
+          
+                                // Si c'est la première cellule ou si les jours ne sont pas consécutifs
+                                // (ou si on est au début d'une nouvelle semaine/ligne dans le calendrier)
+                                if (i === 0 ||
+                                  !isConsecutiveDate(cellsForHotel[i - 1].date, cellsForHotel[i].date) ||
+                                  currentCell.parentElement !== cellsForHotel[i - 1].cell.parentElement) {
+          
+                                  // Ajouter une nouvelle bannière
+                                  const banner = document.createElement('div');
+                                  banner.className = 'hotel-banner';
+                                  banner.innerHTML = `🏨 ${hotel}`;
+                                  banner.style.backgroundColor = '#c0c0c0';
+                                  banner.style.color = 'white';
+          
+                                  // Ajouter à la cellule
+                                  const dayTop = currentCell.querySelector('.fc-daygrid-day-top');
+                                  if (dayTop) {
+                                    dayTop.after(banner);
+                                  } else {
+                                    currentCell.insertBefore(banner, currentCell.firstChild);
+                                  }
+          
+                                  // Si ce n'est pas la dernière cellule et que le jour suivant est consécutif
+                                  // et dans la même ligne du calendrier
+                                  let consecutiveDays = 1;
+                                  let lastConsecutiveIdx = i;
+          
+                                  while (lastConsecutiveIdx + 1 < cellsForHotel.length) {
+                                    const nextDate = new Date(cellsForHotel[lastConsecutiveIdx + 1].date);
+                                    const nextCell = cellsForHotel[lastConsecutiveIdx + 1].cell;
+          
+                                    // Vérifier si le jour suivant est consécutif
+                                    const currentDate = new Date(cellsForHotel[lastConsecutiveIdx].date);
+                                    currentDate.setDate(currentDate.getDate() + 1);
+          
+                                    // Vérifier aussi qu'ils sont dans la même ligne (même parent)
+                                    if (currentDate.getTime() === nextDate.getTime() &&
+                                      nextCell.parentElement === currentCell.parentElement) {
+                                      consecutiveDays++;
+                                      lastConsecutiveIdx++;
+                                    } else {
+                                      break;
+                                    }
+                                  }
+          
+                                  // Si plus d'un jour consécutif, élargir la bannière
+                                  if (consecutiveDays > 1) {
+                                    const lastCell = cellsForHotel[lastConsecutiveIdx].cell;
+          
+                                    // Modifier la bannière pour qu'elle s'étende sur plusieurs jours
+                                    banner.classList.add('hotel-banner-span');
+          
+                                    // Calculer la largeur en fonction du nombre de cellules
+                                    const cellWidth = currentCell.offsetWidth;
+                                    banner.style.width = `${cellWidth * consecutiveDays - 10}px`;
+          
+                                    console.log(`Bannière pour ${hotel} étendue sur ${consecutiveDays} jours consécutifs`);
+          
+                                    // Sauter les cellules déjà couvertes
+                                    i = lastConsecutiveIdx;
+                                  }
+                                }
+                              }
+                            });
+                          }, 300);
+                        }}
+                      />
+                      </div>
+                    </div>
+          
+                    {/* Partie droite - Contenu à ajouter */}
+                    <div className="map-column">
+                      <div className="trip-details">
+                        <h3>Itinéraires Google Maps</h3>
+                        <div className="google-maps-links">
+                          {dailyPlanning
+                            .sort((a, b) => new Date(a.date) - new Date(b.date))
+                            .map((day, index) => {
+                              // Calculer l'itinéraire optimisé pour ce jour
+                              const itinerary = generateOptimizedItinerary(day, transportMode, allDestinationsWithCoords);
+          
+                              return (
+                                <div key={index} className="daily-plan">
+                                  <h4>Jour {index + 1} - {new Date(day.date).toLocaleDateString()}</h4>
+                                  {itinerary.count > 0 ? (
+                                    <a
+                                      href={itinerary.url}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="maps-button"
+                                    >
+                                      <span className="btn-icon">🔗</span>
+                                      <span className="btn-text">
+                                        Google Maps
+                                        {itinerary.distance > 0 && (
+                                          <span className="btn-details">
+                                            {" - "}{itinerary.distance} km
+                                            {itinerary.duration > 0 && (
+                                              itinerary.duration >= 60
+                                                ? ` (${Math.floor(itinerary.duration / 60)}h${itinerary.duration % 60 > 0 ? itinerary.duration % 60 + 'min' : ''})`
+                                                : ` (${itinerary.duration} min)`
+                                            )}
+                                          </span>
+                                        )}
+                                      </span>
+                                    </a>
+                                  ) : (
+                                    <p className="no-itinerary">Pas d'itinéraire disponible pour ce jour</p>
+                                  )}
+                                </div>
+                              );
+                            })}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
-          </div>
+          </main>
+          <Footer />
         </div>
       )}
-  
-      <style jsx>{`
-        .planning-container {
-          margin: 0 auto;
-          padding: 20px;
-          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        }
-  
-        .trip-introduction {
-          margin: 20px 0;
-          text-align: center;
-        }
-  
-        .calendar-container {
-          margin-top: 30px;
-          padding: 20px;
-          background-color: #fff;
-          border-radius: 8px;
-          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-  
-        .calendar-split-view {
-          display: flex;
-          gap: 20px;
-          margin-top: 20px;
-        }
-  
-        .calendar-section {
-          flex: 1;
-          min-width: 0; /* Évite le dépassement du contenu */
-          width: 100%; /* Assure que le calendrier prend toute la largeur disponible */
-        }
-  
-        .details-section {
-          flex: 1;
-          min-width: 0; /* Évite le dépassement du contenu */
-        }
-  
-        .details-container {
-          height: 100%;
-          background-color: #f5f5f5;
-          border-radius: 8px;
-          padding: 15px;
-          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-  
-        .details-content {
-          margin-top: 10px;
-          padding: 10px;
-          background-color: white;
-          border-radius: 4px;
-          min-height: 300px; /* Hauteur réduite pour s'aligner avec le calendrier */
-          overflow-y: auto; /* Permet le défilement si trop d'éléments */
-        }
-        
-        .google-maps-links {
-          display: flex;
-          flex-direction: column;
-          gap: 15px;
-        }
-        
-        .daily-map-link {
-          padding: 10px;
-          border-radius: 6px;
-          background-color: #f5f5f5;
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-        
-        .daily-map-link h4 {
-          margin: 0 0 10px 0;
-          font-size: 16px;
-          color: #333;
-        }
-        
-        .no-itinerary {
-          color: #999;
-          font-style: italic;
-          margin: 5px 0;
-        }
-        
-        .maps-button {
-          display: inline-flex;
-          align-items: center;
-          padding: 8px 12px;
-          border-radius: 4px;
-          font-weight: bold;
-          text-decoration: none;
-          transition: background-color 0.2s;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-          cursor: pointer;
-          background-color: #1a73e8;
-          color: white;
-          margin-top: 5px;
-          border: none;
-          width: 100%;
-          justify-content: center;
-        }
-        
-        .maps-button:hover {
-          background-color: #0d62d0;
-        }
-  
-        /* Styles pour mobile */
-        @media (max-width: 768px) {
-          .calendar-split-view {
-            flex-direction: column;
-          }
-  
-          .calendar-section, .details-section {
-            width: 100%;
-          }
-        }
-  
-        /* Styles pour le calendrier */
-        :global(.hotel-banner) {
-          background-color: #c0c0c0 !important;
-          color: white !important;
-          border-left: 3px solid darkred !important;
-          padding: 2px 5px;
-          margin: 2px 0;
-          font-size: 0.8em;
-          font-weight: bold;
-          text-align: left;
-          border-radius: 3px;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          z-index: 5;
-        }
-  
-        :global(.hotel-banner-span) {
-          border-right: 3px solid darkred !important;
-          position: relative;
-          margin-right: -10px;
-        }
-  
-        /* Ces styles assurent que les conteneurs de FullCalendar permettent le débordement */
-        :global(.fc .fc-view-harness) {
-          overflow: visible !important;
-        }
-  
-        :global(.fc-dayGridMonth-view) {
-          overflow: visible !important;
-        }
-  
-        :global(.fc-view) {
-          overflow: visible !important;
-        }
-  
-        :global(.fc-scroller) {
-          overflow: visible !important;
-        }
-  
-        /* Assurer que les bannières restent visibles même avec d'autres éléments */
-        
-        /* Styles pour améliorer l'apparence du calendrier */
-        :global(.fc-event) {
-          border-radius: 6px;
-          margin: 2px 0;
-          overflow: hidden;
-        }
-        
-        :global(.fc-daygrid-event) {
-          min-height: 60px;
-          padding: 0;
-        }
-        
-        :global(.fc-timegrid-event .fc-event-main) {
-          padding: 0;
-          height: 100%;
-        }
-        
-        :global(.fc-daygrid-day-events) {
-          min-height: 60px;
-        }
-        
-        /* Style pour les événements de repas */
-        :global(.fc-event-time) {
-          font-weight: bold;
-        }
-    
-        /* Pour s'assurer que la bannière s'adapte correctement dans différentes vues */
-        :global(.fc-timeGridWeek-view .hotel-banner),
-        :global(.fc-timeGridDay-view .hotel-banner) {
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          margin-top: 0;
-        }
-  
-        /* Styles pour les repas */
-        :global(.meal-event) {
-          border-radius: 4px;
-          font-weight: 500;
-        }
-        
-        :global(.meal-event.petit-dejeuner) {
-          background-color: #FFC107 !important;
-          border-color: #FFA000 !important;
-        }
-        
-        :global(.meal-event.dejeuner) {
-          background-color: #FF5722 !important;
-          border-color: #E64A19 !important;
-        }
-        
-        :global(.meal-event.diner) {
-          background-color: #9C27B0 !important;
-          border-color: #7B1FA2 !important;
-        }
-  
-        /* Style pour le titre des repas */
-        :global(.meal-title) {
-          display: flex;
-          align-items: center;
-          gap: 5px;
-        }
-  
-        .map-button {
-          background-color: #4285F4;
-          color: white;
-          border: none;
-          display: inline-flex;
-          align-items: center;
-          padding: 10px 16px;
-          border-radius: 4px;
-          font-weight: bold;
-          cursor: pointer;
-          transition: background-color 0.2s;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        }
-  
-        .map-button:hover {
-          background-color: #3b77db;
-        }
-      `}</style>
-    </div>
-    </main>
-    <Footer />
     </>
-      )}
-      </>
   );
 
   
