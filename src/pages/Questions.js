@@ -10,28 +10,13 @@ import { useQuiz } from '../context/QuizContext';
 
 // Liste des destinations
 const destinations = [
-    { id: 'paris', name: 'Paris, France' },
-    { id: 'london', name: 'Londres, Royaume-Uni' },
-    { id: 'rome', name: 'Rome, Italie' },
-    { id: 'barcelona', name: 'Barcelone, Espagne' },
-    { id: 'amsterdam', name: 'Amsterdam, Pays-Bas' },
-    { id: 'berlin', name: 'Berlin, Allemagne' },
-    { id: 'vienna', name: 'Vienne, Autriche' },
-    { id: 'prague', name: 'Prague, République Tchèque' },
-    { id: 'tokyo', name: 'Tokyo, Japon' },
-    { id: 'kyoto', name: 'Kyoto, Japon' },
-    { id: 'bangkok', name: 'Bangkok, Thaïlande' },
-    { id: 'singapore', name: 'Singapour, Singapour' },
-    { id: 'newyork', name: 'New York, États-Unis' },
-    { id: 'sanfrancisco', name: 'San Francisco, États-Unis' },
-    { id: 'dubai', name: 'Dubaï, Émirats Arabes Unis' },
-    { id: 'sydney', name: 'Sydney, Australie' },
-    { id: 'capetown', name: 'Le Cap, Afrique du Sud' },
-    { id: 'marrakech', name: 'Marrakech, Maroc' },
-    { id: 'rio', name: 'Rio de Janeiro, Brésil' },
-    { id: 'manila', name: 'Manila, Philippines' },
-    { id: 'istanbul', name: 'Istanbul, Turquie' }
-  ];
+  { id: 'singapour', name: 'Singapour' },
+  { id: 'dubai', name: 'Dubai, Emirats Arabes Unis' },
+  { id: 'hawai', name: 'Hawai, Etats Unis' },
+  { id: 'canada', name: 'Canada, Canada' },
+  { id: 'chine', name: 'Chine, Chine' },
+  { id: 'alaska', name: 'Alaska, Etats Unis' },
+  ];
   
   function Questions() {
     const navigate = useNavigate();
