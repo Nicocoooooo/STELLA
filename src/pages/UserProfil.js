@@ -92,10 +92,10 @@ function UserProfil() {
           <ProfileHeader />
 
           {/* Conteneur principal en 2 colonnes, avec un léger espace (gap-4) */}
-          <div className="flex flex-grow max-w-7xl mx-auto w-full gap-4 px-4 py-6">
+          <div className="flex flex-col md:flex-row flex-grow max-w-7xl mx-auto w-full gap-4 px-4 py-6">
             {/* Colonne de gauche (menu) */}
-            <div className="w-1/4 bg-[#e9d9ff] rounded-lg shadow-lg p-6">
-              <ul className="space-y-4 text-lg">
+            <div className="md:w-1/4 w-full bg-[#e9d9ff] rounded-lg shadow-lg p-6">
+              <ul className="space-y-4 text-sm sm:text-base md:text-lg">
                 <li
                   className={`cursor-pointer px-4 py-2 rounded-md hover:bg-[#d7c3ff] transition-colors ${
                     selectedCategory === 'informations'
