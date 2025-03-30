@@ -10,7 +10,7 @@ const DestinationCard = ({ image, name, isSaved = false, isCreateCard = false })
           <Plus className="w-7 h-7 text-accent" />
         </div>
         <p className="text-accent/80 text-lg text-center font-outfit">
-          Plannifiez votre prochain<br />voyage
+          Planifiez votre prochain<br />voyage
         </p>
       </Link>
     );
