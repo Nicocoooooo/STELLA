@@ -21,7 +21,7 @@ const destinations = [
     { id: 'tokyo', name: 'Tokyo, Japon' },
     { id: 'kyoto', name: 'Kyoto, Japon' },
     { id: 'bangkok', name: 'Bangkok, Thaïlande' },
-    { id: 'singapore', name: 'Singapour' },
+    { id: 'singapore', name: 'Singapour, Singapour' },
     { id: 'newyork', name: 'New York, États-Unis' },
     { id: 'sanfrancisco', name: 'San Francisco, États-Unis' },
     { id: 'dubai', name: 'Dubaï, Émirats Arabes Unis' },
