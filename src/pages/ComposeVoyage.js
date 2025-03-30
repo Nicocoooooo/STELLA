@@ -5,8 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import Footer from '../components/Footer';
 import { Link } from 'react-router-dom';
 import Logo from '../assets/images/Logo.png';
-import TravelSelectionSection from '../components/TravelSelectionSection';
-import MultiDestinationsMap from '../components/MultiDestinationsMap'; // Ajuster le chemin d'importation selon votre structure
 import ProfileMenu from '../components/UserProfile/ProfileMenu_User'; // Import du composant ProfileMenu
 
 function ComposeVoyage() {
