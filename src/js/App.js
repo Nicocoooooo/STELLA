@@ -1,4 +1,5 @@
 import React, { Suspense } from 'react';
+import { Analytics } from "@vercel/analytics/react";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { QuizProvider } from '../context/QuizContext';
 import '../styles/App.css';
@@ -104,6 +105,7 @@ function App() {
               />
               
             </Routes>
+            <Analytics />
           </div>
         </Suspense>
       </QuizProvider>
